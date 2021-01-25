@@ -25,7 +25,7 @@ bool ImageFactory::readImage() {
 
             // if pathStr contains ' symbol at the beginning or at the end of path then remove them
             if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
-            if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1u);
+            if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1U);
 
             path = fs::path(pathStr);
 
@@ -184,7 +184,7 @@ bool ImageFactory::applyEffect(Image *image) {
             continue;
         }
 
-        if (chosenIndex < 1u || chosenIndex > 3u) {
+        if (chosenIndex < 1U || chosenIndex > 3U) {
             std::cout << "\n"
                       << ConsoleConsts::TITLE_SYMBOL
                       << ConsoleConsts::ERROR_IMAGE_BAD_INDEX
@@ -198,15 +198,15 @@ bool ImageFactory::applyEffect(Image *image) {
     }
 
     switch (chosenIndex) {
-        case 1u: {
+        case 1U: {
             image->toggleContrast();
             break;
         }
-        case 2u: {
+        case 2U: {
             image->toggleNegative();
             break;
         }
-        case 3u: {
+        case 3U: {
             image->toggleConvolution();
             break;
         }
@@ -245,7 +245,7 @@ void ImageFactory::exportImage(const Image *image) {
 
         // if pathStr contains ' symbol at the beginning or at the end of path then remove them
         if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
-        if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1u);
+        if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1U);
 
         path = fs::path(pathStr);
 
@@ -309,8 +309,8 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
 
     while (true) {
         // prints list of paths from images
-        for (size_t i = 0u; i < images.size(); ++i)
-            std::cout << i + 1u << ") " << images[i]->getPath() << "\n";
+        for (size_t i = 0U; i < images.size(); ++i)
+            std::cout << i + 1U << ") " << images[i]->getPath() << "\n";
         std::cout << std::endl;
 
         std::string path;
@@ -332,7 +332,7 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
             continue;
         }
 
-        if (chosenIndex < 1u || chosenIndex > images.size()) {
+        if (chosenIndex < 1U || chosenIndex > images.size()) {
             std::cout << "\n"
                       << ConsoleConsts::TITLE_SYMBOL
                       << ConsoleConsts::ERROR_IMAGE_BAD_INDEX
@@ -345,7 +345,7 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
         break;
     }
 
-    return images[chosenIndex - 1u];
+    return images[chosenIndex - 1U];
 }
 
 const std::vector<Image *> &ImageFactory::getAllImages() const {

@@ -38,8 +38,8 @@ namespace Utils {
      */
     template<class T>
     static inline unsigned char truncateToUnsignedChar(T toTrunc) {
-        return (toTrunc > static_cast<T>(255)) ? 255u : ((toTrunc < static_cast<T>(0))
-                                                         ? 0u
+        return (toTrunc > static_cast<T>(255)) ? 255U : ((toTrunc < static_cast<T>(0))
+                                                         ? 0U
                                                          : static_cast<unsigned char>(toTrunc));
     }
 }

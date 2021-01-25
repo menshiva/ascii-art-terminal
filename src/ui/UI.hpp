@@ -33,7 +33,7 @@ public:
     UI();
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     UI(const UI &) = delete;
 
@@ -101,7 +101,7 @@ public:
     void draw() const override;
 
     /**
-     * Computes itself's #height and #width and resizes all child #views.
+     * Computes self's #height and #width and resizes all child #views.
      * @note Sets #drawn flag to `false`.
      * @warning Function does _not_ draw #views after computing.
      */

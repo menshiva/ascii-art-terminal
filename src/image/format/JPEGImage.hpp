@@ -24,7 +24,7 @@ class JPEGImage : public Image {
      */
     struct jpegErrorManager {
         jpeg_error_mgr manager; /**< JPEG error manager. */
-        jmp_buf jumpBuffer; /**< Return to caller on error recieved. */
+        jmp_buf jumpBuffer; /**< Return to caller on error received. */
     };
 public:
     /**
@@ -35,7 +35,7 @@ public:
     explicit JPEGImage(const std::string &imgPath);
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     JPEGImage(const JPEGImage &) = delete;
 
@@ -56,7 +56,7 @@ public:
 
     /**
      * Handles errors in JPEG decompressing.\n
-     * Called automatically when jpegErrorManager recieved an error from _decompressing_ used in #loadFromFile().
+     * Called automatically when jpegErrorManager received an error from _decompressing_ used in #loadFromFile().
      * @note Replaces the standard libjpeg.h error_exit method.
      *
      * @param cinfo JPEG common struct storing all image metadata.

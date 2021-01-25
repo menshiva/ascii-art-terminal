@@ -6,21 +6,20 @@ Menu::Menu(const View *parent,
            std::vector<ITEM *> *newItems,
            const std::initializer_list<size_t> &disabledItems) :
         View(parent, 0.0, 0.0, yRelative, xRelative),
-        rows(rows), cols(cols),
-        items(newItems) {
+        rows(rows), items(newItems) {
     // first color - disabled item
     // second color - disabled item with hover
     init_pair(1, COLOR_MAGENTA, COLOR_BLACK);
 
     // find item with max length
-    size_t max = 0u;
+    size_t max = 0U;
     for (const auto i : *items)
         if (static_cast<size_t>(i->name.length) > max)
             max = static_cast<size_t>(i->name.length);
     width = cols * max;
 
-    const size_t y = static_cast<size_t>(yRelative * parent->getHeight()) - rows / 2u;
-    const size_t x = static_cast<size_t>(xRelative * parent->getWidth()) - width / 2u - 2u;
+    const size_t y = static_cast<size_t>(yRelative * parent->getHeight()) - (rows >> 1U);
+    const size_t x = static_cast<size_t>(xRelative * parent->getWidth()) - (width >> 1U) - 2U;
 
     items->push_back(nullptr);
     menu = new_menu(items->data());
@@ -47,8 +46,8 @@ void Menu::draw() const {
 void Menu::resize() {
     drawn = false;
     unpost_menu(menu);
-    const size_t y = static_cast<size_t>(yRelative * parent->getHeight()) - rows / 2u;
-    const size_t x = static_cast<size_t>(xRelative * parent->getWidth()) - width / 2u - 2u;
+    const size_t y = static_cast<size_t>(yRelative * parent->getHeight()) - (rows >> 1U);
+    const size_t x = static_cast<size_t>(xRelative * parent->getWidth()) - (width >> 1U) - 2U;
     set_menu_sub(menu, derwin(getWindow(), 0, 0, y, x));
 }
 

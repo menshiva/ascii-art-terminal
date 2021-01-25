@@ -15,14 +15,14 @@ public:
     unsigned char b; /**< Blue component. */
 
     /**
-     * Constuctor.
+     * Constructor.
      *
      * @param r Red component value.
      * @param g Green component value.
      * @param b Blue component value.
      * @note All parameters have default values set to `0`.
      */
-    explicit Pixel(const unsigned char r = 0u, const unsigned char g = 0u, const unsigned char b = 0u) : r(r), g(g), b(b) {}
+    explicit Pixel(const unsigned char r = 0U, const unsigned char g = 0U, const unsigned char b = 0U) : r(r), g(g), b(b) {}
 };
 
 #endif

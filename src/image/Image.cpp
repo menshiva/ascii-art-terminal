@@ -4,14 +4,14 @@ Image::Image(std::string imgPath) : path(std::move(imgPath)),
                                     rawData(std::vector<std::vector<Pixel>>()),
                                     rawAsciiData(std::vector<std::string>()),
                                     resizedAsciiData(std::vector<std::string>()),
-                                    height(0u), width(0u),
+                                    height(0U), width(0U),
                                     isContrasted(false), isNegatived(false), isConvoluted(false) {}
 
 void Image::convertToAscii(const std::string &grayscaleLevel) {
     resizedAsciiData.clear();
     const auto &data = hasConvolution() ? applyConvolution(rawData) : rawData;
-    for (size_t row = 0u; row < height; ++row) {
-        for (size_t col = 0u; col < width; ++col) {
+    for (size_t row = 0U; row < height; ++row) {
+        for (size_t col = 0U; col < width; ++col) {
             Pixel pixel = data[row][col];
             if (hasNegative()) applyNegative(pixel);
             if (hasContrast()) applyContrast(pixel);
@@ -48,7 +48,7 @@ void Image::computeArtSize(size_t &viewH, size_t &viewW) const {
 const std::vector<std::string> &Image::getAsciiArt(size_t asciiH, size_t asciiW) const {
     // if resizedAsciiData wasn't changed and has the same size as asciiH and asciiW
     // then return resizedAsciiData (optimization tip during animation)
-    if (!resizedAsciiData.empty() && resizedAsciiData.size() == asciiH && resizedAsciiData[0u].size() == asciiW)
+    if (!resizedAsciiData.empty() && resizedAsciiData.size() == asciiH && resizedAsciiData[0U].size() == asciiW)
         return resizedAsciiData;
 
     resizedAsciiData.clear();
@@ -57,9 +57,9 @@ const std::vector<std::string> &Image::getAsciiArt(size_t asciiH, size_t asciiW)
     const double scaleHeight = static_cast<double>(asciiH) / height;
     const double scaleWidth = static_cast<double>(asciiW) / width;
 
-    // art scailing based on asciiH, asciiW and image size
-    for (size_t row = 0u; row < asciiH; ++row)
-        for (size_t col = 0u; col < asciiW; ++col)
+    // art scaling based on asciiH, asciiW and image size
+    for (size_t row = 0U; row < asciiH; ++row)
+        for (size_t col = 0U; col < asciiW; ++col)
             resizedAsciiData[row][col] = rawAsciiData[row / scaleHeight][col / scaleWidth];
 
     return resizedAsciiData;
@@ -70,15 +70,15 @@ const std::string &Image::getPath() const {
 }
 
 void Image::toggleContrast() {
-    isContrasted ^= 1u;
+    isContrasted ^= 1U;
 }
 
 void Image::toggleNegative() {
-    isNegatived ^= 1u;
+    isNegatived ^= 1U;
 }
 
 void Image::toggleConvolution() {
-    isConvoluted ^= 1u;
+    isConvoluted ^= 1U;
 }
 
 bool Image::hasContrast() const {
@@ -122,24 +122,24 @@ unsigned char Image::rgbToGray(const Pixel &pixel) {
 
 std::vector<std::vector<Pixel>> Image::applyConvolution(const std::vector<std::vector<Pixel>> &src) {
     std::vector<std::vector<Pixel>> convoluted(src);
-    for (size_t row = 1u; row < convoluted.size() - 1u; ++row) {
-        for (size_t col = 1u; col < convoluted[row].size() - 1u; ++col) {
+    for (size_t row = 1U; row < convoluted.size() - 1U; ++row) {
+        for (size_t col = 1U; col < convoluted[row].size() - 1U; ++col) {
             // 5 * center pixel - left pixel - right pixel - pixel below - pixel above
             const int convolutedR = 5 * static_cast<int>(src[row][col].r)
-                                    - static_cast<int>(src[row][col - 1u].r)
-                                    - static_cast<int>(src[row][col + 1u].r)
-                                    - static_cast<int>(src[row - 1u][col].r)
-                                    - static_cast<int>(src[row + 1u][col].r);
+                                    - static_cast<int>(src[row][col - 1U].r)
+                                    - static_cast<int>(src[row][col + 1U].r)
+                                    - static_cast<int>(src[row - 1U][col].r)
+                                    - static_cast<int>(src[row + 1U][col].r);
             const int convolutedG = 5 * static_cast<int>(src[row][col].g)
-                                    - static_cast<int>(src[row][col - 1u].g)
-                                    - static_cast<int>(src[row][col + 1u].g)
-                                    - static_cast<int>(src[row - 1u][col].g)
-                                    - static_cast<int>(src[row + 1u][col].g);
+                                    - static_cast<int>(src[row][col - 1U].g)
+                                    - static_cast<int>(src[row][col + 1U].g)
+                                    - static_cast<int>(src[row - 1U][col].g)
+                                    - static_cast<int>(src[row + 1U][col].g);
             const int convolutedB = 5 * static_cast<int>(src[row][col].b)
-                                    - static_cast<int>(src[row][col - 1u].b)
-                                    - static_cast<int>(src[row][col + 1u].b)
-                                    - static_cast<int>(src[row - 1u][col].b)
-                                    - static_cast<int>(src[row + 1u][col].b);
+                                    - static_cast<int>(src[row][col - 1U].b)
+                                    - static_cast<int>(src[row][col + 1U].b)
+                                    - static_cast<int>(src[row - 1U][col].b)
+                                    - static_cast<int>(src[row + 1U][col].b);
 
             convoluted[row][col].r = Utils::truncateToUnsignedChar<const int>(convolutedR);
             convoluted[row][col].g = Utils::truncateToUnsignedChar<const int>(convolutedG);
@@ -150,9 +150,9 @@ std::vector<std::vector<Pixel>> Image::applyConvolution(const std::vector<std::v
 }
 
 void Image::applyNegative(Pixel &pixel) {
-    pixel.r = 255u - pixel.r;
-    pixel.g = 255u - pixel.g;
-    pixel.b = 255u - pixel.b;
+    pixel.r = 255U - pixel.r;
+    pixel.g = 255U - pixel.g;
+    pixel.b = 255U - pixel.b;
 }
 
 void Image::applyContrast(Pixel &pixel, const double level) {

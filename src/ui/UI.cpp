@@ -66,7 +66,7 @@ UI::UI() : View(nullptr, 1.0, 1.0, 0.0, 0.0),
     auto *mainMenu = new Menu(
             leftPanel,
             UIConsts::MAIN_MENU_OFFSET_Y, UIConsts::MAIN_MENU_OFFSET_X,
-            9u, 1u,
+            9U, 1U,
             new std::vector<ITEM *>{
                     new_item(UIConsts::BTN_ADD_IMAGE, ""),
                     new_item(UIConsts::BTN_SHOW_IMAGE, ""),
@@ -78,12 +78,12 @@ UI::UI() : View(nullptr, 1.0, 1.0, 0.0, 0.0),
                     new_item(UIConsts::BTN_EXPORT_ASCII, ""),
                     new_item(UIConsts::BTN_EXIT, "")
             },
-            {1u, 3u, 4u, 5u, 6u, 7u}
+            {1U, 3U, 4U, 5U, 6U, 7U}
     );
     auto *errorMenu = new Menu(
             errorPanel,
             UIConsts::ERROR_MENU_OFFSET_Y, UIConsts::ERROR_MENU_OFFSET_X,
-            1u, 1u,
+            1U, 1U,
             new std::vector<ITEM *>{
                     new_item(UIConsts::BTN_OK, "")
             },
@@ -92,7 +92,7 @@ UI::UI() : View(nullptr, 1.0, 1.0, 0.0, 0.0),
     auto *exitMenu = new Menu(
             exitPanel,
             UIConsts::EXIT_MENU_OFFSET_Y, UIConsts::EXIT_MENU_OFFSET_X,
-            1u, 2u,
+            1U, 2U,
             new std::vector<ITEM *>{
                     new_item(UIConsts::BTN_CANCEL, ""),
                     new_item(UIConsts::BTN_EXIT, "")
@@ -120,29 +120,29 @@ void UI::printAscii(const Image *image) const {
     const auto *rightPanel = views[UIConsts::ViewIndex::PANEL_RIGHT];
 
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
-    if (panelHeight <= 2u || panelWidth <= 2u) return;
-    // substracting 2 because top, bottom, left, right panel borders are not count
-    panelHeight -= 2u;
-    panelWidth -= 2u;
+    if (panelHeight <= 2U || panelWidth <= 2U) return;
+    // subtracting 2 because top, bottom, left, right panel borders are not count
+    panelHeight -= 2U;
+    panelWidth -= 2U;
     const size_t rows = panelHeight, cols = panelWidth;
     image->computeArtSize(panelHeight, panelWidth);
-    if (panelHeight == 0u || panelWidth == 0u) return;
+    if (panelHeight == 0U || panelWidth == 0U) return;
 
     const std::vector<std::string> ascii = image->getAsciiArt(panelHeight, panelWidth);
 
     // compute start positions for drawing art in the center of the panel
-    const size_t startRowPrint = (rows > ascii.size()) ? ((rows - ascii.size()) / 2u) + 1u : 1u;
-    const size_t startColPrint = (cols > ascii[0u].size()) ? ((cols - ascii[0u].size()) / 2u) + 1u : 1u;
+    const size_t startRowPrint = (rows > ascii.size()) ? ((rows - ascii.size()) >> 1U) + 1U : 1U;
+    const size_t startColPrint = (cols > ascii[0U].size()) ? ((cols - ascii[0U].size()) >> 1U) + 1U : 1U;
 
     if (!rightPanel->isDrawn()) return;
 
     // draw ascii art in the center of the panel
-    for (size_t y = 1u; y <= rows; ++y) {
-        wmove(rightPanel->getWindow(), y, 1u);
-        for (size_t x = 1u; x <= cols; ++x) {
+    for (size_t y = 1U; y <= rows; ++y) {
+        wmove(rightPanel->getWindow(), y, 1U);
+        for (size_t x = 1U; x <= cols; ++x) {
             if (startRowPrint <= y && startColPrint <= x) {
                 const size_t asciiY = y - startRowPrint, asciiX = x - startColPrint;
-                if (asciiY < ascii.size() && asciiX < ascii[0u].size()) {
+                if (asciiY < ascii.size() && asciiX < ascii[0U].size()) {
                     waddch(rightPanel->getWindow(), ascii[asciiY][asciiX]);
                     continue;
                 }
@@ -164,15 +164,15 @@ void UI::clearAscii() const {
 
     const auto *rightPanel = views[UIConsts::ViewIndex::PANEL_RIGHT];
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
-    if (panelHeight <= 2u || panelWidth <= 2u) return;
-    // substracting 2 because we dont want to erase top, bottom, left, right panel borders
-    panelHeight -= 2u;
-    panelWidth -= 2u;
+    if (panelHeight <= 2U || panelWidth <= 2U) return;
+    // subtracting 2 because we dont want to erase top, bottom, left, right panel borders
+    panelHeight -= 2U;
+    panelWidth -= 2U;
 
     // replace all printed chars by ' '
-    for (size_t y = 1u; y <= panelHeight; ++y) {
-        wmove(rightPanel->getWindow(), y, 1u);
-        for (size_t x = 1u; x <= panelWidth; ++x)
+    for (size_t y = 1U; y <= panelHeight; ++y) {
+        wmove(rightPanel->getWindow(), y, 1U);
+        for (size_t x = 1U; x <= panelWidth; ++x)
             waddch(rightPanel->getWindow(), ' ');
     }
 
@@ -182,9 +182,9 @@ void UI::clearAscii() const {
 void UI::startAnimation(const std::vector<Image *> &images) {
     if (isAnimationStarted()) return;
     // disable "Start animation" button in main menu
-    toggleMainMenuItem(5u, false);
+    toggleMainMenuItem(5U, false);
     // enable "Stop animation" button in main menu
-    toggleMainMenuItem(6u, true);
+    toggleMainMenuItem(6U, true);
     asciiAnimationThreadDriver = new std::atomic<bool>{true};
     asciiAnimationThread = new std::thread(&UI::asciiAnimation, this, images, std::ref(*asciiAnimationThreadDriver));
 }
@@ -192,9 +192,9 @@ void UI::startAnimation(const std::vector<Image *> &images) {
 void UI::stopAnimation() {
     if (!isAnimationStarted()) return;
     // enable "Start animation" button in main menu
-    toggleMainMenuItem(5u, true);
+    toggleMainMenuItem(5U, true);
     // disable "Stop animation" button in main menu
-    toggleMainMenuItem(6u, false);
+    toggleMainMenuItem(6U, false);
     *asciiAnimationThreadDriver = false;
     asciiAnimationThread->join();
     delete asciiAnimationThread;
@@ -218,7 +218,7 @@ void UI::showErrorPanel(const std::string &text) {
                 draw();
                 break;
             }
-            case 0u: /* BTN_OK */ {
+            case 0U: /* BTN_OK */ {
                 errorMenu->hide();
                 return;
             }
@@ -281,37 +281,37 @@ size_t UI::keyboardListener() {
                 draw();
                 break;
             }
-            case 0u: /* BTN_ADD_IMAGE */ {
+            case 0U: /* BTN_ADD_IMAGE */ {
                 stopAnimation();
                 return RuntimeCodes::ADD_IMAGE;
             }
-            case 1u: /* BTN_SHOW_IMAGE */ {
+            case 1U: /* BTN_SHOW_IMAGE */ {
                 stopAnimation();
                 return RuntimeCodes::SHOW_IMAGE;
             }
-            case 2u: /* BTN_GRAYSCALE_LEVEL */ {
+            case 2U: /* BTN_GRAYSCALE_LEVEL */ {
                 stopAnimation();
                 return RuntimeCodes::SET_LEVEL;
             }
-            case 3u: /* BTN_EDIT_IMAGE */ {
+            case 3U: /* BTN_EDIT_IMAGE */ {
                 stopAnimation();
                 return RuntimeCodes::EDIT_IMAGE;
             }
-            case 4u: /* BTN_REMOVE_IMAGE */ {
+            case 4U: /* BTN_REMOVE_IMAGE */ {
                 stopAnimation();
                 return RuntimeCodes::REMOVE_IMAGE;
             }
-            case 5u: /* BTN_PLAY_ANIM */ {
+            case 5U: /* BTN_PLAY_ANIM */ {
                 return RuntimeCodes::PLAY_ANIM;
             }
-            case 6u: /* BTN_PAUSE_ANIM */ {
+            case 6U: /* BTN_PAUSE_ANIM */ {
                 return RuntimeCodes::PAUSE_ANIM;
             }
-            case 7u: /* BTN_EXPORT_ART */ {
+            case 7U: /* BTN_EXPORT_ART */ {
                 stopAnimation();
                 return RuntimeCodes::EXPORT_ART;
             }
-            case 8u: /* BTN_EXIT */ {
+            case 8U: /* BTN_EXIT */ {
                 stopAnimation();
                 if (showExitPanel()) return RuntimeCodes::TERMINATE_PROGRAM;
             }
@@ -321,7 +321,7 @@ size_t UI::keyboardListener() {
 }
 
 bool UI::isAnimationStarted() const {
-    return asciiAnimationThread;
+    return asciiAnimationThread != nullptr;
 }
 
 UI::~UI() {
@@ -331,12 +331,12 @@ UI::~UI() {
 }
 
 void UI::asciiAnimation(const std::vector<Image *> &images, std::atomic<bool> &controller) const {
-    size_t imageIndex = 0u;
+    size_t imageIndex = 0U;
     while (controller) {
         displayedImage = images[imageIndex++];
         if (isDrawn()) printAscii(displayedImage);
         std::this_thread::sleep_for(std::chrono::milliseconds(UIConsts::ANIMATION_SLEEP_TIME_MS));
-        if (imageIndex >= images.size()) imageIndex = 0u;
+        if (imageIndex >= images.size()) imageIndex = 0U;
     }
 }
 
@@ -350,11 +350,11 @@ bool UI::showExitPanel() {
                 draw();
                 break;
             }
-            case 0u: /* BTN_CANCEL */ {
+            case 0U: /* BTN_CANCEL */ {
                 exitMenu->hide();
                 return false;
             }
-            case 1u: /* BTN_EXIT */
+            case 1U: /* BTN_EXIT */
                 return true;
             default: break;
         }

@@ -1,6 +1,6 @@
 #include "PPMImage.hpp"
 
-PPMImage::PPMImage(const std::string &imgPath) : Image(imgPath), firstLetter('\0'), num(0u), brightness(0u) {}
+PPMImage::PPMImage(const std::string &imgPath) : Image(imgPath), firstLetter('\0'), num(0U), brightness(0U) {}
 
 bool PPMImage::loadFromFile() {
     std::ifstream ifs(path, std::ios::in | std::ios::binary);
@@ -9,25 +9,25 @@ bool PPMImage::loadFromFile() {
     // ignore \n
     ifs.ignore(1);
 
-    // if image is not P6 (indicates PPM format) or height == 0 or width == 0 then convertation wasn't successfull
-    if (firstLetter != 'P' || num != 6u || height == 0u || width == 0u) return false;
+    // if image is not P6 (indicates PPM format) or height == 0 or width == 0 then conversion wasn't successful
+    if (firstLetter != 'P' || num != 6U || height == 0U || width == 0U) return false;
 
     // 3 because of RGB components
-    std::vector<unsigned char> data(3u * height * width);
-    ifs.read((char *) &data[0u], data.size());
+    std::vector<unsigned char> data(3U * height * width);
+    ifs.read((char *) &data[0U], data.size());
     ifs.close();
 
     rawData.resize(height, std::vector<Pixel>(width));
     rawAsciiData.resize(height, std::string("", width));
 
     // convert components data to pixels data
-    size_t row = 0u, col = 0u;
-    for (size_t dataI = 0u; dataI < data.size(); dataI += 3u) {
+    size_t row = 0U, col = 0U;
+    for (size_t dataI = 0U; dataI < data.size(); dataI += 3U) {
         rawData[row][col].r = data[dataI];
-        rawData[row][col].g = data[dataI + 1u];
-        rawData[row][col].b = data[dataI + 2u];
+        rawData[row][col].g = data[dataI + 1U];
+        rawData[row][col].b = data[dataI + 2U];
         if (++col >= width) {
-            col = 0u;
+            col = 0U;
             ++row;
         }
     }

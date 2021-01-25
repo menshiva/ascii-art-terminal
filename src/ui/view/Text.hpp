@@ -26,7 +26,7 @@ public:
     Text(const View *parent, std::string text, double yRelative, double xRelative);
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     Text(const Text &) = delete;
 

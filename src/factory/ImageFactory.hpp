@@ -20,7 +20,7 @@ namespace fs = std::experimental::filesystem;
 class ImageFactory {
     std::vector<Image *> images; /**< Loaded images. */
     /**
-     * Range of symbols from _darkest_ to _lightest_, which will be used in ASCII convertation.
+     * Range of symbols from _darkest_ to _lightest_, which will be used in ASCII conversion.
      * @note Default value is AsciiConsts::DEFAULT_GRAYSCALE_LEVEL.
      */
     std::string grayscaleLevel;
@@ -31,7 +31,7 @@ public:
     ImageFactory();
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     ImageFactory(const ImageFactory &) = delete;
 
@@ -44,7 +44,7 @@ public:
      * Reads image file from path, converts it to ASCII art and adds it to #images.\n
      * If image file was opened and converted to ASCII art successfully, function asks user to load another one.
      * Otherwise suggests to try again.
-     * @note Function checks file existance and image format by itself.
+     * @note Function checks file existence and image format by itself.
      * @warning Works only in console mode. If you are using UI, you need to call #UI::hide() first.
      *
      * @return `true` if at least _1_ image file was loaded and converted successfully.
@@ -74,7 +74,7 @@ public:
      *
      * @param[in] image Pointer to Image.
      * @param[out] image Pointer to Image with effect applied on.
-     * @return `true` if _chosen_ effect was applied to _image_ succesfully.
+     * @return `true` if _chosen_ effect was applied to _image_ successfully.
      * Otherwise `false`.
      */
     bool applyEffect(Image *image);

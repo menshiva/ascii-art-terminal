@@ -38,13 +38,13 @@ public:
     View(const View *parent,
          double heightRelative, double widthRelative,
          double yRelative, double xRelative) : parent(parent),
-                                               height(0u), width(0u),
+                                               height(0U), width(0U),
                                                heightRelative(heightRelative), widthRelative(widthRelative),
                                                yRelative(yRelative), xRelative(xRelative),
                                                drawn(false) {}
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     View(const View &) = delete;
 

@@ -6,7 +6,7 @@
  *
  * Program for creation ASCII art from images.
  *
- * _Feautures_:\n
+ * _Features_:\n
  * • User interface\n
  * • JPEG, PPM image formats\n
  * • Animation\n
@@ -19,10 +19,10 @@
  * • libjpeg (http://libjpeg.sourceforge.net/)
  *
  * _Sources_:\n
- * • Image scailing algorithm: https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation \n
+ * • Image scaling algorithm: https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation \n
  * • RGB to Grayscale algorithm:
  * https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale \n
- * • Contrast algrotithm:
+ * • Contrast algorithm:
  * https://en.wikipedia.org/wiki/Contrast_(vision) and
  * https://math.stackexchange.com/questions/906240/algorithms-to-increase-or-decrease-the-contrast-of-an-image \n
  * • Convolution algorithm: https://setosa.io/ev/image-kernels/ \n
@@ -31,6 +31,110 @@
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
+
+void addImage(UI &ui, ImageFactory &factory) {
+    ui.hide();
+    const bool isImageRead = factory.readImage();
+    ui.show();
+    if (isImageRead) {
+        // enable "Show image" button
+        ui.toggleMainMenuItem(1U, true);
+        // enable "Remove image" button
+        ui.toggleMainMenuItem(4U, true);
+        if (factory.getAllImages().size() >= 2U)
+            // enable "Play animation" button
+            ui.toggleMainMenuItem(5U, true);
+    }
+}
+
+void showImage(UI &ui, ImageFactory &factory) {
+    if (factory.getAllImages().empty()) ui.showErrorPanel(UIConsts::ERROR_NO_IMAGES);
+    else {
+        ui.hide();
+        const Image *pickedImage = factory.chooseImageFromList(ConsoleConsts::PICK_IMAGE_SHOW);
+        ui.show();
+        if (pickedImage) {
+            ui.printAscii(pickedImage);
+            // enable "Edit image" button
+            ui.toggleMainMenuItem(3U, true);
+            // enable "Export art" button
+            ui.toggleMainMenuItem(7U, true);
+        }
+    }
+}
+
+void setLevel(UI &ui, ImageFactory &factory) {
+    ui.hide();
+    const bool isLevelChanged = factory.readGrayscaleLevel();
+    ui.show();
+    if (isLevelChanged && ui.getDisplayedImage()) ui.refreshAscii();
+}
+
+void editImage(UI &ui, ImageFactory &factory) {
+    if (!ui.getDisplayedImage()) ui.showErrorPanel(UIConsts::ERROR_NOT_SHOWN);
+    else {
+        ui.hide();
+        const bool isEffectApplied = factory.applyEffect(const_cast<Image *>(ui.getDisplayedImage()));
+        ui.show();
+        if (isEffectApplied) ui.refreshAscii();
+    }
+}
+
+void removeImage(UI &ui, ImageFactory &factory) {
+    if (factory.getAllImages().empty()) ui.showErrorPanel(UIConsts::ERROR_NO_IMAGES);
+    else {
+        ui.hide();
+        Image *pickedImage = factory.chooseImageFromList(ConsoleConsts::PICK_IMAGE_REMOVE);
+        ui.show();
+        if (pickedImage) {
+            if (pickedImage == ui.getDisplayedImage()) {
+                ui.clearAscii();
+                // disable "Edit image" button
+                ui.toggleMainMenuItem(3U, false);
+                // disable "Export art" button
+                ui.toggleMainMenuItem(7U, false);
+            }
+            factory.removeImage(pickedImage);
+            if (factory.getAllImages().empty()) {
+                // disable "Show image" button
+                ui.toggleMainMenuItem(1U, false);
+                // disable "Edit image" button
+                ui.toggleMainMenuItem(3U, false);
+                // disable "Remove image" button
+                ui.toggleMainMenuItem(4U, false);
+                // disable "Export art" button
+                ui.toggleMainMenuItem(7U, false);
+            } else if (factory.getAllImages().size() < 2U)
+                // disable "Play animation" button
+                ui.toggleMainMenuItem(5U, false);
+        }
+    }
+}
+
+void playAnim(UI &ui, ImageFactory &factory) {
+    if (factory.getAllImages().size() < 2U) ui.showErrorPanel(UIConsts::ERROR_FEW_IMAGES);
+    else {
+        // enable "Edit image" button
+        ui.toggleMainMenuItem(3U, true);
+        // enable "Export art" button
+        ui.toggleMainMenuItem(7U, true);
+        ui.startAnimation(factory.getAllImages());
+    }
+}
+
+void pauseAnim(UI &ui) {
+    if (!ui.isAnimationStarted()) ui.showErrorPanel(UIConsts::ERROR_NO_ANIMATION);
+    else ui.stopAnimation();
+}
+
+void exportArt(UI &ui) {
+    if (!ui.getDisplayedImage()) ui.showErrorPanel(UIConsts::ERROR_NOT_SHOWN);
+    else {
+        ui.hide();
+        ImageFactory::exportImage(const_cast<Image *>(ui.getDisplayedImage()));
+        ui.show();
+    }
+}
 
 int main() {
     if (!initscr()) {
@@ -45,107 +149,35 @@ int main() {
     while (true) {
         switch (ui.keyboardListener()) {
             case RuntimeCodes::ADD_IMAGE: {
-                ui.hide();
-                const bool isImageRead = factory.readImage();
-                ui.show();
-                if (isImageRead) {
-                    // enable "Show image" button
-                    ui.toggleMainMenuItem(1u, true);
-                    // enable "Remove image" button
-                    ui.toggleMainMenuItem(4u, true);
-                    if (factory.getAllImages().size() >= 2u)
-                        // enable "Play animation" button
-                        ui.toggleMainMenuItem(5u, true);
-                }
+                addImage(ui, factory);
                 break;
             }
             case RuntimeCodes::SHOW_IMAGE: {
-                if (factory.getAllImages().empty()) ui.showErrorPanel(UIConsts::ERROR_NO_IMAGES);
-                else {
-                    ui.hide();
-                    const Image *pickedImage = factory.chooseImageFromList(ConsoleConsts::PICK_IMAGE_SHOW);
-                    ui.show();
-                    if (pickedImage) {
-                        ui.printAscii(pickedImage);
-                        // enable "Edit image" button
-                        ui.toggleMainMenuItem(3u, true);
-                        // enable "Export art" button
-                        ui.toggleMainMenuItem(7u, true);
-                    }
-                }
+                showImage(ui, factory);
                 break;
             }
             case RuntimeCodes::SET_LEVEL: {
-                ui.hide();
-                const bool isLevelChanged = factory.readGrayscaleLevel();
-                ui.show();
-                if (isLevelChanged && ui.getDisplayedImage()) ui.refreshAscii();
+                setLevel(ui, factory);
                 break;
             }
             case RuntimeCodes::EDIT_IMAGE: {
-                if (!ui.getDisplayedImage()) ui.showErrorPanel(UIConsts::ERROR_NOT_SHOWN);
-                else {
-                    ui.hide();
-                    const bool isEffectApplied = factory.applyEffect(const_cast<Image *>(ui.getDisplayedImage()));
-                    ui.show();
-                    if (isEffectApplied) ui.refreshAscii();
-                }
+                editImage(ui, factory);
                 break;
             }
             case RuntimeCodes::REMOVE_IMAGE: {
-                if (factory.getAllImages().empty()) ui.showErrorPanel(UIConsts::ERROR_NO_IMAGES);
-                else {
-                    ui.hide();
-                    Image *pickedImage = factory.chooseImageFromList(ConsoleConsts::PICK_IMAGE_REMOVE);
-                    ui.show();
-                    if (pickedImage) {
-                        if (pickedImage == ui.getDisplayedImage()) {
-                            ui.clearAscii();
-                            // disable "Edit image" button
-                            ui.toggleMainMenuItem(3u, false);
-                            // disable "Export art" button
-                            ui.toggleMainMenuItem(7u, false);
-                        }
-                        factory.removeImage(pickedImage);
-                        if (factory.getAllImages().empty()) {
-                            // disable "Show image" button
-                            ui.toggleMainMenuItem(1u, false);
-                            // disable "Edit image" button
-                            ui.toggleMainMenuItem(3u, false);
-                            // disable "Remove image" button
-                            ui.toggleMainMenuItem(4u, false);
-                            // disable "Export art" button
-                            ui.toggleMainMenuItem(7u, false);
-                        } else if (factory.getAllImages().size() < 2u)
-                            // disable "Play animation" button
-                            ui.toggleMainMenuItem(5u, false);
-                    }
-                }
+                removeImage(ui, factory);
                 break;
             }
             case RuntimeCodes::PLAY_ANIM: {
-                if (factory.getAllImages().size() < 2u) ui.showErrorPanel(UIConsts::ERROR_FEW_IMAGES);
-                else {
-                    // enable "Edit image" button
-                    ui.toggleMainMenuItem(3u, true);
-                    // enable "Export art" button
-                    ui.toggleMainMenuItem(7u, true);
-                    ui.startAnimation(factory.getAllImages());
-                }
+                playAnim(ui, factory);
                 break;
             }
             case RuntimeCodes::PAUSE_ANIM: {
-                if (!ui.isAnimationStarted()) ui.showErrorPanel(UIConsts::ERROR_NO_ANIMATION);
-                else ui.stopAnimation();
+                pauseAnim(ui);
                 break;
             }
             case RuntimeCodes::EXPORT_ART: {
-                if (!ui.getDisplayedImage()) ui.showErrorPanel(UIConsts::ERROR_NOT_SHOWN);
-                else {
-                    ui.hide();
-                    ImageFactory::exportImage(const_cast<Image *>(ui.getDisplayedImage()));
-                    ui.show();
-                }
+                exportArt(ui);
                 break;
             }
             case RuntimeCodes::TERMINATE_PROGRAM:

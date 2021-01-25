@@ -136,7 +136,7 @@ namespace UIConsts {
     const unsigned long ANIMATION_SLEEP_TIME_MS = 250;
 
     /**
-     * @brief UI childs indexes in stack.
+     * @brief UI children indexes in stack.
      *
      * Constants which are defined for better obtaining View components from UI.
      *
@@ -144,29 +144,29 @@ namespace UIConsts {
      */
     namespace ViewIndex {
         /// _Upper_ panel index in stack.
-        const unsigned long PANEL_UPPER = 0u;
+        const unsigned long PANEL_UPPER = 0U;
         /// _Left_ panel index in stack.
-        const unsigned long PANEL_LEFT = 1u;
+        const unsigned long PANEL_LEFT = 1U;
         /// _Right_ panel index in stack.
-        const unsigned long PANEL_RIGHT = 2u;
+        const unsigned long PANEL_RIGHT = 2U;
         /// _Error_ panel index in stack.
-        const unsigned long PANEL_ERROR = 3u;
+        const unsigned long PANEL_ERROR = 3U;
         /// _Exit_ panel index in stack.
-        const unsigned long PANEL_EXIT = 4u;
+        const unsigned long PANEL_EXIT = 4U;
 
         /// _Upper_ panel text index in stack.
-        const unsigned long TEXT_UPPER = 5u;
+        const unsigned long TEXT_UPPER = 5U;
         /// _Error_ panel text index in stack.
-        const unsigned long TEXT_ERROR = 6u;
+        const unsigned long TEXT_ERROR = 6U;
         /// _Exit_ panel text index in stack.
-        const unsigned long TEXT_EXIT = 7u;
+        const unsigned long TEXT_EXIT = 7U;
 
         /// _Main_ menu index in stack.
-        const unsigned long MENU_MAIN = 8u;
+        const unsigned long MENU_MAIN = 8U;
         /// _Error_ menu index in stack.
-        const unsigned long MENU_ERROR = 9u;
+        const unsigned long MENU_ERROR = 9U;
         /// _Exit_ menu index in stack.
-        const unsigned long MENU_EXIT = 10u;
+        const unsigned long MENU_EXIT = 10U;
     }
 }
 
@@ -234,9 +234,9 @@ namespace ConsoleConsts {
 }
 
 /**
- * @brief ASCII art convertation constants.
+ * @brief ASCII art conversion constants.
  *
- * Constants which are defined for better working with _ASCII art convertation algorithm_.
+ * Constants which are defined for better working with _ASCII art conversion algorithm_.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
@@ -256,25 +256,25 @@ namespace AsciiConsts {
  */
 namespace RuntimeCodes {
     /// "Add image(s)" button click event.
-    const unsigned long ADD_IMAGE = 0x79u;
+    const unsigned long ADD_IMAGE = 0x79U;
     /// "Show image" button click event.
-    const unsigned long SHOW_IMAGE = 0x78u;
+    const unsigned long SHOW_IMAGE = 0x78U;
     /// "Set grayscale level" button click event.
-    const unsigned long SET_LEVEL = 0x77u;
+    const unsigned long SET_LEVEL = 0x77U;
     /// "Edit image" button click event.
-    const unsigned long EDIT_IMAGE = 0x76u;
+    const unsigned long EDIT_IMAGE = 0x76U;
     /// "Remove image" button click event.
-    const unsigned long REMOVE_IMAGE = 0x75u;
+    const unsigned long REMOVE_IMAGE = 0x75U;
     /// "Play animation" button click event.
-    const unsigned long PLAY_ANIM = 0x74u;
+    const unsigned long PLAY_ANIM = 0x74U;
     /// "Pause animation" button click event.
-    const unsigned long PAUSE_ANIM = 0x73u;
+    const unsigned long PAUSE_ANIM = 0x73U;
     /// "Export art" button click event.
-    const unsigned long EXPORT_ART = 0x72u;
+    const unsigned long EXPORT_ART = 0x72U;
     /// Resize UI event. @note Triggers on terminal resizing.
-    const unsigned long RESIZE_UI = 0x71u;
+    const unsigned long RESIZE_UI = 0x71U;
     /// Close program event.
-    const unsigned long TERMINATE_PROGRAM = 0x70u;
+    const unsigned long TERMINATE_PROGRAM = 0x70U;
 }
 
 #endif

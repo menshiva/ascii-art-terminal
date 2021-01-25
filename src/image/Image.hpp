@@ -46,7 +46,7 @@ public:
     explicit Image(std::string imgPath);
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     Image(const Image &) = delete;
 
@@ -87,7 +87,7 @@ public:
 
     /**
      * Scales #rawAsciiData to specific `height` and `width` and stores this data in #resizedAsciiData.
-     * @note Scailing algorithm is referenced from:
+     * @note Scaling algorithm is referenced from:
      * https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation
      * @warning Cache optimization: if specific sizes are equal to #resizedAsciiData sizes,
      * then this function does _not_ provide new computations.
@@ -177,7 +177,7 @@ private:
 
     /**
      * Applies _contrast_ effect to Pixel.
-     * @note Contrast algrotithm is referenced from:
+     * @note Contrast algorithm is referenced from:
      * https://en.wikipedia.org/wiki/Contrast_(vision) and
      * https://math.stackexchange.com/questions/906240/algorithms-to-increase-or-decrease-the-contrast-of-an-image
      *
@@ -186,7 +186,7 @@ private:
      * @param level Contrast level from `0` to `255`. Default value is AsciiConsts::DEFAULT_CONTRAST_LEVEL.
      * @relatesalso Image
      */
-    static void applyContrast(Pixel &pixel, const double level = AsciiConsts::DEFAULT_CONTRAST_LEVEL);
+    static void applyContrast(Pixel &pixel, double level = AsciiConsts::DEFAULT_CONTRAST_LEVEL);
 };
 
 #endif

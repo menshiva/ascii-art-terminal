@@ -33,7 +33,7 @@ public:
           bool isVisible);
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     Panel(const Panel &) = delete;
 

@@ -13,10 +13,10 @@ void Text::changeText(const std::string &newText) {
 
 void Text::draw() const {
     const auto y = static_cast<size_t>(yRelative * parent->getHeight());
-    const auto x = static_cast<size_t>(xRelative * parent->getWidth()) - text.size() / 2u;
-    wmove(getWindow(), y, 1u);
+    const auto x = static_cast<size_t>(xRelative * parent->getWidth()) - (text.size() >> 1U);
+    wmove(getWindow(), y, 1U);
     // clear old text from parent
-    for (size_t pos = 1u; pos < parent->getWidth() - 1u; ++pos) waddch(getWindow(), ' ');
+    for (size_t pos = 1U; pos < parent->getWidth() - 1U; ++pos) waddch(getWindow(), ' ');
     mvwaddstr(getWindow(), y, x, text.c_str());
     drawn = true;
 }

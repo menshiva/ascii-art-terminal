@@ -16,7 +16,6 @@
 class Menu : public View {
     MENU *menu; /**< MENU from ncurses.h. */
     size_t rows; /**< Rows count in #menu. */
-    size_t cols; /**< Columns count in #menu. */
     std::vector<ITEM *> *items; /**< Items in #menu. */
 public:
     /**
@@ -37,7 +36,7 @@ public:
          const std::initializer_list<size_t> &disabledItems);
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     Menu(const Menu &) = delete;
 

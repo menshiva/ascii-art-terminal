@@ -52,7 +52,7 @@ Krátký algoritmus konvertování obrázku do ASCII artu:
 
 	3) Barevný obrázek se zkonvertuje do černobílého (víc: Zdroje (3)). Pro naší účely bude používaná tak zvaná metoda "Colorimetric (perceptual luminance-preserving) conversion" (víc: Zdroje (4)) proto, abysme mohli zdůraznit nejjasnější pixely obrázku.
 
-	4) Projdeme celý seznam pixelů. Abysme dostali potřebný pro pixel ASCII symbol, musíme vzít "gray code" tohoto pixelu (0-255), vydělit ten code číslem 255 a výsledek násobit velikostí seznamu, kterému říkáme "grayscale levels". Ten seznam obsahuje ASCII symboly (od nejtmavějšího do nejsvětlejšího), pomoci kterých budeme zobrazovat nás obrázek jako ASCII art. Příklad standartniho seznamu "grayscale levels": "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`". ".
+	4) Projdeme celý seznam pixelů. Abysme dostali potřebný pro pixel ASCII symbol, musíme vzít "gray code" tohoto pixelu (0-255), vydělit ten code číslem 255 a výsledek násobit velikostí seznamu, kterému říkáme "grayscale levels". Ten seznam obsahuje ASCII symboly (od nejtmavějšího do nejsvětlejšího), pomoci kterých budeme zobrazovat nás obrázek jako ASCII art. Příklad standartního seznamu "grayscale levels": "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`". ".
 
 Zdroje:
 	(1): https://en.wikipedia.org/wiki/Image_scaling

@@ -26,7 +26,7 @@ public:
     explicit PPMImage(const std::string &imgPath);
 
     /**
-     * @attention Copy constuctor is forbidden.
+     * @attention Copy constructor is forbidden.
      */
     PPMImage(const PPMImage &) = delete;
 
