@@ -1,0 +1,61 @@
+Zadání: ASCII art
+
+Program načte data z jednoho až n obrázků běžného formátu (JPG/PPM) a ty validně zobrazí v ASCII.
+V případě více načtených obrázků, program bude mít jednoduché možnosti přehrávání animace
+(spustit, zastavit, zobrazit konkrétní frame, vymazat frame).
+
+Přidaná funkcionalita:
+    • Zvolit styl ASCII vykreslení.
+    • Přidat kontrast.
+    • Zvolit zobrazení v negativu.
+    • Konvoluce obrázku.
+    • Exportovat ASCII art.
+
+Zvolený polymorfismus:
+    Program má uživatelské rozhraní (knihovna ncurses) a obsahuje několik panelů
+    (tři panely v hlavním menu a vyskakovací okna pro výběr funkcionality a pro pro ukončení programu).
+    Panely, texty a menu budou mít společné rozhraní, které zdědí od společného předka (View).
+
+    Program pracuje z několika formáty vstupu (JPG/PPM). Formáty budou mít společné rozhraní,
+    zděděné od společného předka (Image).
+
+Uživatelské rozhraní:
+    terminal + knihovna ncurses.
+
+Při spuštění programu se zobrazí 3 panely. Horní panel obsahuje titulek programu. Pravý panel bude obsahovat výsledek programu až po zpracování všech načtených obrázků. Levý panel obrahuje hlavní nabídku programu: načíst obrázek, zobrazit ASCII art, 
+nastavit styl vykreslení, efekty obrázku, smazat obrázek, spustit animace, zastavit animace, exportovat art.
+
+Uživatel může vybrat jednu z těch možností zmáčknutím šipek na klávesnici.
+
+Pokud uživatel vybere:
+	• Načíst obrázek: Uživatelské rozhraní se zmizí, zobrazí se standardní console, která nabídne uživateli napsat absolutní cestu obrázku, který uživatel chce načíst do programu. Program bude chtít, aby uživatel napsal cestu, dokud on (program) se nedozví, že obrázek z té cesty lze načíst. Pokud uživatel na vstup napíše "q" a zmáčkne Enter, console se zmizí, zobrazí se uživatelské rozhraní a nic se nenačte, v jiném případě bude načten obrázek z cesty a znovu se nabídne uživateli napsat absolutní cestu.
+	
+	• Zobrazit ASCII art: Uživatelské rozhraní se zmizí, zobrazí se standardní console, která nabídne uživateli vybrat jeden z již načtených obrázků. Pokud uživatel na vstup napíše "q" a zmáčkne Enter, console se zmizí, zobrazí se uživatelské rozhraní a nic se nestane, v jiném případě se zobrazí uživatelské rozhraní a v právem panelu bude vykreslen ASCII art zvoleného uživatelem obrázku.
+	
+	• Nastavit styl vykreslení: Uživatelské rozhraní se zmizí, zobrazí se standardní console, která nabídne uživateli definovat ASCII přechod nebo vybrat standartni zmáčknutím klávesy "d".
+	
+	• Efekty obrázku (v tomto contextu znamená "přidat efekty"): Uživatelské rozhraní se zmizí, zobrazí se standardní console, která nabídne uživateli vybrat jeden z podporovaných efektů a aplikuje ten efekt na již zobrazený obrázek.
+	
+	• Smazat obrázek: Uživatelské rozhraní se zmizí, zobrazí se standardní console, která nabídne uživateli vybrat jeden z již načtených obrázků. Pokud uživatel na vstup napíše "q" a zmáčkne Enter, console se zmizí, zobrazí se uživatelské rozhraní a nic se nestane, v jiném případě se smaže vybrány obrázek.
+
+	• Spustit animace: V případě více načtených obrázků (alespoň 2), na právem panelu se zobrazí ASCII arty obrázků v pořadí, ve kterém byli načtené.
+
+	• Zastavit animace: Funkce zastaví animaci zobrazení ASCII artů.
+	
+	• Exportovat art: Uživatelské rozhraní se zmizí, zobrazí se standardní console, která nabídne uživateli napsat absolutní cestu 
+k již neexistujícímu textovému souboru. Funkce vytvoří ten soubor a vypíše do něj ASCII art již zobrazeného obrázku.
+
+Krátký algoritmus konvertování obrázku do ASCII artu:
+	1) Načte se "raw data" obrázku, což znamená, že budeme mít seznam všech pixelů.
+
+	2) Změní se velikost obrázku na velikost pravého panelu (víc: Zdroje (1) a (2)).
+
+	3) Barevný obrázek se zkonvertuje do černobílého (víc: Zdroje (3)). Pro naší účely bude používaná tak zvaná metoda "Colorimetric (perceptual luminance-preserving) conversion" (víc: Zdroje (4)) proto, abysme mohli zdůraznit nejjasnější pixely obrázku.
+
+	4) Projdeme celý seznam pixelů. Abysme dostali potřebný pro pixel ASCII symbol, musíme vzít "gray code" tohoto pixelu (0-255), vydělit ten code číslem 255 a výsledek násobit velikostí seznamu, kterému říkáme "grayscale levels". Ten seznam obsahuje ASCII symboly (od nejtmavějšího do nejsvětlejšího), pomoci kterých budeme zobrazovat nás obrázek jako ASCII art. Příklad standartniho seznamu "grayscale levels": "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/\|()1{}[]?-_+~i!lI;:,\"^`". ".
+
+Zdroje:
+	(1): https://en.wikipedia.org/wiki/Image_scaling
+	(2): https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation
+	(3): https://en.wikipedia.org/wiki/Grayscale
+	(4): https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale
