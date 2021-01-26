@@ -13,8 +13,6 @@ SRC = $(shell find $(SRCDIR)/ -type f -name '*.cpp')
 HDR = $(shell find $(SRCDIR)/ -type f -name '*.hpp')
 OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
 
-all: compile run
-
 val: compile runVal
 
 compile: $(PROGRAM)

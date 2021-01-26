@@ -44,12 +44,20 @@ Run this command to install all necessary dependencies:
 $ sudo apt install libncurses-dev libjpeg-dev
 ```
 
-#### Run application
+#### Build application
 
-Use this command to build and run ASCII Art Terminal:
+Use this command to build ASCII Art Terminal:
 
 ```bash
-$ make all
+$ make compile
+```
+
+#### Run application
+
+Use this command to run ASCII Art Terminal:
+
+```bash
+$ make run
 ```
 
 #### Generate documentation (optional)
@@ -60,9 +68,11 @@ Use this command to generate a documentation:
 $ make doc
 ```
 
+You can find documentation located at: _doc/index.html_
+
 #### Clean build (optional)
 
-Use this command to clean compiled binaries:
+Use this command to clean compiled binaries and docs:
 
 ```bash
 $ make clean
@@ -72,49 +82,43 @@ $ make clean
 
 #### Basics
 
-1) [Build and run](#build-) application
-2) Press the _menu_ button in the toolbar to open image list drawer
-3) Press the _Add image_ button to add image
-4) In popup dialog:
-    - Fill the _Art name_ box **(required)**
-    - Choose a path to image from file browser via _Browse_ button **(required)**
-    - Choose effects to apply on your art _(optional)_
-5) Press the _Add_ button and wait for the image to convert
-6) **Enjoy** your ASCII art!
+1) [Build and run](#build-) the application
+2) Choose _Add image(s)_ section to add image
+3) Enter absolute path to image you want to add or simply drag your image into terminal - this action will paste path to image
+4) Press Enter and wait for image to convert
+5) You can add more images if you want or enter the "q" symbol to cancel
+6) To display your image as ASCII Art, choose _Show ASCII art_ section
+7) Choose image you want to show by entering it's index in loaded path's list
+8) **Enjoy** your ASCII art!
 
 #### Image properties
 
-* To edit your image (change art name or apply new effects):
-    1) Press the three dots below the needed image
-    2) Click on _Properties_ button
-    3) Apply your changes
-    4) Press the _Save_ button and wait for the image to re-convert
+* To apply effects to your image:
+    1) Choose image in _Show ASCII art_ section
+    2) Choose _Image effects_ section
+    3) Enter index of effect you want to add or to remove if its already applied or enter the "q" symbol to cancel
+    4) Press Enter to save changes
 * To remove image from list:
-    1) Press the three dots below the needed image
-    2) Press the _Remove image_ button
+    1) Choose _Remove image_ section
+    2) Choose image you want to remove by entering it's index in loaded path's list
 * To export image to _.txt_ file:
-    1) Press the three dots below the needed image
-    2) Press the _Export to text file_ button
-    3) Create new text file from opened file browser
+    1) Choose image in _Show ASCII art_ section
+    2) Choose _Export art_ section
+    3) Enter absolute path to .txt file you want to create
+    4) Press Enter to save changes
 
 #### Animation
 
 * To enable this function you need to add **at least 2 images**
 * Animation controls:
-    1) Click on _Play animation_ button in a toolbar to start animation
-    2) Click on _Stop animation_ button in a toolbar to stop animation
+    1) Choose _Play animation_ section to start animation
+    2) Choose _Pause animation_ section to stop animation
 
-#### Settings
-
-1) Press the three dots in toolbar
-2) Press _Settings_ button
+Note: Images will display in order they were loaded
 
 #### Optional utils
 
-* **Adjust ASCII art size** by slider in toolbar
-* Switch between **Light and Dark** theme in [Settings](#Settings) in _Theme_ section
-* **Adjust animation duration** by slider in [Settings](#Settings) in _Animation duration_ section
-* **Style ASCII art** with your own symbols in [Settings](#Settings) in _Grayscale level_ section:
+* **Style ASCII art** with your own symbols in _Set grayscale level_ section:
     - You need to enter the sequence of symbols from darkest to lightest
     - Your ASCII art will be shown by these symbols
 
@@ -127,7 +131,7 @@ $ make clean
 
 #### Used algorithms
 
-* If you are interested in program's idea, read [zadani.txt](https://github.com/menshiva/ascii-art-terminal/blob/master/zadani.txt) (**WARNING: Czech language only**)
+* If you are interested in program's idea, read [zadani.txt](https://github.com/menshiva/ascii-art-terminal/blob/master/zadani.txt) (**NOTE: Czech language only**)
 * [Image scaling algorithm](https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation)
 * [RGB to Grayscale algorithm](https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale)
 * [Contrast algorithm](https://en.wikipedia.org/wiki/Contrast_(vision))
