@@ -5,7 +5,7 @@
     </h1>
     <p align="center">
         <a href="#key-features-">Key Features 🍪</a> |
-        <a href="#dependencies-">Dependencies 🧬</a> |
+        <a href="#requirements-">Requirements 🧬</a> |
         <a href="#build-">Build 🚀</a> |
         <a href="#how-to-use-">How to Use 📃</a> |
         <a href="#credits-">Credits ✍</a>
@@ -17,13 +17,13 @@
 
 ## Key Features 🍪
 
-* User interface in terminal!
+* User interface
 * Supports JPEG, PPM image formats
-* Your own ASCII art symbol style!
+* Your own ASCII art symbol style
 * Preserve an image's aspect ratio
 * ASCII art animation
 * Export art to .txt file in full image resolution
-* Supporting art effects:
+* Available effects:
     - _Contrast_
     - _Negative_
     - _Sharpen_
@@ -33,12 +33,13 @@
 * C++ 14
 * libncurses
 * libjpeg
+* doxygen (optional)
 
 ## Build 🚀
 
 #### Install dependencies
 
-Run this command to install all necessary dependencies:
+Install all necessary dependencies:
 
 ```bash
 $ sudo apt install libncurses-dev libjpeg-dev
@@ -46,7 +47,7 @@ $ sudo apt install libncurses-dev libjpeg-dev
 
 #### Build application
 
-Use this command to build ASCII Art Terminal:
+Build ASCII Art Terminal:
 
 ```bash
 $ make compile
@@ -54,7 +55,7 @@ $ make compile
 
 #### Run application
 
-Use this command to run ASCII Art Terminal:
+Run ASCII Art Terminal:
 
 ```bash
 $ make run
@@ -62,17 +63,23 @@ $ make run
 
 #### Generate documentation (optional)
 
-Use this command to generate a documentation:
+Firstly, you need to install _doxygen_:
+
+```bash
+$ sudo apt install doxygen
+```
+
+Generate documentation:
 
 ```bash
 $ make doc
 ```
 
-You can find documentation located at: _doc/index.html_
+You can find generated documentation located at: _doc/index.html_
 
 #### Clean build (optional)
 
-Use this command to clean compiled binaries and docs:
+To clean compiled binaries and docs:
 
 ```bash
 $ make clean
@@ -83,44 +90,44 @@ $ make clean
 #### Basics
 
 1) [Build and run](#build-) the application
-2) Choose _Add image(s)_ section to add image
-3) Enter absolute path to image you want to add or simply drag your image into terminal - this action will paste path to image
+2) Press on the _Add image(s)_ button to add an image
+3) Enter absolute path to image you want to add or simply drag your image into the terminal - this action will automatically paste image's path
 4) Press Enter and wait for image to convert
-5) You can add more images if you want or enter the "q" symbol to cancel
-6) To display your image as ASCII Art, choose _Show ASCII art_ section
-7) Choose image you want to show by entering it's index in loaded path's list
+5) You can add more images if you want or enter the "q" symbol to return back to the menu
+6) To display your image as ASCII Art, press the _Show ASCII art_ button
+7) Choose the image you want to show by entering it's index from list of loaded paths
 8) **Enjoy** your ASCII art!
 
 #### Image properties
 
 * To apply effects to your image:
-    1) Choose image in _Show ASCII art_ section
-    2) Choose _Image effects_ section
-    3) Enter index of effect you want to add or to remove if its already applied or enter the "q" symbol to cancel
-    4) Press Enter to save changes
-* To remove image from list:
-    1) Choose _Remove image_ section
-    2) Choose image you want to remove by entering it's index in loaded path's list
+    1) Choose the image in the _Show ASCII art_ section
+    2) Press the _Image effects_ button
+    3) Enter index of the effect you want to add or to remove it if its already applied. Enter the "q" symbol to return back to the menu
+    4) Press Enter to save the changes
+* To remove image from the list:
+    1) Press the _Remove image_ button
+    2) Choose the image you want to remove by entering it's index from list of loaded paths
 * To export image to _.txt_ file:
-    1) Choose image in _Show ASCII art_ section
-    2) Choose _Export art_ section
+    1) Choose the image in the _Show ASCII art_ section
+    2) Press the _Export art_ button
     3) Enter absolute path to .txt file you want to create
-    4) Press Enter to save changes
+    4) Press Enter to save the changes
 
 #### Animation
 
 * To enable this function you need to add **at least 2 images**
-* Animation controls:
-    1) Choose _Play animation_ section to start animation
-    2) Choose _Pause animation_ section to stop animation
+* Press the:
+    1) _Play animation_ button to start animation
+    2) _Pause animation_ button to stop animation
 
-Note: Images will display in order they were loaded
+Note: Images will be displayed in order they were loaded
 
 #### Optional utils
 
-* **Style ASCII art** with your own symbols in _Set grayscale level_ section:
-    - You need to enter the sequence of symbols from darkest to lightest
-    - Your ASCII art will be shown by these symbols
+* **Style ASCII art** with your own symbols in a _Set grayscale level_ section:
+    - Enter the sequence of symbols from darkest to lightest
+    - Now your ASCII art will be displayed by these symbols
 
 ## Credits ✍
 
@@ -128,10 +135,11 @@ Note: Images will display in order they were loaded
 
 * [ncurses](https://invisible-island.net/ncurses/announce.html)
 * [libjpeg](http://libjpeg.sourceforge.net/)
+* [doxygen](https://www.doxygen.nl/index.html)
 
 #### Used algorithms
 
-* If you are interested in program's idea, read [zadani.txt](https://github.com/menshiva/ascii-art-terminal/blob/master/zadani.txt) (**NOTE: Czech language only**)
+* If you are interested in program's idea, see also [zadani.txt](https://github.com/menshiva/ascii-art-terminal/blob/master/zadani.txt) (**NOTE: Czech language only**)
 * [Image scaling algorithm](https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation)
 * [RGB to Grayscale algorithm](https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale)
 * [Contrast algorithm](https://en.wikipedia.org/wiki/Contrast_(vision))

@@ -12,7 +12,7 @@ namespace fs = std::experimental::filesystem;
  * @brief Image controller.
  *
  * This class is a general factory for images.\n
- * It stores all loaded images and can control (read, remove, change etc.) them.\n
+ * It stores and control (read, remove, change etc.) all loaded images.\n
  * Manages connection between _main program_ logic and loaded image files.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
