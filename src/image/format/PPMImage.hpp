@@ -5,9 +5,9 @@
 #include <fstream>
 
 /**
- * @brief Support for PPM image format.
+ * @brief PPM image format support.
  *
- * This class is derived from Image and holds all data, needed for PPM format.\n
+ * This class is derived from Image and holds all PPM format data.\n
  * Operates only with reading data from image file. Other operations are implemented in Image class.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).

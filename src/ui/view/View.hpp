@@ -17,19 +17,19 @@ extern "C" {
  */
 class View {
 protected:
-    const View *parent; /**< Pointer to parent view, in which current instance is drawn. */
+    const View *parent; /**< Pointer to parent view. */
     size_t height; /**< Height of view, computed from #heightRelative and #parent height (_in symbols_). */
     size_t width; /**< Width of view, computed from #widthRelative and #parent width (_in symbols_). */
     const double heightRelative; /**< Relative height, based on #parent view height (_in percent_). */
     const double widthRelative; /**< Relative width, based on #parent view width (_in percent_).  */
     const double yRelative; /**< Relative _Y_ position, based on #parent view height (_in percent_). */
     const double xRelative; /**< Relative _X_ position, based on #parent view width (_in percent_). */
-    mutable bool drawn; /**< Flag, which indicates if view is drawn, or initialized only. */
+    mutable bool drawn; /**< Flag, which indicates if view was drawn, or initialized only. */
 public:
     /**
      * Constructor.
      *
-     * @param parent Pointer to parent view, in which current instance will be drawn.
+     * @param parent Pointer to parent view.
      * @param heightRelative Relative height, based on #parent view height (_in percent_).
      * @param widthRelative Relative width, based on #parent view width (_in percent_).
      * @param yRelative Relative _Y_ position, based on #parent view height (_in percent_).

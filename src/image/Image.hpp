@@ -17,7 +17,7 @@ class Image {
 protected:
     const std::string path; /**< Absolute path to image file. */
     /**
-     * Pixels created from color components values, which were read from image file.
+     * Pixels created from color components values read from image file.
      * @note Has #height * #width size.
      */
     std::vector<std::vector<Pixel>> rawData;
@@ -27,8 +27,8 @@ protected:
      */
     std::vector<std::string> rawAsciiData;
     /**
-     * Scaled #rawAsciiData used for drawing ASCII art.
-     * @note Has ASCII art size, based on terminal window size (more in #computeArtSize() and #getAsciiArt()).
+     * Scaled #rawAsciiData used for drawing an ASCII art.
+     * @note Has ASCII art size based on terminal window size (more in #computeArtSize() and #getAsciiArt()).
      */
     mutable std::vector<std::string> resizedAsciiData;
     size_t height; /**< Height of image (_in pixels_). */
@@ -56,10 +56,9 @@ public:
     Image &operator=(const Image &) = delete;
 
     /**
-     * Opens image file from #path and reads it's metadata (such as #height, #width etc.) and #rawData.
+     * Opens image file from #path and reads it's metadata (#height, #width etc.) and #rawData.
      *
-     * @return `true` if file is successfully opened and converted/decompressed to #rawData.
-     * Otherwise `false`.
+     * @return `true` if file is successfully opened and converted/decompressed to #rawData, `false` otherwise.
      */
     virtual bool loadFromFile() = 0;
 
@@ -76,7 +75,7 @@ public:
 
     /**
      * Computes new `height` and `width` for ASCII art to display, based on #height and #width of Image.
-     * @note Computations _preserves_ aspect ratio.
+     * @note Computations _preserves_ aspect ratio of Image.
      *
      * @param[in] viewH Height of View to display ASCII art in.
      * @param[in] viewW Width of View to display ASCII art in.
@@ -89,8 +88,8 @@ public:
      * Scales #rawAsciiData to specific `height` and `width` and stores this data in #resizedAsciiData.
      * @note Scaling algorithm is referenced from:
      * https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation
-     * @warning Cache optimization: if specific sizes are equal to #resizedAsciiData sizes,
-     * then this function does _not_ provide new computations.
+     * @warning Cache optimization: if given sizes are equal to #resizedAsciiData sizes,
+     * this function does _not_ provide new computations.
      *
      * @param asciiH ASCII art height.
      * @param asciiW ASCII art width.
@@ -146,10 +145,10 @@ public:
 private:
     /**
      * Calculates _grayscale_ value from Pixel.
-     * @note Algorithm of converting to grayscale is referenced from:
+     * @note Conversion to grayscale algorithm is referenced from:
      * https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale
      *
-     * @param pixel Values of Pixel to convert.
+     * @param pixel Pixel to convert.
      * @return Grayscale value.
      * @relatesalso Image
      */

@@ -5,9 +5,9 @@ UI::UI() : View(nullptr, 1.0, 1.0, 0.0, 0.0),
            asciiAnimationThread(nullptr), asciiAnimationThreadDriver(nullptr) {
     // we are using colors for main menu (enabled/disabled items)
     start_color();
-    // we need to pass typed characters through our program immediately
+    // we need to pass typed characters through our program immediately (without buffer)
     raw();
-    // we dont need to echo all input characters
+    // we don't need to echo all input characters
     noecho();
     // invisible cursor
     curs_set(0);
@@ -121,7 +121,7 @@ void UI::printAscii(const Image *image) const {
 
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
     if (panelHeight <= 2U || panelWidth <= 2U) return;
-    // subtracting 2 because top, bottom, left, right panel borders are not count
+    // subtract 2 because top, bottom, left, right panel borders are not count
     panelHeight -= 2U;
     panelWidth -= 2U;
     const size_t rows = panelHeight, cols = panelWidth;
@@ -165,11 +165,11 @@ void UI::clearAscii() const {
     const auto *rightPanel = views[UIConsts::ViewIndex::PANEL_RIGHT];
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
     if (panelHeight <= 2U || panelWidth <= 2U) return;
-    // subtracting 2 because we dont want to erase top, bottom, left, right panel borders
+    // subtract 2 because we dont want to erase top, bottom, left, right panel borders
     panelHeight -= 2U;
     panelWidth -= 2U;
 
-    // replace all printed chars by ' '
+    // replace all printed chars with ' '
     for (size_t y = 1U; y <= panelHeight; ++y) {
         wmove(rightPanel->getWindow(), y, 1U);
         for (size_t x = 1U; x <= panelWidth; ++x)

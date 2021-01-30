@@ -15,7 +15,7 @@ void Text::draw() const {
     const auto y = static_cast<size_t>(yRelative * parent->getHeight());
     const auto x = static_cast<size_t>(xRelative * parent->getWidth()) - (text.size() >> 1U);
     wmove(getWindow(), y, 1U);
-    // clear old text from parent
+    // clear old text
     for (size_t pos = 1U; pos < parent->getWidth() - 1U; ++pos) waddch(getWindow(), ' ');
     mvwaddstr(getWindow(), y, x, text.c_str());
     drawn = true;

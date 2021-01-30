@@ -4,7 +4,7 @@
 /**
  * @mainpage ASCII art
  *
- * Program for creation ASCII art from images.
+ * Image to ASCII art conversion.
  *
  * _Features_:\n
  * • User interface\n

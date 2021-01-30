@@ -4,7 +4,7 @@
 /**
  * @brief User interface constants.
  *
- * Constants which are defined for better working with View components in UI.
+ * Constants are defined for View components in UI.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
@@ -138,7 +138,7 @@ namespace UIConsts {
     /**
      * @brief UI children indexes in stack.
      *
-     * Constants which are defined for better obtaining View components from UI.
+     * Constants are defined for obtaining View components from UI.
      *
      * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
      */
@@ -173,7 +173,7 @@ namespace UIConsts {
 /**
  * @brief Console info constants.
  *
- * Constants which are defined for better printing information to console.
+ * Constants are defined for printing information to console.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
@@ -236,7 +236,7 @@ namespace ConsoleConsts {
 /**
  * @brief ASCII art conversion constants.
  *
- * Constants which are defined for better working with _ASCII art conversion algorithm_.
+ * Constants are defined for _ASCII art conversion algorithm_.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
@@ -250,7 +250,7 @@ namespace AsciiConsts {
 /**
  * @brief Main logic runtime constants.
  *
- * Constants which are defined for better working with program runtime.
+ * Constants are defined for program runtime.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */

@@ -18,7 +18,7 @@ public:
     /**
      * Constructor.
      *
-     * @param parent Pointer to parent view, in which current instance will be drawn.
+     * @param parent Pointer to parent view.
      * @param text Text to draw.
      * @param yRelative Relative _Y_ position, based on #parent view height (_in percent_).
      * @param xRelative Relative _X_ position, based on #parent view width (_in percent_).

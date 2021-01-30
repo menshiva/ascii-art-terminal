@@ -9,9 +9,9 @@ extern "C" {
 }
 
 /**
- * @brief Support for JPEG (JPG) image format.
+ * @brief JPEG (JPG) image format support.
  *
- * This class is derived from Image and holds all data, needed for JPEG format.\n
+ * This class is derived from Image and holds all JPEG format data.\n
  * Operates only with reading data from image file. Other operations are implemented in Image class.
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
@@ -49,8 +49,7 @@ public:
      * @note Example of JPEG _decompression_ is referenced from:
      * https://github.com/LuaDist/libjpeg/blob/master/example.c#L210
      *
-     * @return `true` if file is successfully opened and converted/decompressed to #rawData.
-     * Otherwise `false`.
+     * @return `true` if file is successfully opened and converted/decompressed to #rawData, `false` otherwise.
      */
     bool loadFromFile() override;
 
@@ -59,7 +58,7 @@ public:
      * Called automatically when jpegErrorManager received an error from _decompressing_ used in #loadFromFile().
      * @note Replaces the standard libjpeg.h error_exit method.
      *
-     * @param cinfo JPEG common struct storing all image metadata.
+     * @param cinfo JPEG common struct storing image metadata.
      * @relatesalso JPEGImage
      */
     static void jpegDecompressErrorHandler(j_common_ptr cinfo);

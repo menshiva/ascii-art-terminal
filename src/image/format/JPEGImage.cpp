@@ -3,11 +3,13 @@
 JPEGImage::JPEGImage(const std::string &imgPath) : Image(imgPath) {}
 
 bool JPEGImage::loadFromFile() {
-    /* This struct contains the JPEG decompression parameters and pointers to
+    /*
+     * This struct contains the JPEG decompression parameters and pointers to
      * working space (which is allocated as needed by the JPEG library).
      */
     jpeg_decompress_struct decompressInfo{};
-    /* We use our private extension JPEG error handler.
+    /*
+     * We use our private extension JPEG error handler.
      * Note that this struct must live as long as the main JPEG parameter
      * struct, to avoid dangling-pointer problems.
      */
@@ -19,7 +21,8 @@ bool JPEGImage::loadFromFile() {
     errorManager.manager.error_exit = jpegDecompressErrorHandler;
     // if decompress traces an error, then jpegDecompressErrorHandler calls this part of code
     if (setjmp(errorManager.jumpBuffer)) {
-        /* If we get here, the JPEG code has signaled an error.
+        /*
+         * If we get here, the JPEG code has signaled an error.
          * We need to clean up the JPEG object, close the input file, and return.
          */
         jpeg_destroy_decompress(&decompressInfo);

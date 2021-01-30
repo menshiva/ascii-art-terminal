@@ -34,7 +34,7 @@ namespace Utils {
      *
      * @tparam T Type of variable which you want to truncate.
      * @param toTrunc Variable to truncate.
-     * @return Variable _toTrunc_ truncated to unsigned char.
+     * @return _toTrunc_ truncated to unsigned char.
      */
     template<class T>
     static inline unsigned char truncateToUnsignedChar(T toTrunc) {

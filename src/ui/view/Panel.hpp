@@ -20,7 +20,7 @@ public:
     /**
      * Constructor.
      *
-     * @param parent Pointer to parent view, in which current instance will be drawn.
+     * @param parent Pointer to parent view.
      * @param heightRelative Relative height, based on #parent view height (_in percent_).
      * @param widthRelative Relative width, based on #parent view width (_in percent_).
      * @param yRelative Relative _Y_ position, based on #parent view height (_in percent_).

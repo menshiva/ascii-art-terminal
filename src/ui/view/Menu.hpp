@@ -21,7 +21,7 @@ public:
     /**
      * Constructor.
      *
-     * @param parent Pointer to parent view, in which current instance will be drawn.
+     * @param parent Pointer to parent view.
      * @param yRelative Relative _Y_ position, based on #parent view height (_in percent_).
      * @param xRelative Relative _X_ position, based on #parent view width (_in percent_).
      * @param rows Rows count in #menu.
@@ -46,7 +46,7 @@ public:
     Menu &operator=(const Menu &) = delete;
 
     /**
-     * Toggles item from #items by _pos_ index.
+     * Toggles specific item from #items by _pos_ index.
      *
      * @param pos Item index from #items.
      * @param enable Enable/disable item.
@@ -68,7 +68,7 @@ public:
     size_t getWidth() const override;
 
     /**
-     * Handles keyboard actions and updates #menu, basing on this actions.
+     * Handles keyboard actions and updates #menu.
      *
      * @return Index of chosen item from #menu.
      */

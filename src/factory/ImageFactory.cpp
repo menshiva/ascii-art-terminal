@@ -23,7 +23,7 @@ bool ImageFactory::readImage() {
             if (pathStr.empty()) continue;
             else if (pathStr == "q") return isImageRead;
 
-            // if pathStr contains ' symbol at the beginning or at the end of path then remove them
+            // if pathStr contains ' symbol at the beginning or end of the path then remove them
             if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
             if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1U);
 
@@ -49,7 +49,7 @@ bool ImageFactory::readImage() {
                 continue;
             }
 
-            // check file suffix and normalize it if needs
+            // check file suffix and normalize it if needed
             if (path.extension() == ".jpg" || path.extension() == ".JPG" || path.extension() == ".JPEG")
                 path.replace_extension(".jpeg");
             else if (path.extension() == ".PPM")
@@ -126,7 +126,7 @@ bool ImageFactory::readGrayscaleLevel() {
 
     if (level == "q") return false;
 
-    // check if new grayscaleLevel is not the same as old
+    // check if new grayscaleLevel is not the same as the old
     bool isChanged = false;
     if (level == "d") {
         if (grayscaleLevel != AsciiConsts::DEFAULT_GRAYSCALE_LEVEL) {
@@ -173,7 +173,7 @@ bool ImageFactory::applyEffect(Image *image) {
         if (str.empty()) continue;
         else if (str == "q") return false;
 
-        // read chosen effect index
+        // read index of chosen effect
         if (sscanf(str.c_str(), "%zu", &chosenIndex) != 1) {
             std::cout << "\n"
                       << ConsoleConsts::TITLE_SYMBOL
@@ -243,7 +243,7 @@ void ImageFactory::exportImage(const Image *image) {
         if (pathStr.empty()) continue;
         else if (pathStr == "q") return;
 
-        // if pathStr contains ' symbol at the beginning or at the end of path then remove them
+        // if pathStr contains ' symbol at the beginning or end of the path then remove them
         if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
         if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1U);
 
@@ -279,7 +279,7 @@ void ImageFactory::exportImage(const Image *image) {
             continue;
         }
 
-        // if directories in path aren't exist, we create them!
+        // if directories in path doesn't exist, we create them!
         if (!fs::exists(path.root_directory())) fs::create_directories(path);
 
         break;
@@ -308,7 +308,7 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
     std::cout << "\n" << ConsoleConsts::TITLE_SYMBOL << firstMessage << "\n" << std::endl;
 
     while (true) {
-        // prints list of paths from images
+        // prints paths of loaded images as list
         for (size_t i = 0U; i < images.size(); ++i)
             std::cout << i + 1U << ") " << images[i]->getPath() << "\n";
         std::cout << std::endl;
@@ -321,7 +321,7 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
         if (path.empty()) continue;
         else if (path == "q") return nullptr;
 
-        // read index of printed list
+        // read index of chosen path
         if (sscanf(path.c_str(), "%zu", &chosenIndex) != 1) {
             std::cout << "\n"
                       << ConsoleConsts::TITLE_SYMBOL

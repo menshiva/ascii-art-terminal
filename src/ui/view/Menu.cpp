@@ -7,8 +7,8 @@ Menu::Menu(const View *parent,
            const std::initializer_list<size_t> &disabledItems) :
         View(parent, 0.0, 0.0, yRelative, xRelative),
         rows(rows), items(newItems) {
-    // first color - disabled item
-    // second color - disabled item with hover
+    // first color = disabled item
+    // second color = disabled item with hover
     init_pair(1, COLOR_MAGENTA, COLOR_BLACK);
 
     // find item with max length
