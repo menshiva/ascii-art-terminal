@@ -3,7 +3,7 @@
 
 PROGRAM = ascii_art
 CXX = g++
-CXXFLAGS = -std=c++14 -Wall -Wpedantic -Wextra -O3
+CXXFLAGS = -std=c++17 -Wall -Wpedantic -Wextra -O3
 LIBFLAGS = -L/usr/lib/x86_x64-linux-gnu -lpanel -lmenu -lncurses -pthread -lstdc++fs -ljpeg
 
 SRCDIR = src
@@ -13,18 +13,13 @@ SRC = $(shell find $(SRCDIR)/ -type f -name '*.cpp')
 HDR = $(shell find $(SRCDIR)/ -type f -name '*.hpp')
 OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
 
-val: compile runVal
+install:
+	sudo apt install libncurses-dev libjpeg-dev
 
 compile: $(PROGRAM)
 
 run:
 	./$(PROGRAM)
-
-doc: $(SRC) $(HDR) Doxyfile
-	doxygen
-
-runVal:
-	/usr/bin/valgrind --tool=memcheck --gen-suppressions=all --leak-check=full --leak-resolution=med --track-origins=yes --vgdb=no ./$(PROGRAM)
 
 clean:
 	rm -f $(PROGRAM)
