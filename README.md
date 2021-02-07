@@ -30,10 +30,9 @@
 
 ## Requirements 🧬
 
-* C++ 14
+* C++ 17
 * libncurses
 * libjpeg
-* doxygen (optional)
 
 ## Build 🚀
 
@@ -42,7 +41,7 @@
 Install all necessary dependencies:
 
 ```bash
-$ sudo apt install libncurses-dev libjpeg-dev
+$ make install
 ```
 
 #### Build application
@@ -61,19 +60,7 @@ Run ASCII Art Terminal:
 $ make run
 ```
 
-#### Generate documentation (optional)
-
-Firstly, you need to install _doxygen_:
-
-```bash
-$ sudo apt install doxygen
-```
-
-Generate documentation:
-
-```bash
-$ make doc
-```
+#### Code documentation
 
 You can find generated documentation located at: _doc/index.html_
 
@@ -97,6 +84,7 @@ $ make clean
 6) To display your image as ASCII Art, press the _Show ASCII art_ button
 7) Choose the image you want to show by entering it's index from list of loaded paths
 8) **Enjoy** your ASCII art!
+9) Choose the _Exit_ section or press the ESC button to close the program
 
 #### Image properties
 
