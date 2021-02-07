@@ -1,110 +1,32 @@
-#ifndef SEMESTR_IMAGEFACTORY_HPP
-#define SEMESTR_IMAGEFACTORY_HPP
+#ifndef ASCII_IMAGEFACTORY_HPP
+#define ASCII_IMAGEFACTORY_HPP
 
-#include "../image/format/JPEGImage.hpp"
-#include "../image/format/PPMImage.hpp"
 #include <iostream>
 #include <experimental/filesystem>
+#include "../image/format/JPEGImage.hpp"
+#include "../image/format/PPMImage.hpp"
 
 namespace fs = std::experimental::filesystem;
 
-/**
- * @brief Image controller.
- *
- * This class is a general factory for images.\n
- * It stores and controls all loaded images (read, remove, change etc.).\n
- * Manages the connection between _main program_ logic and loaded image files.
- *
- * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
- */
 class ImageFactory {
-    std::vector<Image *> images; /**< Loaded images. */
-    /**
-     * Range of symbols from _darkest_ to _lightest_, which will be used in ASCII conversion.
-     * @note Default value is AsciiConsts::DEFAULT_GRAYSCALE_LEVEL.
-     */
+    std::vector<Image *> images;
     std::string grayscaleLevel;
 public:
-    /**
-     * Constructor.
-     */
     ImageFactory();
-
-    /**
-     * @attention Copy constructor is forbidden.
-     */
     ImageFactory(const ImageFactory &) = delete;
-
-    /**
-     * @attention Assignment operator is forbidden.
-     */
     ImageFactory &operator=(const ImageFactory &) = delete;
+    ImageFactory(ImageFactory &&) = delete;
+    ImageFactory &operator=(ImageFactory &&) = delete;
+    ~ImageFactory();
 
-    /**
-     * Reads image file from it's path, converts it to ASCII art and adds it to #images.\n
-     * If image file was opened and converted to ASCII art successfully, function will ask user to load another one.
-     * Otherwise will ask user to try again.
-     * @note Function checks file existence and image format by itself.
-     * @warning Works only in console mode. If you are using UI, you should call #UI::hide() first.
-     *
-     * @return `true` if at least _1_ image file was loaded and converted successfully, `false` otherwise.
-     */
-    bool readImage();
-
-    /**
-     * Removes given Image from #images.
-     *
-     * @param image Pointer to Image from #images to remove.
-     */
-    void removeImage(Image *image);
-
-    /**
-     * Suggests that user inputs and reconverts #images with his own #grayscaleLevel, or to use the default #grayscaleLevel.
-     * @warning Works only in console mode. If you are using UI, you should call #UI::hide() first.
-     *
-     * @return `true` if _new_ #grayscaleLevel was successfully saved and applied to all the #images, `false` otherwise.
-     */
-    bool readGrayscaleLevel();
-
-    /**
-     * Prints all effects in console and suggests user applying one of them to Image.
-     * @warning Works only in console mode. If you are using UI, you should call #UI::hide() first.
-     *
-     * @param[in] image Pointer to Image.
-     * @param[out] image Pointer to Image with effect applied on.
-     * @return `true` if _chosen_ effect was successfully applied to _image_, `false` otherwise.
-     */
-    bool applyEffect(Image *image);
-
-    /**
-     * Suggests user to input path to non-existing .txt file.\n
-     * Function creates this file and exports ASCII art of Image to it.
-     * @warning Works only in console mode. If you are using UI, you should call #UI::hide() first.
-     *
-     * @param image Pointer to Image to export.
-     * @relatesalso ImageFactory
-     */
-    static void exportImage(const Image *image);
-
-    /**
-     * Prints _title_ and paths of all #images as a list.\n
-     * Suggests user picking one certain Image from this list.
-     * @warning Works only in console mode. If you are using UI, you should call #UI::hide() first.
-     *
-     * @param firstMessage Title, which will be printed before the list.
-     * @return Pointer to _chosen_ Image from #images, or `nullptr` if user cancels function.
-     */
-    Image *chooseImageFromList(const char *firstMessage) const;
-
-    /**
-     * @return #images.
-     */
     const std::vector<Image *> &getAllImages() const;
 
-    /**
-     * Destructor. _Frees_ memory allocated for the #images.
-     */
-    ~ImageFactory();
+    bool readImage();
+    void removeImage(Image *image);
+    bool readGrayscaleLevel();
+    bool applyEffect(Image *image);
+    static void exportImage(const Image *image);
+    Image *chooseImageFromList(const char *firstMessage) const;
 };
 
 #endif

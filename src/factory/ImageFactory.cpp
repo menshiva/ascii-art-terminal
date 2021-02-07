@@ -1,6 +1,14 @@
 #include "ImageFactory.hpp"
 
-ImageFactory::ImageFactory() : images(std::vector<Image *>()), grayscaleLevel(AsciiConsts::DEFAULT_GRAYSCALE_LEVEL) {}
+ImageFactory::ImageFactory() : grayscaleLevel(AsciiConsts::DEFAULT_GRAYSCALE_LEVEL) {}
+
+ImageFactory::~ImageFactory() {
+    for (Image *img : images) delete img;
+}
+
+const std::vector<Image *> &ImageFactory::getAllImages() const {
+    return images;
+}
 
 bool ImageFactory::readImage() {
     // if at least 1 image was added successfully
@@ -23,9 +31,9 @@ bool ImageFactory::readImage() {
             if (pathStr.empty()) continue;
             else if (pathStr == "q") return isImageRead;
 
-            // if pathStr contains ' symbol at the beginning or end of the path then remove them
+            // if pathStr contains ' symbols
             if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
-            if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1U);
+            if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1);
 
             path = fs::path(pathStr);
 
@@ -49,7 +57,7 @@ bool ImageFactory::readImage() {
                 continue;
             }
 
-            // check file suffix and normalize it if needed
+            // check file suffix and normalize it
             if (path.extension() == ".jpg" || path.extension() == ".JPG" || path.extension() == ".JPEG")
                 path.replace_extension(".jpeg");
             else if (path.extension() == ".PPM")
@@ -105,7 +113,7 @@ bool ImageFactory::readImage() {
 }
 
 void ImageFactory::removeImage(Image *image) {
-    const auto eraseIt = std::find(images.begin(), images.end(), image);
+    auto eraseIt = std::find(images.begin(), images.end(), image);
     if (eraseIt != images.end()) images.erase(eraseIt);
     delete image;
 }
@@ -143,7 +151,7 @@ bool ImageFactory::readGrayscaleLevel() {
 
     // convert all images, based on new grayscaleLevel
     std::cout << "\n" << ConsoleConsts::TITLE_SYMBOL << ConsoleConsts::STATUS_CONVERTING_WAIT << std::endl;
-    for (auto img : images) img->convertToAscii(grayscaleLevel);
+    for (Image *img : images) img->convertToAscii(grayscaleLevel);
     std::cout << ConsoleConsts::TITLE_SYMBOL
               << ConsoleConsts::STATUS_CONVERTING_SUCCESS
               << " "
@@ -160,7 +168,7 @@ bool ImageFactory::applyEffect(Image *image) {
     std::cout << "\n" << ConsoleConsts::TITLE_SYMBOL << ConsoleConsts::PICK_EFFECT << "\n" << std::endl;
 
     while (true) {
-        // print list of all supported effects
+        // print all supported effects
         std::cout << "1) " << ((image->hasContrast()) ? "Remove " : "Add ") << "contrast effect\n"
                   << "2) " << ((image->hasNegative()) ? "Remove " : "Add ") << "negative effect\n"
                   << "3) " << ((image->hasConvolution()) ? "Remove " : "Add ") << "sharpen effect\n" << std::endl;
@@ -173,7 +181,7 @@ bool ImageFactory::applyEffect(Image *image) {
         if (str.empty()) continue;
         else if (str == "q") return false;
 
-        // read index of chosen effect
+        // read index of the chosen effect
         if (sscanf(str.c_str(), "%zu", &chosenIndex) != 1) {
             std::cout << "\n"
                       << ConsoleConsts::TITLE_SYMBOL
@@ -184,7 +192,7 @@ bool ImageFactory::applyEffect(Image *image) {
             continue;
         }
 
-        if (chosenIndex < 1U || chosenIndex > 3U) {
+        if (chosenIndex < 1 || chosenIndex > 3) {
             std::cout << "\n"
                       << ConsoleConsts::TITLE_SYMBOL
                       << ConsoleConsts::ERROR_IMAGE_BAD_INDEX
@@ -198,19 +206,17 @@ bool ImageFactory::applyEffect(Image *image) {
     }
 
     switch (chosenIndex) {
-        case 1U: {
+        case 1:
             image->toggleContrast();
             break;
-        }
-        case 2U: {
+        case 2:
             image->toggleNegative();
             break;
-        }
-        case 3U: {
+        case 3:
             image->toggleConvolution();
             break;
-        }
-        default: break;
+        default:
+            break;
     }
 
     std::cout << "\n" << ConsoleConsts::TITLE_SYMBOL << ConsoleConsts::STATUS_CONVERTING_WAIT << std::endl;
@@ -243,9 +249,9 @@ void ImageFactory::exportImage(const Image *image) {
         if (pathStr.empty()) continue;
         else if (pathStr == "q") return;
 
-        // if pathStr contains ' symbol at the beginning or end of the path then remove them
+        // if pathStr contains ' symbols
         if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
-        if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1U);
+        if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1);
 
         path = fs::path(pathStr);
 
@@ -279,7 +285,7 @@ void ImageFactory::exportImage(const Image *image) {
             continue;
         }
 
-        // if directories in path doesn't exist, we create them!
+        // if directories in path doesn't exist, create them!
         if (!fs::exists(path.root_directory())) fs::create_directories(path);
 
         break;
@@ -287,10 +293,10 @@ void ImageFactory::exportImage(const Image *image) {
 
     std::cout << "\n" << ConsoleConsts::TITLE_SYMBOL << ConsoleConsts::STATUS_EXPORT_WAIT << std::endl;
 
-    // print ASCII art to file
-    const auto &exportData = image->getRawAsciiData();
+    // print art to file
+    auto exportData = image->getRawAsciiData();
     std::ofstream outfile(pathStr);
-    for (const auto &line : exportData) outfile << line << "\n";
+    for (auto &line : exportData) outfile << line << "\n";
     outfile.flush();
     outfile.close();
 
@@ -308,9 +314,9 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
     std::cout << "\n" << ConsoleConsts::TITLE_SYMBOL << firstMessage << "\n" << std::endl;
 
     while (true) {
-        // prints paths of loaded images as list
-        for (size_t i = 0U; i < images.size(); ++i)
-            std::cout << i + 1U << ") " << images[i]->getPath() << "\n";
+        // print loaded images paths
+        for (size_t i = 0; i < images.size(); ++i)
+            std::cout << i + 1 << ") " << images[i]->getPath() << "\n";
         std::cout << std::endl;
 
         std::string path;
@@ -332,7 +338,7 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
             continue;
         }
 
-        if (chosenIndex < 1U || chosenIndex > images.size()) {
+        if (chosenIndex < 1 || chosenIndex > images.size()) {
             std::cout << "\n"
                       << ConsoleConsts::TITLE_SYMBOL
                       << ConsoleConsts::ERROR_IMAGE_BAD_INDEX
@@ -345,13 +351,5 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
         break;
     }
 
-    return images[chosenIndex - 1U];
-}
-
-const std::vector<Image *> &ImageFactory::getAllImages() const {
-    return images;
-}
-
-ImageFactory::~ImageFactory() {
-    for (auto &img : images) delete img;
+    return images[chosenIndex - 1];
 }

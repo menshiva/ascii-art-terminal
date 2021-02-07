@@ -93,7 +93,7 @@ void exportArt(UI &ui) {
 
 int main() {
     if (!UI::init()) {
-        printf(ConsoleConsts::ERROR_FAILED_NCURSES);
+        std::cout << ConsoleConsts::ERROR_FAILED_NCURSES << std::endl;
         return 1;
     }
 

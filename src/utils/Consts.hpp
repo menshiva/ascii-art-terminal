@@ -183,9 +183,9 @@ namespace UIConsts {
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
 namespace ConsoleConsts {
-    /// Default symbol at the beginning of important information.
+    /// Default symbol at the beginning of the important information.
     const char *const TITLE_SYMBOL = "• ";
-    /// Default symbols at the beginning of user input.
+    /// Default symbols at the beginning of the user input.
     const char *const INPUT_SYMBOLS = ">>> ";
 
     /// Console title to enter absolute path to image.
@@ -195,7 +195,7 @@ namespace ConsoleConsts {
     /// Console title to enter grayscale level.
     const char *const ENTER_GRAY_LEVEL = "This is an optional function.\n"
                                          "Enter sequence of symbols from darkest to lightest.\n"
-                                         "Your ASCII art will be shown by this symbols.\n"
+                                         "Your ASCII art will be shown with these symbols.\n"
                                          "Enter \"d\" to use the default grayscale level or \"q\" to cancel:";
     /// Console title to enter image index from list to show.
     const char *const PICK_IMAGE_SHOW = "Enter index of image you want to show or \"q\" to cancel:";
@@ -221,7 +221,7 @@ namespace ConsoleConsts {
     const char *const TRY_ANOTHER_FILE = "Try another file:";
 
     /// Console _error_ status title failed _ncurses_ initialization.
-    const char *const ERROR_FAILED_NCURSES = "Error initialising ncurses.\n";
+    const char *const ERROR_FAILED_NCURSES = "Error initialising ncurses.";
     /// Console _error_ status title on entering wrong symbol(s).
     const char *const ERROR_IMAGE_NOT_INDEX = "Wrong image index or command.";
     /// Console _error_ status title on entering wrong index.
