@@ -1,7 +1,9 @@
 #ifndef ASCII_VIEW_HPP
 #define ASCII_VIEW_HPP
 
+extern "C" {
 #include <ncurses.h>
+}
 #include "../../utils/Consts.hpp"
 
 class View {

@@ -171,7 +171,7 @@ bool ImageFactory::applyEffect(Image *image) {
         // print all supported effects
         std::cout << "1) " << ((image->hasContrast()) ? "Remove " : "Add ") << "contrast effect\n"
                   << "2) " << ((image->hasNegative()) ? "Remove " : "Add ") << "negative effect\n"
-                  << "3) " << ((image->hasConvolution()) ? "Remove " : "Add ") << "sharpen effect\n" << std::endl;
+                  << "3) " << ((image->hasSharpen()) ? "Remove " : "Add ") << "sharpen effect\n" << std::endl;
 
         std::string str;
         std::cin.clear();
@@ -213,7 +213,7 @@ bool ImageFactory::applyEffect(Image *image) {
             image->toggleNegative();
             break;
         case 3:
-            image->toggleConvolution();
+            image->toggleSharpen();
             break;
         default:
             break;

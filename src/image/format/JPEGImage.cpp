@@ -41,9 +41,9 @@ bool JPEGImage::loadFromFile() {
     height = decompressInfo.output_height;
     width = decompressInfo.output_width;
 
-    if (height == 0U || width == 0U || components == 0U || components > 3U) return false;
+    if (!height || !width || !components || components > 3) return false;
 
-    const size_t lineWidth = components * width;
+    size_t lineWidth = components * width;
     std::vector<unsigned char> data(height * lineWidth);
     while (decompressInfo.output_scanline < decompressInfo.output_height) {
         // pointer to data + current line * lineWidth
@@ -59,19 +59,19 @@ bool JPEGImage::loadFromFile() {
     rawAsciiData.resize(height, std::string("", width));
 
     // convert components data to pixels data
-    size_t row = 0U, col = 0U;
-    for (size_t dataI = 0U; dataI < data.size(); dataI += components) {
+    size_t row = 0, col = 0;
+    for (size_t dataI = 0; dataI < data.size(); dataI += components) {
         rawData[row][col].r = data[dataI];
-        if (components == 1U) {
+        if (components == 1) {
             // if jpeg is grayscaled then all color components should be the same
             rawData[row][col].g = data[dataI];
             rawData[row][col].b = data[dataI];
         } else {
-            rawData[row][col].g = data[dataI + 1U];
-            rawData[row][col].b = data[dataI + 2U];
+            rawData[row][col].g = data[dataI + 1];
+            rawData[row][col].b = data[dataI + 2];
         }
         if (++col >= width) {
-            col = 0U;
+            col = 0;
             ++row;
         }
     }
