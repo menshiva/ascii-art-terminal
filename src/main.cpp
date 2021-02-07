@@ -1,6 +1,37 @@
 #include "ui/UI.hpp"
 #include "factory/ImageFactory.hpp"
 
+/**
+ * @mainpage ASCII art
+ *
+ * Image to ASCII art conversion.
+ *
+ * _Features_:\n
+ * • User interface\n
+ * • JPEG, PPM image formats\n
+ * • Animation\n
+ * • Contrast, negative, convolution image effects\n
+ * • Your own ASCII art style\n
+ * • Export art to .txt file in full image resolution
+ *
+ * _Third Party Libraries_:\n
+ * • ncurses (https://invisible-island.net/ncurses/announce.html)\n
+ * • libjpeg (http://libjpeg.sourceforge.net/)
+ *
+ * _Sources_:\n
+ * • Image scaling algorithm: https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation \n
+ * • RGB to Grayscale algorithm:
+ * https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale \n
+ * • Contrast algorithm:
+ * https://en.wikipedia.org/wiki/Contrast_(vision) and
+ * https://math.stackexchange.com/questions/906240/algorithms-to-increase-or-decrease-the-contrast-of-an-image \n
+ * • Convolution algorithm: https://setosa.io/ev/image-kernels/ \n
+ * • JPEG decompression example:
+ * https://github.com/LuaDist/libjpeg/blob/master/example.c#L210
+ *
+ * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
+ */
+
 void addImage(UI &ui, ImageFactory &factory) {
     UI::hide();
     bool isImageRead = factory.readImage();
@@ -86,7 +117,7 @@ void exportArt(UI &ui) {
     if (!ui.getDisplayedImage()) ui.showErrorPanel(UIConsts::ERROR_NOT_SHOWN);
     else {
         UI::hide();
-        ImageFactory::exportImage(const_cast<Image *>(ui.getDisplayedImage()));
+        ImageFactory::exportImage(ui.getDisplayedImage());
         UI::show();
     }
 }

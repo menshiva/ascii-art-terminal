@@ -31,7 +31,7 @@ bool ImageFactory::readImage() {
             if (pathStr.empty()) continue;
             else if (pathStr == "q") return isImageRead;
 
-            // if pathStr contains ' symbols
+            // if pathStr contains leading and trailing apostrophes
             if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
             if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1);
 
@@ -84,7 +84,6 @@ bool ImageFactory::readImage() {
                 continue;
             }
             imgStream.close();
-
             break;
         }
 
@@ -149,7 +148,7 @@ bool ImageFactory::readGrayscaleLevel() {
     }
     if (!isChanged) return false;
 
-    // convert all images, based on new grayscaleLevel
+    // convert all images based on new grayscaleLevel
     std::cout << "\n" << ConsoleConsts::TITLE_SYMBOL << ConsoleConsts::STATUS_CONVERTING_WAIT << std::endl;
     for (Image *img : images) img->convertToAscii(grayscaleLevel);
     std::cout << ConsoleConsts::TITLE_SYMBOL
@@ -158,7 +157,6 @@ bool ImageFactory::readGrayscaleLevel() {
               << ConsoleConsts::STATUS_CONVERTING_EXIT
               << std::endl;
     getchar();
-
     return true;
 }
 
@@ -201,7 +199,6 @@ bool ImageFactory::applyEffect(Image *image) {
                       << "\n" << std::endl;
             continue;
         }
-
         break;
     }
 
@@ -227,7 +224,6 @@ bool ImageFactory::applyEffect(Image *image) {
               << ConsoleConsts::STATUS_CONVERTING_EXIT
               << std::endl;
     getchar();
-
     return true;
 }
 
@@ -249,7 +245,7 @@ void ImageFactory::exportImage(const Image *image) {
         if (pathStr.empty()) continue;
         else if (pathStr == "q") return;
 
-        // if pathStr contains ' symbols
+        // if pathStr contains leading and trailing apostrophes
         if (pathStr.front() == '\'') pathStr.erase(pathStr.begin());
         if (pathStr.back() == '\'') pathStr.erase(pathStr.end() - 1);
 
@@ -287,7 +283,6 @@ void ImageFactory::exportImage(const Image *image) {
 
         // if directories in path doesn't exist, create them!
         if (!fs::exists(path.root_directory())) fs::create_directories(path);
-
         break;
     }
 
@@ -347,9 +342,7 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
                       << "\n" << std::endl;
             continue;
         }
-
         break;
     }
-
     return images[chosenIndex - 1];
 }

@@ -3,8 +3,8 @@
 void UI::updateSizeNormalized() {
     int tmpH, tmpW;
     getmaxyx(stdscr, tmpH, tmpW);
-    height = tmpH > 0 ? tmpH : 0;
-    width = tmpW > 0 ? tmpW : 0;
+    height = tmpH > 0 ? static_cast<size_t>(tmpH) : 0;
+    width = tmpW > 0 ? static_cast<size_t>(tmpW) : 0;
 }
 
 void UI::asciiAnimation(const std::vector<Image *> &images, std::atomic<bool> &controller) {
@@ -256,7 +256,7 @@ void UI::printAscii(const Image *image) {
 
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
     if (panelHeight <= 2 || panelWidth <= 2) return;
-    // subtract 2 because top, bottom, left, right panel borders are not count
+    // subtract by 2  due to corners
     panelHeight -= 2;
     panelWidth -= 2;
     size_t rows = panelHeight, cols = panelWidth;
@@ -298,7 +298,7 @@ void UI::clearAscii() {
     auto rightPanel = panels[UIConsts::ViewIndex::PANEL_RIGHT];
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
     if (panelHeight <= 2 || panelWidth <= 2) return;
-    // subtract 2 because we dont want to erase top, bottom, left, right panel borders
+    // subtract by 2 due to corners
     panelHeight -= 2;
     panelWidth -= 2;
 

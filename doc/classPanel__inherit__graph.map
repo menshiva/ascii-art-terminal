@@ -1,0 +1,4 @@
+<map id="Panel" name="Panel">
+<area shape="rect" id="node1" title="Provides panel View in user interface." alt="" coords="5,80,63,107"/>
+<area shape="rect" id="node2" href="$classView.html" title="Abstract base class for all supported user interface elements." alt="" coords="7,5,61,32"/>
+</map>

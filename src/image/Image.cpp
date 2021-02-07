@@ -146,7 +146,7 @@ void Image::computeArtSize(size_t &viewH, size_t &viewW) const {
 
 const std::vector<std::string> &Image::getAsciiArt(size_t asciiH, size_t asciiW) const {
     // if resizedAsciiData wasn't changed and has the same size as asciiH and asciiW
-    // then return resizedAsciiData (optimization for animation)
+    // then return resizedAsciiData (performance improvement for animation)
     if (!resizedAsciiData.empty() && resizedAsciiData.size() == asciiH && resizedAsciiData[0].size() == asciiW)
         return resizedAsciiData;
 

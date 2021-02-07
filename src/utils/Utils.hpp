@@ -1,10 +1,10 @@
-#ifndef SEMESTR_UTILS_HPP
-#define SEMESTR_UTILS_HPP
+#ifndef ASCII_UTILS_HPP
+#define ASCII_UTILS_HPP
 
-#include "../image/Pixel.hpp"
-#include <cmath>
 #include <algorithm>
 #include <string>
+#include <cmath>
+#include "../image/Pixel.hpp"
 
 /**
  * @brief Utilities.
@@ -38,9 +38,9 @@ namespace Utils {
      */
     template<class T>
     static inline unsigned char truncateToUnsignedChar(T toTrunc) {
-        return (toTrunc > static_cast<T>(255)) ? 255U : ((toTrunc < static_cast<T>(0))
-                                                         ? 0U
-                                                         : static_cast<unsigned char>(toTrunc));
+        return (toTrunc > static_cast<T>(255)) ? 255 : ((toTrunc < static_cast<T>(0))
+                                                        ? 0
+                                                        : static_cast<unsigned char>(toTrunc));
     }
 }
 

@@ -1,7 +1,7 @@
 # Project: ASCII art
 # Author:  Ivan Menshikov
 
-PROGRAM = ASCIIart
+PROGRAM = ASCII_art
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wpedantic -Wextra -O3
 LIBFLAGS = -L/usr/lib/x86_x64-linux-gnu -lpanel -lmenu -lncurses -pthread -lstdc++fs -ljpeg
@@ -16,10 +16,15 @@ OBJ = $(patsubst $(SRCDIR)/%.cpp, $(OBJDIR)/%.o, $(SRC))
 install:
 	sudo apt install libncurses-dev libjpeg-dev
 
+# all: compile run clean
+
 compile: $(PROGRAM)
 
 run:
 	./$(PROGRAM)
+
+# doc: $(SRC) $(HDR) Doxyfile
+# 	doxygen
 
 clean:
 	rm -f $(PROGRAM)

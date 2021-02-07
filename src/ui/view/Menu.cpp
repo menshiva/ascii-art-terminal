@@ -58,7 +58,7 @@ void Menu::menuInteract(int key) const {
             menu_driver(menu, REQ_RIGHT_ITEM);
             break;
         case 10: /* ENTER KEY */
-            onClickCallback(current_item(menu)->index);
+            onClickCallback(static_cast<size_t>(current_item(menu)->index));
             break;
         default:
             break;

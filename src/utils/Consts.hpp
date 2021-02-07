@@ -103,7 +103,7 @@ namespace UIConsts {
     /// _Error_ panel title text if no images added.
     const char *const ERROR_NO_IMAGES = "Load at least 1 image.";
     /// _Error_ panel title text if art is not shown.
-    const char *const ERROR_NOT_SHOWN = "Chosen art is not shown.";
+    const char *const ERROR_NOT_SHOWN = "Art is not shown.";
     /// _Error_ panel title text if less than 1 image added.
     const char *const ERROR_FEW_IMAGES = "Load at least 2 images.";
     /// _Error_ panel title text if animation is not started.
@@ -203,7 +203,7 @@ namespace ConsoleConsts {
     const char *const PICK_EFFECT = "Enter index of effect you want to apply to chosen image or \"q\" to cancel:";
 
     /// Console status title on converting image(s).
-    const char *const STATUS_CONVERTING_WAIT = "Please wait for image(s) to convert...";
+    const char *const STATUS_CONVERTING_WAIT = "Please wait for image to convert...";
     /// Console status title on exporting image.
     const char *const STATUS_EXPORT_WAIT = "Please wait for image to export...";
     /// Console status title on successfully converted image.
@@ -235,7 +235,7 @@ namespace ConsoleConsts {
     /// Console _error_ status title on reading image file with _unsupported_ format.
     const char *const ERROR_FILE_UNSUPPORTED = "Unsupported file format.";
     /// Console _error_ status title on reading file with no read permission.
-    const char *const ERROR_FILE_READ_FAIL = "Failed to read file.";
+    const char *const ERROR_FILE_READ_FAIL = "Failed to read a file.";
 }
 
 /**
@@ -246,7 +246,7 @@ namespace ConsoleConsts {
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
 namespace AsciiConsts {
-    /// Default grayscale level. @note It has 67-level grayscale ramp (for _better_ ASCII art detalization).
+    /// Default grayscale level. @note It has 67-level grayscale ramp (for _better_ ASCII art quality).
     const char *const DEFAULT_GRAYSCALE_LEVEL = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,^`'.";
     /// Default value for _contrast_ algorithm. @note Ranged from 0 to 255.
     const double DEFAULT_CONTRAST_LEVEL = 255.0;

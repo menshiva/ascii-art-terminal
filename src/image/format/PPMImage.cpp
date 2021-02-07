@@ -9,13 +9,13 @@ bool PPMImage::loadFromFile() {
     size_t num = 0;
     size_t brightness = 0;
     ifs >> firstLetter >> num >> width >> height >> brightness;
-    // ignore \n
+    // ignore '\n'
     ifs.ignore(1);
 
     // if image is not P6 (indicates PPM format) or height == 0 or width == 0 then conversion wasn't successful
     if (firstLetter != 'P' || num != 6 || height == 0 || width == 0) return false;
 
-    // 3 because of RGB components
+    // multiply by 3 due to RGB
     std::vector<unsigned char> data(3 * height * width);
     ifs.read((char *) &data[0], data.size());
     ifs.close();
