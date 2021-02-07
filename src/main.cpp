@@ -2,9 +2,9 @@
 #include "factory/ImageFactory.hpp"
 
 void addImage(UI &ui, ImageFactory &factory) {
-    ui.hide();
+    UI::hide();
     bool isImageRead = factory.readImage();
-    ui.show();
+    UI::show();
     if (isImageRead) {
         ui.toggleMainMenuItem(UIConsts::ViewIndex::BTN_SHOW_IMAGE, true);
         ui.toggleMainMenuItem(UIConsts::ViewIndex::BTN_REMOVE_IMAGE, true);
@@ -16,9 +16,9 @@ void addImage(UI &ui, ImageFactory &factory) {
 void showImage(UI &ui, ImageFactory &factory) {
     if (factory.getAllImages().empty()) ui.showErrorPanel(UIConsts::ERROR_NO_IMAGES);
     else {
-        ui.hide();
+        UI::hide();
         Image *pickedImage = factory.chooseImageFromList(ConsoleConsts::PICK_IMAGE_SHOW);
-        ui.show();
+        UI::show();
         if (pickedImage) {
             ui.printAscii(pickedImage);
             ui.toggleMainMenuItem(UIConsts::ViewIndex::BTN_EDIT_IMAGE, true);
@@ -28,18 +28,18 @@ void showImage(UI &ui, ImageFactory &factory) {
 }
 
 void setLevel(UI &ui, ImageFactory &factory) {
-    ui.hide();
+    UI::hide();
     bool isLevelChanged = factory.readGrayscaleLevel();
-    ui.show();
+    UI::show();
     if (isLevelChanged && ui.getDisplayedImage()) ui.refreshAscii();
 }
 
 void editImage(UI &ui, ImageFactory &factory) {
     if (!ui.getDisplayedImage()) ui.showErrorPanel(UIConsts::ERROR_NOT_SHOWN);
     else {
-        ui.hide();
+        UI::hide();
         bool isEffectApplied = factory.applyEffect(const_cast<Image *>(ui.getDisplayedImage()));
-        ui.show();
+        UI::show();
         if (isEffectApplied) ui.refreshAscii();
     }
 }
@@ -47,9 +47,9 @@ void editImage(UI &ui, ImageFactory &factory) {
 void removeImage(UI &ui, ImageFactory &factory) {
     if (factory.getAllImages().empty()) ui.showErrorPanel(UIConsts::ERROR_NO_IMAGES);
     else {
-        ui.hide();
+        UI::hide();
         Image *pickedImage = factory.chooseImageFromList(ConsoleConsts::PICK_IMAGE_REMOVE);
-        ui.show();
+        UI::show();
         if (pickedImage) {
             if (pickedImage == ui.getDisplayedImage()) {
                 ui.clearAscii();
@@ -85,9 +85,9 @@ void stopAnim(UI &ui) {
 void exportArt(UI &ui) {
     if (!ui.getDisplayedImage()) ui.showErrorPanel(UIConsts::ERROR_NOT_SHOWN);
     else {
-        ui.hide();
+        UI::hide();
         ImageFactory::exportImage(const_cast<Image *>(ui.getDisplayedImage()));
-        ui.show();
+        UI::show();
     }
 }
 

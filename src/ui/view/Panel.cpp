@@ -4,7 +4,7 @@ Panel::Panel(View *parent,
              float heightRelative, float widthRelative,
              float yRelative, float xRelative,
              bool isVisible) : View(parent, heightRelative, widthRelative, yRelative, xRelative),
-                               visible(isVisible) {
+                               panelText(nullptr), panelMenu(nullptr), visible(isVisible) {
     height = static_cast<size_t>(roundf(heightRelative * parent->getHeight()));
     width = static_cast<size_t>(roundf(widthRelative * parent->getWidth()));
     auto y = static_cast<size_t>(roundf(yRelative * parent->getHeight()));
@@ -13,9 +13,41 @@ Panel::Panel(View *parent,
 }
 
 Panel::~Panel() {
+    delete panelText;
+    delete panelMenu;
     WINDOW *tmp = panel->win;
     del_panel(panel);
     delwin(tmp);
+}
+
+Text *Panel::getPanelText() const {
+    return panelText;
+}
+
+Menu *Panel::getPanelMenu() const {
+    return panelMenu;
+}
+
+void Panel::setPanelText(Text *text) {
+    panelText = text;
+}
+
+void Panel::setPanelMenu(Menu *menu) {
+    panelMenu = menu;
+}
+
+void Panel::show() {
+    visible = true;
+    show_panel(panel);
+    update_panels();
+    doupdate();
+}
+
+void Panel::hide() {
+    visible = false;
+    hide_panel(panel);
+    update_panels();
+    doupdate();
 }
 
 WINDOW *Panel::getWindow() const {
@@ -32,6 +64,8 @@ size_t Panel::getWidth() const {
 
 void Panel::draw() {
     box(panel->win, 0, 0);
+    if (panelText) panelText->draw();
+    if (panelMenu) panelMenu->draw();
     if (!visible) hide_panel(panel);
 }
 
@@ -43,18 +77,5 @@ void Panel::resize() {
     WINDOW *oldWin = getWindow();
     replace_panel(panel, newwin(height, width, newY, newX));
     delwin(oldWin);
-}
-
-void Panel::show() {
-    visible = true;
-    show_panel(panel);
-    update_panels();
-    doupdate();
-}
-
-void Panel::hide() {
-    visible = false;
-    hide_panel(panel);
-    update_panels();
-    doupdate();
+    if (panelMenu) panelMenu->resize();
 }

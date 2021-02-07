@@ -162,16 +162,14 @@ namespace UIConsts {
         /// _Exit_ button index in main menu.
         const size_t BTN_EXIT = 8;
 
-        /// _Right_ panel index in view array.
+        /// _Left_ panel index in panel array.
+        const size_t PANEL_LEFT = 1;
+        /// _Right_ panel index in panel array.
         const size_t PANEL_RIGHT = 2;
-        /// _Error_ panel text index in view array.
-        const size_t TEXT_ERROR = 6;
-        /// _Main_ menu index in view array.
-        const size_t MENU_MAIN = 8;
-        /// _Error_ menu index in view array.
-        const size_t MENU_ERROR = 9;
-        /// _Exit_ menu index in view array.
-        const size_t MENU_EXIT = 10;
+        /// _Error_ panel index in panel array.
+        const size_t PANEL_ERROR = 3;
+        /// _Exit_ panel index in panel array.
+        const size_t PANEL_EXIT = 4;
     }
 }
 

@@ -29,8 +29,6 @@ public:
 
     virtual void draw() = 0;
     virtual void resize() = 0;
-    virtual void show() = 0;
-    virtual void hide() = 0;
 };
 
 #endif

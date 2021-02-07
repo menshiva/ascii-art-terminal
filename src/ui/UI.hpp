@@ -5,13 +5,11 @@
 #include <atomic>
 #include <thread>
 #include "view/Panel.hpp"
-#include "view/Menu.hpp"
-#include "view/Text.hpp"
 #include "../image/Image.hpp"
 
 class UI : public View {
     std::stack<Menu *> activeMenu;
-    std::vector<View *> views;
+    std::vector<Panel *> panels;
     bool mainLoopRunning;
     const Image *displayedImage;
 
@@ -53,6 +51,8 @@ public:
     void clearAscii();
     void startAnimation(const std::vector<Image *> &images);
     void stopAnimation();
+    static void show();
+    static void hide();
 
     WINDOW *getWindow() const override;
     size_t getHeight() const override;
@@ -60,8 +60,6 @@ public:
 
     void draw() override;
     void resize() override;
-    void show() override;
-    void hide() override;
 
     static bool init();
 };

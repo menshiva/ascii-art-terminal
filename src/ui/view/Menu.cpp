@@ -89,11 +89,3 @@ void Menu::resize() {
     keypad(parent->getWindow(), true); // enable keypad
     nodelay(parent->getWindow(), true); // make getch to be a non-blocking call
 }
-
-void Menu::show() {
-    parent->show();
-}
-
-void Menu::hide() {
-    parent->hide();
-}

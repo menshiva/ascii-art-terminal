@@ -59,21 +59,27 @@ UI::UI() : View(nullptr, 1.0F, 1.0F, 0.0F, 0.0F),
             UIConsts::EXIT_PANEL_VISIBILITY
     );
 
-    auto *upperPanelText = new Text(
+    panels.push_back(upperPanel);
+    panels.push_back(leftPanel);
+    panels.push_back(rightPanel);
+    panels.push_back(errorPanel);
+    panels.push_back(exitPanel);
+
+    upperPanel->setPanelText(new Text(
             upperPanel,
             UIConsts::UPPER_PANEL_TEXT,
             UIConsts::UPPER_PANEL_TEXT_OFFSET_Y, UIConsts::UPPER_PANEL_TEXT_OFFSET_X
-    );
-    auto *errorPanelText = new Text(
+    ));
+    errorPanel->setPanelText(new Text(
             errorPanel,
             UIConsts::ERROR_PANEL_TEXT,
             UIConsts::ERROR_PANEL_TEXT_OFFSET_Y, UIConsts::ERROR_PANEL_TEXT_OFFSET_X
-    );
-    auto *exitPanelText = new Text(
+    ));
+    exitPanel->setPanelText(new Text(
             exitPanel,
             UIConsts::EXIT_PANEL_TEXT,
             UIConsts::EXIT_PANEL_TEXT_OFFSET_Y, UIConsts::EXIT_PANEL_TEXT_OFFSET_X
-    );
+    ));
 
     auto *mainMenu = new Menu(
             leftPanel,
@@ -133,7 +139,10 @@ UI::UI() : View(nullptr, 1.0F, 1.0F, 0.0F, 0.0F),
                 }
             }
     );
-    auto *errorMenu = new Menu(
+    leftPanel->setPanelMenu(mainMenu);
+    activeMenu.push(mainMenu);
+
+    errorPanel->setPanelMenu(new Menu(
             errorPanel,
             UIConsts::ERROR_MENU_OFFSET_Y, UIConsts::ERROR_MENU_OFFSET_X,
             1, 1,
@@ -141,11 +150,12 @@ UI::UI() : View(nullptr, 1.0F, 1.0F, 0.0F, 0.0F),
                     new_item(UIConsts::BTN_OK, "")
             },
             {}, [this](size_t) -> void {
-                activeMenu.top()->hide();
+                panels[UIConsts::ViewIndex::PANEL_ERROR]->hide();
                 activeMenu.pop();
             }
-    );
-    auto *exitMenu = new Menu(
+    ));
+
+    exitPanel->setPanelMenu(new Menu(
             exitPanel,
             UIConsts::EXIT_MENU_OFFSET_Y, UIConsts::EXIT_MENU_OFFSET_X,
             1, 2,
@@ -155,32 +165,16 @@ UI::UI() : View(nullptr, 1.0F, 1.0F, 0.0F, 0.0F),
             },
             {}, [this](size_t idx) -> void {
                 if (idx == 0) {
-                    activeMenu.top()->hide();
+                    panels[UIConsts::ViewIndex::PANEL_EXIT]->hide();
                     activeMenu.pop();
                 }
                 else mainLoopRunning = false;
             }
-    );
-
-    views.push_back(upperPanel);
-    views.push_back(leftPanel);
-    views.push_back(rightPanel);
-    views.push_back(errorPanel);
-    views.push_back(exitPanel);
-
-    views.push_back(upperPanelText);
-    views.push_back(errorPanelText);
-    views.push_back(exitPanelText);
-
-    views.push_back(mainMenu);
-    views.push_back(errorMenu);
-    views.push_back(exitMenu);
-
-    activeMenu.push(mainMenu);
+    ));
 }
 
 UI::~UI() {
-    for (View *view : views) delete view;
+    for (Panel *panel : panels) delete panel;
     erase();
     endwin();
 }
@@ -240,25 +234,25 @@ void UI::callUpdates() {
 }
 
 void UI::showExitPanel() {
-    auto exitMenu = dynamic_cast<Menu *>(views[UIConsts::ViewIndex::MENU_EXIT]);
-    exitMenu->show();
-    activeMenu.push(exitMenu);
+    auto exitPanel = panels[UIConsts::ViewIndex::PANEL_EXIT];
+    exitPanel->show();
+    activeMenu.push(exitPanel->getPanelMenu());
 }
 
 void UI::showErrorPanel(const std::string &text) {
-    dynamic_cast<Text *>(views[UIConsts::ViewIndex::TEXT_ERROR])->changeText(text);
-    auto errorMenu = dynamic_cast<Menu *>(views[UIConsts::ViewIndex::MENU_ERROR]);
-    errorMenu->show();
-    activeMenu.push(errorMenu);
+    auto errorPanel = panels[UIConsts::ViewIndex::PANEL_ERROR];
+    errorPanel->getPanelText()->changeText(text);
+    errorPanel->show();
+    activeMenu.push(errorPanel->getPanelMenu());
 }
 
 void UI::toggleMainMenuItem(size_t itemPos, bool enabled) {
-    dynamic_cast<Menu *>(views[UIConsts::ViewIndex::MENU_MAIN])->toggleItem(itemPos, enabled);
+    panels[UIConsts::ViewIndex::PANEL_LEFT]->getPanelMenu()->toggleItem(itemPos, enabled);
 }
 
 void UI::printAscii(const Image *image) {
     displayedImage = image;
-    auto rightPanel = views[UIConsts::ViewIndex::PANEL_RIGHT];
+    auto rightPanel = panels[UIConsts::ViewIndex::PANEL_RIGHT];
 
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
     if (panelHeight <= 2 || panelWidth <= 2) return;
@@ -301,7 +295,7 @@ void UI::refreshAscii() {
 void UI::clearAscii() {
     displayedImage = nullptr;
 
-    const auto *rightPanel = views[UIConsts::ViewIndex::PANEL_RIGHT];
+    auto rightPanel = panels[UIConsts::ViewIndex::PANEL_RIGHT];
     size_t panelHeight = rightPanel->getHeight(), panelWidth = rightPanel->getWidth();
     if (panelHeight <= 2 || panelWidth <= 2) return;
     // subtract 2 because we dont want to erase top, bottom, left, right panel borders
@@ -339,6 +333,16 @@ void UI::stopAnimation() {
     asciiAnimationThreadDriver = nullptr;
 }
 
+void UI::show() {
+    reset_prog_mode(); // restore saved ncurses state
+    refresh();
+}
+
+void UI::hide() {
+    def_prog_mode(); // save ncurses state
+    endwin();
+}
+
 WINDOW *UI::getWindow() const {
     return stdscr;
 }
@@ -352,7 +356,7 @@ size_t UI::getWidth() const {
 }
 
 void UI::draw() {
-    for (View *view : views) view->draw();
+    for (Panel *panel : panels) panel->draw();
     if (displayedImage) printAscii(displayedImage);
     update_panels();
     doupdate();
@@ -360,17 +364,7 @@ void UI::draw() {
 
 void UI::resize() {
     updateSizeNormalized();
-    for (View *view : views) view->resize();
-}
-
-void UI::show() {
-    reset_prog_mode(); // restore saved ncurses state
-    refresh();
-}
-
-void UI::hide() {
-    def_prog_mode(); // save ncurses state
-    endwin();
+    for (Panel *panel : panels) panel->resize();
 }
 
 bool UI::init() {

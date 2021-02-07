@@ -22,8 +22,6 @@ public:
 
     void draw() override;
     void resize() override;
-    void show() override;
-    void hide() override;
 };
 
 #endif

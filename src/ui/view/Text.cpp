@@ -30,11 +30,3 @@ void Text::draw() {
 }
 
 void Text::resize() {}
-
-void Text::show() {
-    parent->show();
-}
-
-void Text::hide() {
-    parent->hide();
-}
