@@ -1,5 +1,5 @@
-#ifndef SEMESTR_CONSTS_HPP
-#define SEMESTR_CONSTS_HPP
+#ifndef ASCII_CONSTS_HPP
+#define ASCII_CONSTS_HPP
 
 /**
  * @brief User interface constants.
@@ -10,102 +10,102 @@
  */
 namespace UIConsts {
     /// Default _upper_ panel relative height (#Panel::heightRelative).
-    const double UPPER_PANEL_HEIGHT = 0.125;
+    const float UPPER_PANEL_HEIGHT = 0.125F;
     /// Default _upper_ panel relative width (#Panel::widthRelative).
-    const double UPPER_PANEL_WIDTH = 1.0;
+    const float UPPER_PANEL_WIDTH = 1.0F;
     /// Default _upper_ panel relative _Y_ position (#Panel::yRelative).
-    const double UPPER_PANEL_OFFSET_Y = 0.0;
+    const float UPPER_PANEL_OFFSET_Y = 0.0F;
     /// Default _upper_ panel relative _X_ position  (#Panel::xRelative).
-    const double UPPER_PANEL_OFFSET_X = 0.0;
+    const float UPPER_PANEL_OFFSET_X = 0.0F;
     /// Default _upper_ panel default visibility (#Panel::drawn flag).
     const bool UPPER_PANEL_VISIBILITY = true;
 
     /// Default _left_ panel relative height (#Panel::heightRelative).
-    const double LEFT_PANEL_HEIGHT = 1.0 - UPPER_PANEL_HEIGHT;
+    const float LEFT_PANEL_HEIGHT = 1.0F - UPPER_PANEL_HEIGHT;
     /// Default _left_ panel relative width (#Panel::widthRelative).
-    const double LEFT_PANEL_WIDTH = 0.35;
+    const float LEFT_PANEL_WIDTH = 0.35F;
     /// Default _left_ panel relative _Y_ position (#Panel::yRelative).
-    const double LEFT_PANEL_OFFSET_Y = UPPER_PANEL_HEIGHT;
+    const float LEFT_PANEL_OFFSET_Y = UPPER_PANEL_HEIGHT;
     /// Default _left_ panel relative _X_ position  (#Panel::xRelative).
-    const double LEFT_PANEL_OFFSET_X = 0.0;
+    const float LEFT_PANEL_OFFSET_X = 0.0F;
     /// Default _left_ panel default visibility (#Panel::drawn flag).
     const bool LEFT_PANEL_VISIBILITY = true;
 
     /// Default _right_ panel relative height (#Panel::heightRelative).
-    const double RIGHT_PANEL_HEIGHT = LEFT_PANEL_HEIGHT;
+    const float RIGHT_PANEL_HEIGHT = LEFT_PANEL_HEIGHT;
     /// Default _right_ panel relative width (#Panel::widthRelative).
-    const double RIGHT_PANEL_WIDTH = UPPER_PANEL_WIDTH - LEFT_PANEL_WIDTH;
+    const float RIGHT_PANEL_WIDTH = UPPER_PANEL_WIDTH - LEFT_PANEL_WIDTH;
     /// Default _right_ panel relative _Y_ position (#Panel::yRelative).
-    const double RIGHT_PANEL_OFFSET_Y = LEFT_PANEL_OFFSET_Y;
+    const float RIGHT_PANEL_OFFSET_Y = LEFT_PANEL_OFFSET_Y;
     /// Default _right_ panel relative _X_ position  (#Panel::xRelative).
-    const double RIGHT_PANEL_OFFSET_X = LEFT_PANEL_WIDTH;
+    const float RIGHT_PANEL_OFFSET_X = LEFT_PANEL_WIDTH;
     /// Default _right_ panel default visibility (#Panel::drawn flag).
     const bool RIGHT_PANEL_VISIBILITY = true;
 
     /// Default _error_ panel relative height (#Panel::heightRelative).
-    const double ERROR_PANEL_HEIGHT = 0.25;
+    const float ERROR_PANEL_HEIGHT = 0.25F;
     /// Default _error_ panel relative width (#Panel::widthRelative).
-    const double ERROR_PANEL_WIDTH = 0.45;
+    const float ERROR_PANEL_WIDTH = 0.45F;
     /// Default _error_ panel relative _Y_ position (#Panel::yRelative).
-    const double ERROR_PANEL_OFFSET_Y = 0.5 - ERROR_PANEL_HEIGHT / 2.0;
+    const float ERROR_PANEL_OFFSET_Y = 0.5F - ERROR_PANEL_HEIGHT / 2.0F;
     /// Default _error_ panel relative _X_ position  (#Panel::xRelative).
-    const double ERROR_PANEL_OFFSET_X = 0.5 - ERROR_PANEL_WIDTH / 2.0;
+    const float ERROR_PANEL_OFFSET_X = 0.5F - ERROR_PANEL_WIDTH / 2.0F;
     /// Default _error_ panel default visibility (#Panel::drawn flag).
     const bool ERROR_PANEL_VISIBILITY = false;
 
     /// Default _exit_ panel relative height (#Panel::heightRelative).
-    const double EXIT_PANEL_HEIGHT = 0.25;
+    const float EXIT_PANEL_HEIGHT = 0.25F;
     /// Default _exit_ panel relative width (#Panel::widthRelative).
-    const double EXIT_PANEL_WIDTH = 0.45;
+    const float EXIT_PANEL_WIDTH = 0.45F;
     /// Default _exit_ panel relative _Y_ position (#Panel::yRelative).
-    const double EXIT_PANEL_OFFSET_Y = 0.5 - EXIT_PANEL_HEIGHT / 2.0;
+    const float EXIT_PANEL_OFFSET_Y = 0.5F - EXIT_PANEL_HEIGHT / 2.0F;
     /// Default _exit_ panel relative _X_ position  (#Panel::xRelative).
-    const double EXIT_PANEL_OFFSET_X = 0.5 - EXIT_PANEL_WIDTH / 2.0;
+    const float EXIT_PANEL_OFFSET_X = 0.5F - EXIT_PANEL_WIDTH / 2.0F;
     /// Default _exit_ panel default visibility (#Panel::drawn flag).
     const bool EXIT_PANEL_VISIBILITY = false;
 
     /// Default _upper_ panel title text (#Text::text).
     const char *const UPPER_PANEL_TEXT = "ASCII art";
     /// Default _upper_ panel title _Y_ position (#Text::yRelative).
-    const double UPPER_PANEL_TEXT_OFFSET_Y = 0.5;
+    const float UPPER_PANEL_TEXT_OFFSET_Y = 0.5F;
     /// Default _upper_ panel title _X_ position (#Text::xRelative).
-    const double UPPER_PANEL_TEXT_OFFSET_X = 0.5;
+    const float UPPER_PANEL_TEXT_OFFSET_X = 0.5F;
 
     /// Default _error_ panel title text (#Text::text).
     const char *const ERROR_PANEL_TEXT = "";
     /// Default _error_ panel title _Y_ position (#Text::yRelative).
-    const double ERROR_PANEL_TEXT_OFFSET_Y = 0.35;
+    const float ERROR_PANEL_TEXT_OFFSET_Y = 0.35F;
     /// Default _error_ panel title _X_ position (#Text::xRelative).
-    const double ERROR_PANEL_TEXT_OFFSET_X = 0.5;
+    const float ERROR_PANEL_TEXT_OFFSET_X = 0.5F;
 
     /// Default _exit_ panel title text (#Text::text).
-    const char *const EXIT_PANEL_TEXT = "Do you really want to exit?";
+    const char *const EXIT_PANEL_TEXT = "Are you sure you want to exit?";
     /// Default _exit_ panel title _Y_ position (#Text::yRelative).
-    const double EXIT_PANEL_TEXT_OFFSET_Y = 0.35;
+    const float EXIT_PANEL_TEXT_OFFSET_Y = 0.35F;
     /// Default _exit_ panel title _X_ position (#Text::xRelative).
-    const double EXIT_PANEL_TEXT_OFFSET_X = 0.5;
+    const float EXIT_PANEL_TEXT_OFFSET_X = 0.5F;
 
     /// Default _main_ menu _Y_ position (#Menu::yRelative).
-    const double MAIN_MENU_OFFSET_Y = 0.5;
+    const float MAIN_MENU_OFFSET_Y = 0.5F;
     /// Default _main_ menu _X_ position (#Menu::xRelative).
-    const double MAIN_MENU_OFFSET_X = 0.5;
+    const float MAIN_MENU_OFFSET_X = 0.5F;
 
     /// Default _error_ menu _Y_ position (#Menu::yRelative).
-    const double ERROR_MENU_OFFSET_Y = 0.7;
+    const float ERROR_MENU_OFFSET_Y = 0.7F;
     /// Default _error_ menu _X_ position (#Menu::xRelative).
-    const double ERROR_MENU_OFFSET_X = 0.5;
+    const float ERROR_MENU_OFFSET_X = 0.5F;
 
     /// Default _exit_ menu _Y_ position (#Menu::yRelative).
-    const double EXIT_MENU_OFFSET_Y = 0.7;
+    const float EXIT_MENU_OFFSET_Y = 0.7F;
     /// Default _exit_ menu _X_ position (#Menu::xRelative).
-    const double EXIT_MENU_OFFSET_X = 0.5;
+    const float EXIT_MENU_OFFSET_X = 0.5F;
 
     /// _Error_ panel title text if no images added.
-    const char *const ERROR_NO_IMAGES = "You have no images added.";
+    const char *const ERROR_NO_IMAGES = "Load at least 1 image.";
     /// _Error_ panel title text if art is not shown.
     const char *const ERROR_NOT_SHOWN = "Chosen art is not shown.";
     /// _Error_ panel title text if less than 1 image added.
-    const char *const ERROR_FEW_IMAGES = "You have less than 1 image added.";
+    const char *const ERROR_FEW_IMAGES = "Load at least 2 images.";
     /// _Error_ panel title text if animation is not started.
     const char *const ERROR_NO_ANIMATION = "Animation is not started.";
 
@@ -122,7 +122,7 @@ namespace UIConsts {
     /// Default _main_ menu button text.
     const char *const BTN_PLAY_ANIM = "Play animation";
     /// Default _main_ menu button text.
-    const char *const BTN_PAUSE_ANIM = "Pause animation";
+    const char *const BTN_PAUSE_ANIM = "Stop animation";
     /// Default _main_ menu button text.
     const char *const BTN_EXPORT_ASCII = "Export art";
     /// "OK" button text.
@@ -133,40 +133,45 @@ namespace UIConsts {
     const char *const BTN_EXIT = "Exit";
 
     /// Default delay between "frames" in animation (_in milliseconds_).
-    const unsigned long ANIMATION_SLEEP_TIME_MS = 250;
+    const size_t ANIMATION_SLEEP_TIME_MS = 400;
 
     /**
-     * @brief UI children indexes in stack.
+     * @brief UI children indexes in view array.
      *
      * Constants are defined for obtaining View components from UI.
      *
      * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
      */
     namespace ViewIndex {
-        /// _Upper_ panel index in stack.
-        const unsigned long PANEL_UPPER = 0U;
-        /// _Left_ panel index in stack.
-        const unsigned long PANEL_LEFT = 1U;
-        /// _Right_ panel index in stack.
-        const unsigned long PANEL_RIGHT = 2U;
-        /// _Error_ panel index in stack.
-        const unsigned long PANEL_ERROR = 3U;
-        /// _Exit_ panel index in stack.
-        const unsigned long PANEL_EXIT = 4U;
+        /// _Add image_ button index in main menu.
+        const size_t BTN_ADD_IMAGE = 0;
+        /// _Show image_ button index in main menu.
+        const size_t BTN_SHOW_IMAGE = 1;
+        /// _Grayscale level_ button index in main menu.
+        const size_t BTN_GRAYSCALE_LEVEL = 2;
+        /// _Edit image_ button index in main menu.
+        const size_t BTN_EDIT_IMAGE = 3;
+        /// _Remove image_ button index in main menu.
+        const size_t BTN_REMOVE_IMAGE = 4;
+        /// _Play animation_ button index in main menu.
+        const size_t BTN_PLAY_ANIM = 5;
+        /// _Stop animation_ button index in main menu.
+        const size_t BTN_PAUSE_ANIM = 6;
+        /// _Export art_ button index in main menu.
+        const size_t BTN_EXPORT_ASCII = 7;
+        /// _Exit_ button index in main menu.
+        const size_t BTN_EXIT = 8;
 
-        /// _Upper_ panel text index in stack.
-        const unsigned long TEXT_UPPER = 5U;
-        /// _Error_ panel text index in stack.
-        const unsigned long TEXT_ERROR = 6U;
-        /// _Exit_ panel text index in stack.
-        const unsigned long TEXT_EXIT = 7U;
-
-        /// _Main_ menu index in stack.
-        const unsigned long MENU_MAIN = 8U;
-        /// _Error_ menu index in stack.
-        const unsigned long MENU_ERROR = 9U;
-        /// _Exit_ menu index in stack.
-        const unsigned long MENU_EXIT = 10U;
+        /// _Right_ panel index in view array.
+        const size_t PANEL_RIGHT = 2;
+        /// _Error_ panel text index in view array.
+        const size_t TEXT_ERROR = 6;
+        /// _Main_ menu index in view array.
+        const size_t MENU_MAIN = 8;
+        /// _Error_ menu index in view array.
+        const size_t MENU_ERROR = 9;
+        /// _Exit_ menu index in view array.
+        const size_t MENU_EXIT = 10;
     }
 }
 
@@ -215,6 +220,8 @@ namespace ConsoleConsts {
     /// "Try another file" information title.
     const char *const TRY_ANOTHER_FILE = "Try another file:";
 
+    /// Console _error_ status title failed _ncurses_ initialization.
+    const char *const ERROR_FAILED_NCURSES = "Error initialising ncurses.\n";
     /// Console _error_ status title on entering wrong symbol(s).
     const char *const ERROR_IMAGE_NOT_INDEX = "Wrong image index or command.";
     /// Console _error_ status title on entering wrong index.
@@ -245,36 +252,6 @@ namespace AsciiConsts {
     const char *const DEFAULT_GRAYSCALE_LEVEL = "$@B%8&WM#*oahkbdpqwmZO0QLCJUYXzcvunxrjft/|()1{}[]?-_+~<>i!lI;:,^`'.";
     /// Default value for _contrast_ algorithm. @note Ranged from 0 to 255.
     const double DEFAULT_CONTRAST_LEVEL = 255.0;
-}
-
-/**
- * @brief Main logic runtime constants.
- *
- * Constants are defined for program runtime.
- *
- * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
- */
-namespace RuntimeCodes {
-    /// "Add image(s)" button click event.
-    const unsigned long ADD_IMAGE = 0x79U;
-    /// "Show image" button click event.
-    const unsigned long SHOW_IMAGE = 0x78U;
-    /// "Set grayscale level" button click event.
-    const unsigned long SET_LEVEL = 0x77U;
-    /// "Edit image" button click event.
-    const unsigned long EDIT_IMAGE = 0x76U;
-    /// "Remove image" button click event.
-    const unsigned long REMOVE_IMAGE = 0x75U;
-    /// "Play animation" button click event.
-    const unsigned long PLAY_ANIM = 0x74U;
-    /// "Pause animation" button click event.
-    const unsigned long PAUSE_ANIM = 0x73U;
-    /// "Export art" button click event.
-    const unsigned long EXPORT_ART = 0x72U;
-    /// Resize UI event. @note Triggers on terminal resizing.
-    const unsigned long RESIZE_UI = 0x71U;
-    /// Close program event.
-    const unsigned long TERMINATE_PROGRAM = 0x70U;
 }
 
 #endif

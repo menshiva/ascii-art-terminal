@@ -1,7 +1,7 @@
 # Project: ASCII art
 # Author:  Ivan Menshikov
 
-PROGRAM = ascii_art
+PROGRAM = ASCIIart
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wpedantic -Wextra -O3
 LIBFLAGS = -L/usr/lib/x86_x64-linux-gnu -lpanel -lmenu -lncurses -pthread -lstdc++fs -ljpeg

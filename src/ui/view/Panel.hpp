@@ -1,65 +1,32 @@
-#ifndef SEMESTR_PANEL_HPP
-#define SEMESTR_PANEL_HPP
+#ifndef ASCII_PANEL_HPP
+#define ASCII_PANEL_HPP
 
-#include "View.hpp"
-#include <panel.h>
 #include <cmath>
+#include <panel.h>
+#include "View.hpp"
 
-/**
- * @brief Provides panel View in user interface.
- *
- * This class is derived from View and holds all data, needed for panel.\n
- * Operates only with panel. Other operations are implemented in View class.
- *
- * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
- */
 class Panel : public View {
-    PANEL *panel; /**< PANEL from ncurses.h. */
-    mutable bool panelVisibility; /**< Flag, which indicates if Panel is shown or not. */
+    PANEL *panel;
+    bool visible;
 public:
-    /**
-     * Constructor.
-     *
-     * @param parent Pointer to parent view.
-     * @param heightRelative Relative height, based on #parent view height (_in percent_).
-     * @param widthRelative Relative width, based on #parent view width (_in percent_).
-     * @param yRelative Relative _Y_ position, based on #parent view height (_in percent_).
-     * @param xRelative Relative _X_ position, based on #parent view width (_in percent_).
-     * @param isVisible Flag, which indicates if #panel is shown or not.
-     */
-    Panel(const View *parent,
-          double heightRelative, double widthRelative,
-          double yRelative, double xRelative,
+    Panel(View *parent,
+          float heightRelative, float widthRelative,
+          float yRelative, float xRelative,
           bool isVisible);
-
-    /**
-     * @attention Copy constructor is forbidden.
-     */
     Panel(const Panel &) = delete;
-
-    /**
-     * @attention Assignment operator is forbidden.
-     */
     Panel &operator=(const Panel &) = delete;
-
-    void draw() const override;
-
-    void resize() override;
-
-    void show() const override;
-
-    void hide() const override;
+    Panel(Panel &&) = delete;
+    Panel &operator=(Panel &&) = delete;
+    ~Panel() override;
 
     WINDOW *getWindow() const override;
-
     size_t getHeight() const override;
-
     size_t getWidth() const override;
 
-    /**
-     * Destructor deletes #panel and its WINDOW.
-     */
-    ~Panel() override;
+    void draw() override;
+    void resize() override;
+    void show() override;
+    void hide() override;
 };
 
 #endif

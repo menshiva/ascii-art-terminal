@@ -1,83 +1,40 @@
-#ifndef SEMESTR_MENU_HPP
-#define SEMESTR_MENU_HPP
+#ifndef ASCII_MENU_HPP
+#define ASCII_MENU_HPP
 
-#include "View.hpp"
+#include <algorithm>
 #include <menu.h>
-#include <vector>
+#include "View.hpp"
 
-/**
- * @brief Provides menu View in user interface.
- *
- * This class is derived from View and holds all data, needed for menu.\n
- * Operates only with menu. Other operations are implemented in View class.
- *
- * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
- */
 class Menu : public View {
-    MENU *menu; /**< MENU from ncurses.h. */
-    size_t rows; /**< Rows count in #menu. */
-    std::vector<ITEM *> *items; /**< Items in #menu. */
+    MENU *menu;
+    size_t rows;
+    std::vector<ITEM *> items;
+
+    std::function<void(size_t)> onClickCallback;
 public:
-    /**
-     * Constructor.
-     *
-     * @param parent Pointer to parent view.
-     * @param yRelative Relative _Y_ position, based on #parent view height (_in percent_).
-     * @param xRelative Relative _X_ position, based on #parent view width (_in percent_).
-     * @param rows Rows count in #menu.
-     * @param cols Columns count in #menu.
-     * @param newItems Items in #menu.
-     * @param disabledItems Indexes of disabled #items.
-     */
-    Menu(const View *parent,
-         double yRelative, double xRelative,
+    Menu(View *parent,
+         float yRelative, float xRelative,
          size_t rows, size_t cols,
-         std::vector<ITEM *> *newItems,
-         const std::initializer_list<size_t> &disabledItems);
-
-    /**
-     * @attention Copy constructor is forbidden.
-     */
+         std::vector<ITEM *> newItems,
+         const std::initializer_list<size_t> &disabledItems,
+         std::function<void(size_t)> onClickCallback);
     Menu(const Menu &) = delete;
-
-    /**
-     * @attention Assignment operator is forbidden.
-     */
     Menu &operator=(const Menu &) = delete;
+    Menu(Menu &&) = delete;
+    Menu &operator=(Menu &&) = delete;
+    ~Menu() override;
 
-    /**
-     * Toggles specific item from #items by _pos_ index.
-     *
-     * @param pos Item index from #items.
-     * @param enable Enable/disable item.
-     */
-    void toggleItem(size_t pos, bool enable);
-
-    void draw() const override;
-
-    void resize() override;
-
-    void show() const override;
-
-    void hide() const override;
+    void toggleItem(size_t idx, bool enable);
+    void menuInteract(int key) const;
 
     WINDOW *getWindow() const override;
-
     size_t getHeight() const override;
-
     size_t getWidth() const override;
 
-    /**
-     * Handles keyboard actions and updates #menu.
-     *
-     * @return Index of chosen item from #menu.
-     */
-    size_t keyboardListener() const;
-
-    /**
-     * Destructor deletes #menu, its WINDOW and its #items.
-     */
-    ~Menu() override;
+    void draw() override;
+    void resize() override;
+    void show() override;
+    void hide() override;
 };
 
 #endif
