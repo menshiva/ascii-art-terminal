@@ -1,10 +1,10 @@
 <map id="src/ui/UI.cpp" name="src/ui/UI.cpp">
-<area shape="rect" id="node1" title=" " alt="" coords="179,5,281,32"/>
-<area shape="rect" id="node2" href="$UI_8hpp.html" title=" " alt="" coords="198,80,262,107"/>
-<area shape="rect" id="node3" title=" " alt="" coords="25,155,83,181"/>
-<area shape="rect" id="node4" title=" " alt="" coords="107,155,174,181"/>
-<area shape="rect" id="node5" title=" " alt="" coords="198,155,262,181"/>
-<area shape="rect" id="node6" href="$Panel_8hpp.html" title=" " alt="" coords="286,155,406,181"/>
+<area shape="rect" id="node1" title=" " alt="" coords="177,5,280,32"/>
+<area shape="rect" id="node2" href="$UI_8hpp.html" title=" " alt="" coords="197,80,261,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="24,155,81,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="106,155,173,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="197,155,261,181"/>
+<area shape="rect" id="node6" href="$Panel_8hpp.html" title=" " alt="" coords="285,155,407,181"/>
 <area shape="rect" id="node17" href="$Image_8hpp.html" title=" " alt="" coords="496,155,644,181"/>
 <area shape="rect" id="node7" title=" " alt="" coords="561,304,624,331"/>
 <area shape="rect" id="node8" title=" " alt="" coords="311,229,381,256"/>

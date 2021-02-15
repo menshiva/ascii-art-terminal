@@ -1,7 +1,7 @@
 <map id="View" name="View">
 <area shape="rect" id="node1" title="Abstract base class for all supported user interface elements." alt="" coords="129,5,183,32"/>
 <area shape="rect" id="node2" href="$classMenu.html" title="Provides menu View in user interface." alt="" coords="5,80,64,107"/>
-<area shape="rect" id="node3" href="$classPanel.html" title="Provides panel View in user interface." alt="" coords="89,80,146,107"/>
-<area shape="rect" id="node4" href="$classText.html" title="Provides text View in user interface." alt="" coords="170,80,219,107"/>
-<area shape="rect" id="node5" href="$classUI.html" title="User interface." alt="" coords="243,80,282,107"/>
+<area shape="rect" id="node3" href="$classPanel.html" title="Provides panel View in user interface." alt="" coords="88,80,147,107"/>
+<area shape="rect" id="node4" href="$classText.html" title="Provides text View in user interface." alt="" coords="171,80,221,107"/>
+<area shape="rect" id="node5" href="$classUI.html" title="User interface." alt="" coords="245,80,283,107"/>
 </map>

@@ -1,6 +1,9 @@
 # Project: ASCII art
 # Author:  Ivan Menshikov
 
+THREADS_NUM = $(shell grep -c 'processor' /proc/cpuinfo)
+MAKEFLAGS += -j$(THREADS_NUM)
+
 PROGRAM = ASCII_art
 CXX = g++
 CXXFLAGS = -std=c++17 -Wall -Wpedantic -Wextra -O3
