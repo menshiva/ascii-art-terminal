@@ -1,4 +1,4 @@
-#include "Image.hpp"
+/*#include "Image.hpp"
 
 unsigned char Image::rgbToGray(const Pixel &pixel) {
     // get gamma compressed components
@@ -162,4 +162,4 @@ const std::vector<std::string> &Image::getAsciiArt(size_t asciiH, size_t asciiW)
             resizedAsciiData[row][col] = rawAsciiData[row / scaleHeight][col / scaleWidth];
 
     return resizedAsciiData;
-}
+}*/

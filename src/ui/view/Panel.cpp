@@ -1,4 +1,4 @@
-#include "Panel.hpp"
+/*#include "Panel.hpp"
 
 Panel::Panel(View *parent,
              float heightRelative, float widthRelative,
@@ -78,4 +78,4 @@ void Panel::resize() {
     replace_panel(panel, newwin(height, width, newY, newX));
     delwin(oldWin);
     if (panelMenu) panelMenu->resize();
-}
+}*/

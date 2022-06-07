@@ -1,4 +1,4 @@
-#include "Text.hpp"
+/*#include "Text.hpp"
 
 Text::Text(View *parent, std::string text, float yRelative, float xRelative) :
         View(parent, 0.0F, 0.0F, yRelative, xRelative),
@@ -29,4 +29,4 @@ void Text::draw() {
     mvwaddstr(getWindow(), y, x, text.c_str());
 }
 
-void Text::resize() {}
+void Text::resize() {}*/

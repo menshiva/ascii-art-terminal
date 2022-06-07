@@ -1,4 +1,4 @@
-#include "Menu.hpp"
+/*#include "Menu.hpp"
 
 Menu::Menu(View *parent,
            float yRelative, float xRelative,
@@ -57,7 +57,7 @@ void Menu::menuInteract(int key) const {
         case KEY_RIGHT:
             menu_driver(menu, REQ_RIGHT_ITEM);
             break;
-        case 10: /* ENTER KEY */
+        case 10: // ENTER KEY
             onClickCallback(static_cast<size_t>(current_item(menu)->index));
             break;
         default:
@@ -88,4 +88,4 @@ void Menu::resize() {
     set_menu_sub(menu, derwin(getWindow(), 0, 0, y, x));
     keypad(parent->getWindow(), true); // enable keypad
     nodelay(parent->getWindow(), true); // make getch to be a non-blocking call
-}
+}*/

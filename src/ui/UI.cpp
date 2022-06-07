@@ -1,4 +1,4 @@
-#include "UI.hpp"
+/*#include "UI.hpp"
 
 void UI::updateSizeNormalized() {
     int tmpH, tmpW;
@@ -369,4 +369,4 @@ void UI::resize() {
 
 bool UI::init() {
     return initscr() != nullptr;
-}
+}*/

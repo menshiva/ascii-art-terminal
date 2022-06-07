@@ -1,4 +1,4 @@
-#include "PPMImage.hpp"
+/*#include "PPMImage.hpp"
 
 PPMImage::PPMImage(const std::string &imgPath) : Image(imgPath) {}
 
@@ -36,4 +36,4 @@ bool PPMImage::loadFromFile() {
     }
 
     return true;
-}
+}*/

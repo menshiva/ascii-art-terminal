@@ -1,18 +1,14 @@
-#include "JPEGImage.hpp"
+/*#include "JPEGImage.hpp"
 
 JPEGImage::JPEGImage(const std::string &imgPath) : Image(imgPath) {}
 
 bool JPEGImage::loadFromFile() {
-    /*
-     * This struct contains the JPEG decompression parameters and pointers to
-     * working space (which is allocated as needed by the JPEG library).
-     */
+    // This struct contains the JPEG decompression parameters and pointers to
+    // working space (which is allocated as needed by the JPEG library).
     jpeg_decompress_struct decompressInfo{};
-    /*
-     * We use our private extension JPEG error handler.
-     * Note that this struct must live as long as the main JPEG parameter
-     * struct, to avoid dangling-pointer problems.
-     */
+    // We use our private extension JPEG error handler.
+    // Note that this struct must live as long as the main JPEG parameter
+    // struct, to avoid dangling-pointer problems.
     jpegErrorManager errorManager{};
 
     FILE *file = fopen(path.c_str(), "rb");
@@ -21,10 +17,8 @@ bool JPEGImage::loadFromFile() {
     errorManager.manager.error_exit = jpegDecompressErrorHandler;
     // if decompress traces an error, then jpegDecompressErrorHandler calls this part of code
     if (setjmp(errorManager.jumpBuffer)) {
-        /*
-         * If we get here, the JPEG code has signaled an error.
-         * We need to clean up the JPEG object, close the input file, and return.
-         */
+        // If we get here, the JPEG code has signaled an error.
+        // We need to clean up the JPEG object, close the input file, and return.
         jpeg_destroy_decompress(&decompressInfo);
         fclose(file);
         return false;
@@ -81,4 +75,4 @@ bool JPEGImage::loadFromFile() {
 void JPEGImage::jpegDecompressErrorHandler(j_common_ptr cinfo) {
     // jump to setjmp in loadFromFile (return control to the setjmp point)
     longjmp(((jpegErrorManager *) cinfo->err)->jumpBuffer, 1);
-}
+}*/

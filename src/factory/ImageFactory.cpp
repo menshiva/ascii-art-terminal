@@ -1,4 +1,4 @@
-#include "ImageFactory.hpp"
+/*#include "ImageFactory.hpp"
 
 ImageFactory::ImageFactory() : grayscaleLevel(AsciiConsts::DEFAULT_GRAYSCALE_LEVEL) {}
 
@@ -345,4 +345,4 @@ Image *ImageFactory::chooseImageFromList(const char *firstMessage) const {
         break;
     }
     return images[chosenIndex - 1];
-}
+}*/

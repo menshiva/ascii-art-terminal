@@ -1,15 +1,33 @@
-cmake_minimum_required(VERSION 3.17.5)
+cmake_minimum_required(VERSION 3.22)
 project(ASCIIart)
 
-set(CMAKE_CXX_STANDARD 17)
+# if (NOT CMAKE_BUILD_TYPE)
+#     set(CMAKE_BUILD_TYPE MinSizeRel)
+# endif ()
 
-add_executable(ASCIIart src/main.cpp src/utils/Consts.hpp
-        src/ui/UI.hpp src/ui/UI.cpp
-        src/ui/view/Panel.hpp src/ui/view/Panel.cpp
-        src/ui/view/Menu.hpp src/ui/view/Menu.cpp
-        src/ui/view/Text.hpp src/ui/view/Text.cpp
-        src/ui/view/View.hpp
-        src/factory/ImageFactory.hpp src/factory/ImageFactory.cpp
-        src/image/Pixel.hpp src/image/Image.hpp src/image/Image.cpp
-        src/image/format/PPMImage.hpp src/image/format/PPMImage.cpp
-        src/image/format/JPEGImage.hpp src/image/format/JPEGImage.cpp)
+if (MSVC)
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} /DEBUG")
+else ()
+    set(CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -Wall -Wextra -Wpedantic -ggdb -O0")
+endif ()
+
+set(CMAKE_CXX_STANDARD 11)
+
+# ncurses
+if (MSVC)
+    add_subdirectory(libs/PDCurses)
+else ()
+    find_package(Curses REQUIRED)
+    include_directories(${CURSES_INCLUDE_DIR})
+endif ()
+
+# sources
+file(GLOB_RECURSE SOURCES ${CMAKE_SOURCE_DIR}/src/*.cpp)
+file(GLOB_RECURSE HEADERS ${CMAKE_SOURCE_DIR}/src/*.hpp)
+add_executable(ASCIIart ${SOURCES} ${HEADERS})
+
+if (MSVC)
+    target_link_libraries(ASCIIart PRIVATE PDCurses)
+else ()
+    target_link_libraries(ASCIIart PRIVATE ${CURSES_LIBRARIES})
+endif ()

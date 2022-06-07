@@ -1,6 +1,3 @@
-#include "ui/UI.hpp"
-#include "factory/ImageFactory.hpp"
-
 /**
  * @mainpage ASCII art
  *
@@ -22,15 +19,16 @@
  * • Image scaling algorithm: https://en.wikipedia.org/wiki/Image_scaling#Nearest-neighbor_interpolation \n
  * • RGB to Grayscale algorithm:
  * https://en.wikipedia.org/wiki/Grayscale#Colorimetric_(perceptual_luminance-preserving)_conversion_to_grayscale \n
- * • Contrast algorithm:
- * https://en.wikipedia.org/wiki/Contrast_(vision) and
+ * • Contrast algorithm: https://en.wikipedia.org/wiki/Contrast_(vision) and
  * https://math.stackexchange.com/questions/906240/algorithms-to-increase-or-decrease-the-contrast-of-an-image \n
  * • Convolution algorithm: https://setosa.io/ev/image-kernels/ \n
- * • JPEG decompression example:
- * https://github.com/LuaDist/libjpeg/blob/master/example.c#L210
+ * • JPEG decompression example: https://github.com/LuaDist/libjpeg/blob/master/example.c#L210
  *
  * @author Ivan Menshikov (<menshiva@fit.cvut.cz>).
  */
+
+/*#include "ui/UI.hpp"
+#include "factory/ImageFactory.hpp"
 
 void addImage(UI &ui, ImageFactory &factory) {
     UI::hide();
@@ -141,5 +139,9 @@ int main() {
 
     ui.draw();
     ui.callUpdates();
+    return 0;
+}*/
+
+int main() {
     return 0;
 }
