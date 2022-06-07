@@ -1,5 +1,0 @@
-<map id="Graphical Class Hierarchy" name="Graphical Class Hierarchy">
-<area shape="rect" id="node1" href="$classImage.html" title="Abstract base class for all supported image formats." alt="" coords="5,31,68,57"/>
-<area shape="rect" id="node2" href="$classJPEGImage.html" title="JPEG (JPG) image format." alt="" coords="116,5,209,32"/>
-<area shape="rect" id="node3" href="$classPPMImage.html" title="PPM image format." alt="" coords="117,56,208,83"/>
-</map>
