@@ -219,7 +219,7 @@ namespace ConsoleConsts {
     const static char *const TRY_ANOTHER_FILE = "Try another file:";
 
     /// Console _error_ status title failed _ncurses_ initialization.
-    const static char *const ERROR_FAILED_NCURSES = "Error initialising ncurses.";
+    const static char *const ERROR_FAILED_NCURSES = "Error initialising ncurses.\n";
     /// Console _error_ status title on entering wrong symbol(s).
     const static char *const ERROR_IMAGE_NOT_INDEX = "Wrong image index or command.";
     /// Console _error_ status title on entering wrong index.
