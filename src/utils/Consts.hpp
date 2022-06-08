@@ -3,19 +3,7 @@
 
 namespace UIConsts {
     const static float TITLE_PANEL_HEIGHT_REL = 0.15f;
-    const static float TITLE_PANEL_WIDTH_REL = 1.0f;
-    const static float TITLE_PANEL_Y_REL = 0.0f;
-    const static float TITLE_PANEL_X_REL = 0.0f;
-
-    const static float CONTROLS_PANEL_HEIGHT_REL = 1.0f - TITLE_PANEL_HEIGHT_REL;
-    const static float CONTROLS_PANEL_WIDTH_REL = 0.35f;
-    const static float CONTROLS_PANEL_Y_REL = TITLE_PANEL_HEIGHT_REL;
-    const static float CONTROLS_PANEL_X_REL = 0.0f;
-
-    const static float ART_PANEL_HEIGHT_REL = CONTROLS_PANEL_HEIGHT_REL;
-    const static float ART_PANEL_WIDTH_REL = TITLE_PANEL_WIDTH_REL - CONTROLS_PANEL_WIDTH_REL;
-    const static float ART_PANEL_Y_REL = CONTROLS_PANEL_Y_REL;
-    const static float ART_PANEL_X_REL = CONTROLS_PANEL_WIDTH_REL;
+    const static float CONTROLS_PANEL_WIDTH_REL = 0.3f;
 
     const static float ERROR_PANEL_HEIGHT = 0.25F;
     const static float ERROR_PANEL_WIDTH = 0.45F;
@@ -30,9 +18,6 @@ namespace UIConsts {
     const static bool EXIT_PANEL_VISIBILITY = false;
 
     const static char *const TITLE_TEXT = "ASCII art";
-    const static bool TITLE_TEXT_CENTERED = true;
-    const static float TITLE_TEXT_Y = 0.5f;
-    const static float TITLE_TEXT_X = 0.5f;
 
     const static char *const ERROR_PANEL_TEXT = "";
     const static float ERROR_PANEL_TEXT_OFFSET_Y = 0.35F;
@@ -56,17 +41,18 @@ namespace UIConsts {
     const static char *const ERROR_FEW_IMAGES = "Load at least 2 images.";
     const static char *const ERROR_NO_ANIMATION = "Animation is not started.";
 
-    const static char *const BTN_ADD_IMAGE = "Add image(s)";
-    const static char *const BTN_SHOW_IMAGE = "Show ASCII art";
-    const static char *const BTN_GRAYSCALE_LEVEL = "Set grayscale level";
-    const static char *const BTN_EDIT_IMAGE = "Image effects";
-    const static char *const BTN_REMOVE_IMAGE = "Remove image";
-    const static char *const BTN_PLAY_ANIM = "Play animation";
-    const static char *const BTN_PAUSE_ANIM = "Stop animation";
-    const static char *const BTN_EXPORT_ASCII = "Export art";
+    const static char *const BTN_ADD_IMAGE = "1. Add image(s)";
+    const static char *const BTN_SHOW_IMAGE = "2. Show ASCII art";
+    const static char *const BTN_GRAYSCALE_LEVEL = "3. Set grayscale level";
+    const static char *const BTN_EDIT_IMAGE = "4. Image effects";
+    const static char *const BTN_REMOVE_IMAGE = "5. Remove image";
+    const static char *const BTN_PLAY_ANIM = "6. Play animation";
+    const static char *const BTN_PAUSE_ANIM = "7. Stop animation";
+    const static char *const BTN_EXPORT_ASCII = "8. Export art";
+    const static char *const BTN_EXIT = "9. Exit";
+
     const static char *const BTN_OK = "Ok";
     const static char *const BTN_CANCEL = "Cancel";
-    const static char *const BTN_EXIT = "Exit";
 
     const static size_t ANIMATION_SLEEP_TIME_MS = 400;
 

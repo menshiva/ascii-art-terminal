@@ -1,11 +1,10 @@
 #ifndef ASCIIART_UI_HPP
 #define ASCIIART_UI_HPP
 
-#include "widgets/views/Text.hpp"
-#include "widgets/containers/Size.hpp"
+#include "widgets/containers/Relative.hpp"
 #include "widgets/containers/Border.hpp"
 #include "widgets/containers/Center.hpp"
-#include "widgets/containers/Relative.hpp"
+#include "widgets/views/Menu.hpp"
 #include "../utils/Consts.hpp"
 
 class UI : public View {
