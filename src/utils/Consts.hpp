@@ -2,20 +2,20 @@
 #define ASCII_CONSTS_HPP
 
 namespace UIConsts {
-    const static float TITLE_PANEL_HEIGHT = 0.15f;
-    const static float TITLE_PANEL_WIDTH = 1.0f;
-    const static float TITLE_PANEL_Y = 0.0f;
-    const static float TITLE_PANEL_X = 0.0f;
+    const static float TITLE_PANEL_HEIGHT_REL = 0.15f;
+    const static float TITLE_PANEL_WIDTH_REL = 1.0f;
+    const static float TITLE_PANEL_Y_REL = 0.0f;
+    const static float TITLE_PANEL_X_REL = 0.0f;
 
-    const static float CONTROLS_PANEL_HEIGHT = 1.0f - TITLE_PANEL_HEIGHT;
-    const static float CONTROLS_PANEL_WIDTH = 0.35f;
-    const static float CONTROLS_PANEL_Y = TITLE_PANEL_HEIGHT;
-    const static float CONTROLS_PANEL_X = 0.0f;
+    const static float CONTROLS_PANEL_HEIGHT_REL = 1.0f - TITLE_PANEL_HEIGHT_REL;
+    const static float CONTROLS_PANEL_WIDTH_REL = 0.35f;
+    const static float CONTROLS_PANEL_Y_REL = TITLE_PANEL_HEIGHT_REL;
+    const static float CONTROLS_PANEL_X_REL = 0.0f;
 
-    const static float ART_PANEL_HEIGHT = CONTROLS_PANEL_HEIGHT;
-    const static float ART_PANEL_WIDTH = TITLE_PANEL_WIDTH - CONTROLS_PANEL_WIDTH;
-    const static float ART_PANEL_Y = CONTROLS_PANEL_Y;
-    const static float ART_PANEL_X = CONTROLS_PANEL_WIDTH;
+    const static float ART_PANEL_HEIGHT_REL = CONTROLS_PANEL_HEIGHT_REL;
+    const static float ART_PANEL_WIDTH_REL = TITLE_PANEL_WIDTH_REL - CONTROLS_PANEL_WIDTH_REL;
+    const static float ART_PANEL_Y_REL = CONTROLS_PANEL_Y_REL;
+    const static float ART_PANEL_X_REL = CONTROLS_PANEL_WIDTH_REL;
 
     const static float ERROR_PANEL_HEIGHT = 0.25F;
     const static float ERROR_PANEL_WIDTH = 0.45F;

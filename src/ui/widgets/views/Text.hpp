@@ -6,17 +6,32 @@
 
 class Text : public View {
 public:
-    Text(float yRelative, float xRelative, const char *text, bool centered);
-    Text(View *parent, float yRelative, float xRelative, const char *text, bool centered);
+    explicit Text(const char *text) : View(), m_Text(text) {}
 
-    WINDOW *getWindow() const override;
-    uint16_t getHeight() const override;
-    uint16_t getWidth() const override;
+    WINDOW *getWindow() const override {
+        return getParent()->getWindow();
+    }
 
-    void resize() override;
-    void draw() override;
+    uint16_t getHeight() const override {
+        return 1;
+    }
+
+    uint16_t getWidth() const override {
+        return strlen(m_Text);
+    }
+
+    uint16_t getY() const override {
+        return getParent()->getY();
+    }
+
+    uint16_t getX() const override {
+        return getParent()->getX();
+    }
+
+    void draw() override {
+        mvwaddstr(getWindow(), getY(), getX(), m_Text);
+    }
 private:
-    bool m_CenteredInParent;
     const char *m_Text;
 };
 

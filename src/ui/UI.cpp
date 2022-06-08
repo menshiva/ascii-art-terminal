@@ -1,38 +1,20 @@
 #include "UI.hpp"
 
-UI::UI() : View(1.0f, 1.0f, 0.0f, 0.0f) {
+UI::UI() :
+    View(),
+    m_TitleView(new Border(new Center(new Text(UIConsts::TITLE_TEXT)))),
+    m_ControlsView(new Border(nullptr)), // TODO
+    m_ArtView(new Border(nullptr)) // TODO
+{
     raw(); // pass typed characters through our program immediately (without buffer)
     noecho(); // don't echo typed characters
     curs_set(0); // invisible cursor
     keypad(stdscr, true);
     nodelay(stdscr, true);
 
-    // title panel
-    m_Views.emplace_back(new Panel(
-            this,
-            UIConsts::TITLE_PANEL_HEIGHT, UIConsts::TITLE_PANEL_WIDTH,
-            UIConsts::TITLE_PANEL_Y, UIConsts::TITLE_PANEL_X,
-            new Text(
-                    UIConsts::TITLE_TEXT_Y, UIConsts::TITLE_TEXT_X,
-                    UIConsts::TITLE_TEXT, UIConsts::TITLE_TEXT_CENTERED
-            )
-    ));
-
-    // menu panel
-    m_Views.emplace_back(new Panel(
-            this,
-            UIConsts::CONTROLS_PANEL_HEIGHT, UIConsts::CONTROLS_PANEL_WIDTH,
-            UIConsts::CONTROLS_PANEL_Y, UIConsts::CONTROLS_PANEL_X,
-            nullptr // TODO
-    ));
-
-    // ascii art panel
-    m_Views.emplace_back(new Panel(
-            this,
-            UIConsts::ART_PANEL_HEIGHT, UIConsts::ART_PANEL_WIDTH,
-            UIConsts::ART_PANEL_Y, UIConsts::ART_PANEL_X,
-            nullptr // TODO
-    ));
+    m_TitleView.setParent(this);
+    m_ControlsView.setParent(this);
+    m_ArtView.setParent(this);
 }
 
 UI::~UI() {
@@ -52,15 +34,36 @@ uint16_t UI::getWidth() const {
     return getmaxx(stdscr);
 }
 
-void UI::resize() {
-    erase();
-    for (const auto &view : m_Views)
-        view->resize();
+uint16_t UI::getY() const {
+    return 0;
+}
+
+uint16_t UI::getX() const {
+    return 0;
 }
 
 void UI::draw() {
-    for (const auto &view : m_Views)
-        view->draw();
+    uint16_t h = getHeight(), w = getWidth();
+
+    m_TitleView.setHeight(static_cast<uint16_t>(UIConsts::TITLE_PANEL_HEIGHT_REL * static_cast<float>(h)));
+    m_TitleView.setWidth(static_cast<uint16_t>(UIConsts::TITLE_PANEL_WIDTH_REL * static_cast<float>(w)));
+    m_TitleView.setY(static_cast<uint16_t>(UIConsts::TITLE_PANEL_Y_REL * static_cast<float>(h)));
+    m_TitleView.setX( static_cast<uint16_t>(UIConsts::TITLE_PANEL_X_REL * static_cast<float>(w)));
+
+    m_ControlsView.setHeight(static_cast<uint16_t>(UIConsts::CONTROLS_PANEL_HEIGHT_REL * static_cast<float>(h)));
+    m_ControlsView.setWidth(static_cast<uint16_t>(UIConsts::CONTROLS_PANEL_WIDTH_REL * static_cast<float>(w)));
+    m_ControlsView.setY(static_cast<uint16_t>(UIConsts::CONTROLS_PANEL_Y_REL * static_cast<float>(h)));
+    m_ControlsView.setX( static_cast<uint16_t>(UIConsts::CONTROLS_PANEL_X_REL * static_cast<float>(w)));
+
+    m_ArtView.setHeight(static_cast<uint16_t>(UIConsts::ART_PANEL_HEIGHT_REL * static_cast<float>(h)));
+    m_ArtView.setWidth(static_cast<uint16_t>(UIConsts::ART_PANEL_WIDTH_REL * static_cast<float>(w)));
+    m_ArtView.setY(static_cast<uint16_t>(UIConsts::ART_PANEL_Y_REL * static_cast<float>(h)));
+    m_ArtView.setX( static_cast<uint16_t>(UIConsts::ART_PANEL_X_REL * static_cast<float>(w)));
+
+    m_TitleView.draw();
+    m_ControlsView.draw();
+    m_ArtView.draw();
+
     update_panels();
     doupdate();
 }
@@ -74,7 +77,7 @@ void UI::mainLoop() {
     bool windowDirty = true;
     while (pressedKey != 27) { // ESC key
         if (pressedKey == KEY_RESIZE) {
-            resize();
+            erase();
             windowDirty = true;
         }
         if (windowDirty) {
