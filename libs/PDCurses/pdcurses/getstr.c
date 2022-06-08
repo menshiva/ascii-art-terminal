@@ -1,6 +1,7 @@
 /* PDCurses */
 
 #include <curspriv.h>
+#include <assert.h>
 
 /*man-start**************************************************************
 
@@ -36,7 +37,8 @@ getstr
    wgetch()'d values into a multibyte string in the current locale
    before returning it. The resulting string is placed in the area
    pointed to by *str. The routines with n as the last argument read at
-   most n characters.
+   most n characters.  Note that this does not include the terminating
+   '\0' character;  be sure your buffer has room for that.
 
    Note that there's no way to know how long the buffer passed to
    wgetstr() is, so use wgetnstr() to avoid buffer overflows.
@@ -79,7 +81,7 @@ int wgetnstr(WINDOW *win, char *str, int n)
     if (wgetn_wstr(win, (wint_t *)wstr, n) == ERR)
         return ERR;
 
-    return PDC_wcstombs(str, wstr, n);
+    return (int)PDC_wcstombs(str, wstr, n);
 #else
     int ch, i, num, x, chars;
     char *p;
@@ -87,6 +89,9 @@ int wgetnstr(WINDOW *win, char *str, int n)
 
     PDC_LOG(("wgetnstr() - called\n"));
 
+    assert( win);
+    assert( str);
+    assert( SP);
     if (!win || !str)
         return ERR;
 
@@ -122,7 +127,7 @@ int wgetnstr(WINDOW *win, char *str, int n)
                 {
                     if (oldecho)
                         waddch(win, ch);
-                    *p++ = ch;
+                    *p++ = (char)ch;
                     ++chars;
                 }
                 else
@@ -184,15 +189,12 @@ int wgetnstr(WINDOW *win, char *str, int n)
             break;
 
         default:
-            if (chars < n)
+            if (chars < n && ch < 0x100)
             {
-                if (!SP->key_code && ch < 0x100)
-                {
-                    *p++ = ch;
-                    if (oldecho)
-                        waddch(win, ch);
-                    chars++;
-                }
+                *p++ = (char)ch;
+                if (oldecho)
+                    waddch(win, ch);
+                chars++;
             }
             else
                 beep();
@@ -276,6 +278,13 @@ int mvwgetnstr(WINDOW *win, int y, int x, char *str, int n)
 }
 
 #ifdef PDC_WIDE
+static void _clear_preceding_char( WINDOW *win, const int ch)
+{
+    waddstr(win, "\b \b");
+    if( PDC_wcwidth( (int32_t)ch) == 2 || ch < ' ')
+       waddstr(win, "\b \b");    /* fullwidth & ctrl chars take two columns */
+}
+
 int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
 {
     int ch, i, num, x, chars;
@@ -284,6 +293,9 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
 
     PDC_LOG(("wgetn_wstr() - called\n"));
 
+    assert( win);
+    assert( wstr);
+    assert( SP);
     if (!win || !wstr)
         return ERR;
 
@@ -319,7 +331,7 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
                 {
                     if (oldecho)
                         waddch(win, ch);
-                    *p++ = ch;
+                    *p++ = (wint_t)ch;
                     ++chars;
                 }
                 else
@@ -330,11 +342,9 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
         case _ECHAR:        /* CTRL-H -- Delete character */
             if (p > wstr)
             {
-                if (oldecho)
-                    waddstr(win, "\b \b");
                 ch = *--p;
-                if ((ch < ' ') && (oldecho))
-                    waddstr(win, "\b \b");
+                if (oldecho)
+                   _clear_preceding_char( win, ch);
                 chars--;
             }
             break;
@@ -342,11 +352,9 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
         case _DLCHAR:       /* CTRL-U -- Delete line */
             while (p > wstr)
             {
-                if (oldecho)
-                    waddstr(win, "\b \b");
                 ch = *--p;
-                if ((ch < ' ') && (oldecho))
-                    waddstr(win, "\b \b");
+                if (oldecho)
+                   _clear_preceding_char( win, ch);
             }
             chars = 0;
             break;
@@ -355,20 +363,16 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
 
             while ((p > wstr) && (*(p - 1) == ' '))
             {
-                if (oldecho)
-                    waddstr(win, "\b \b");
-
                 --p;        /* remove space */
+                if (oldecho)
+                   _clear_preceding_char( win, *p);
                 chars--;
             }
             while ((p > wstr) && (*(p - 1) != ' '))
             {
-                if (oldecho)
-                    waddstr(win, "\b \b");
-
                 ch = *--p;
-                if ((ch < ' ') && (oldecho))
-                    waddstr(win, "\b \b");
+                if (oldecho)
+                   _clear_preceding_char( win, ch);
                 chars--;
             }
             break;
@@ -383,9 +387,9 @@ int wgetn_wstr(WINDOW *win, wint_t *wstr, int n)
         default:
             if (chars < n)
             {
-                if (!SP->key_code)
+                if( ch < KEY_MIN || ch >= KEY_MAX)
                 {
-                    *p++ = ch;
+                    *p++ = (wint_t)ch;
                     if (oldecho)
                         waddch(win, ch);
                     chars++;

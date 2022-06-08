@@ -1,6 +1,7 @@
 /* PDCurses */
 
 #include <curspriv.h>
+#include <assert.h>
 
 /*man-start**************************************************************
 
@@ -114,7 +115,10 @@ static int _restore_mode(int i)
 {
     if (ctty[i].been_set == TRUE)
     {
+        void *atrtab = SP->atrtab;
+
         memcpy(SP, &(ctty[i].saved), sizeof(SCREEN));
+        SP->atrtab = atrtab;
 
         if (ctty[i].saved.raw_out)
             raw();
@@ -137,6 +141,7 @@ int def_prog_mode(void)
 {
     PDC_LOG(("def_prog_mode() - called\n"));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -149,6 +154,7 @@ int def_shell_mode(void)
 {
     PDC_LOG(("def_shell_mode() - called\n"));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -161,6 +167,7 @@ int reset_prog_mode(void)
 {
     PDC_LOG(("reset_prog_mode() - called\n"));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -174,6 +181,7 @@ int reset_shell_mode(void)
 {
     PDC_LOG(("reset_shell_mode() - called\n"));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -187,6 +195,7 @@ int resetty(void)
 {
     PDC_LOG(("resetty() - called\n"));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -197,6 +206,7 @@ int savetty(void)
 {
     PDC_LOG(("savetty() - called\n"));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -211,7 +221,9 @@ int curs_set(int visibility)
 
     PDC_LOG(("curs_set() - called: visibility=%d\n", visibility));
 
-    if (!SP || visibility < 0 || visibility > 2)
+    assert( visibility >= 0);
+    assert( !(visibility & ~0xf0f));
+    if ((visibility < 0) || (visibility & ~0xf0f))
         return ERR;
 
     ret_vis = PDC_curs_set(visibility);
@@ -225,10 +237,14 @@ int curs_set(int visibility)
     return ret_vis;
 }
 
+/* TODO : must initscr() be called for napms to work?  Certainly not
+on some platforms,  but is it true for all?  */
+
 int napms(int ms)
 {
     PDC_LOG(("napms() - called: ms=%d\n", ms));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -257,6 +273,7 @@ int ripoffline(int line, int (*init)(WINDOW *, int))
 {
     PDC_LOG(("ripoffline() - called: line=%d\n", line));
 
+    assert( init);
     if (linesrippedoff < 5 && line && init)
     {
         linesripped[(int)linesrippedoff].line = line;

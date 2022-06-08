@@ -1,6 +1,7 @@
 /* PDCurses */
 
 #include <curspriv.h>
+#include <assert.h>
 
 /*man-start**************************************************************
 
@@ -67,17 +68,21 @@ int winnstr(WINDOW *win, char *str, int n)
 #ifdef PDC_WIDE
     wchar_t wstr[513];
 
+    assert( win);
+    assert( str);
     if (n < 0 || n > 512)
         n = 512;
 
     if (winnwstr(win, wstr, n) == ERR)
         return ERR;
 
-    return PDC_wcstombs(str, wstr, n);
+    return (int)PDC_wcstombs(str, wstr, n);
 #else
     chtype *src;
     int i;
 
+    assert( win);
+    assert( str);
     PDC_LOG(("winnstr() - called: n %d \n", n));
 
     if (!win || !str)
@@ -89,7 +94,7 @@ int winnstr(WINDOW *win, char *str, int n)
     src = win->_y[win->_cury] + win->_curx;
 
     for (i = 0; i < n; i++)
-        str[i] = src[i] & A_CHARTEXT;
+        str[i] = (char)( src[i] & A_CHARTEXT);
 
     str[i] = '\0';
 
@@ -166,6 +171,8 @@ int winnwstr(WINDOW *win, wchar_t *wstr, int n)
 
     PDC_LOG(("winnstr() - called: n %d \n", n));
 
+    assert( win);
+    assert( wstr);
     if (!win || !wstr)
         return ERR;
 
@@ -175,7 +182,7 @@ int winnwstr(WINDOW *win, wchar_t *wstr, int n)
     src = win->_y[win->_cury] + win->_curx;
 
     for (i = 0; i < n; i++)
-        wstr[i] = src[i] & A_CHARTEXT;
+        wstr[i] = (wchar_t)src[i] & A_CHARTEXT;
 
     wstr[i] = L'\0';
 

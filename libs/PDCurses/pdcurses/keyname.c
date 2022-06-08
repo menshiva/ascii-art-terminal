@@ -36,8 +36,14 @@ keyname
 
 #include <string.h>
 
-static const char *names[] =
+char *keyname(int key)
 {
+    static char _keyname[14];
+
+    /* Key names must be in exactly the same order as in curses.h */
+
+    static char *key_names[] =
+    {
     "KEY_BREAK", "KEY_DOWN", "KEY_UP", "KEY_LEFT", "KEY_RIGHT",
     "KEY_HOME", "KEY_BACKSPACE", "KEY_F0", "KEY_F(1)", "KEY_F(2)",
     "KEY_F(3)", "KEY_F(4)", "KEY_F(5)", "KEY_F(6)", "KEY_F(7)",
@@ -95,19 +101,23 @@ static const char *names[] =
     "SHF_PADSTAR", "SHF_PADPLUS", "SHF_PADMINUS", "SHF_UP", "SHF_DOWN",
     "SHF_IC", "SHF_DC", "KEY_MOUSE", "KEY_SHIFT_L", "KEY_SHIFT_R",
     "KEY_CONTROL_L", "KEY_CONTROL_R", "KEY_ALT_L", "KEY_ALT_R",
-    "KEY_RESIZE", "KEY_SUP", "KEY_SDOWN"
-};
-
-char *keyname(int key)
-{
-    static char _keyname[14];
-
-    /* Key names must be in exactly the same order as in curses.h */
+    "KEY_RESIZE", "KEY_SUP", "KEY_SDOWN",
+                  /* PDCursesMod additions: */
+              "KEY_APPS", "KEY_PAUSE",
+              "KEY_PRINTSCREEN", "KEY_SCROLLLOCK",
+              "BROWSER_BACK", "BROWSER_FWD", "BROWSER_REF", "BROWSER_STOP",
+              "SEARCH", "FAVORITES", "BROWSER_HOME",
+              "VOLUME_MUTE", "VOLUME_DOWN", "VOLUME_UP",
+              "NEXT_TRACK", "PREV_TRACK", "MEDIA_STOP", "PLAY_PAUSE",
+              "LAUNCH_MAIL", "MEDIA_SELECT",
+              "LAUNCH_APP1", "LAUNCH_APP2", "LAUNCH_APP3", "LAUNCH_APP4",
+              "LAUNCH_APP5", "LAUNCH_APP6", "LAUNCH_APP7", "LAUNCH_APP8",
+              "LAUNCH_APP9", "LAUNCH_APP10" };
 
     PDC_LOG(("keyname() - called: key %d\n", key));
 
     strcpy(_keyname, ((key >= 0) && (key < 0x80)) ? unctrl((chtype)key) :
-           has_key(key) ? names[key - KEY_MIN] : "UNKNOWN KEY");
+           has_key(key) ? key_names[key - KEY_MIN] : "UNKNOWN KEY");
 
     return _keyname;
 }

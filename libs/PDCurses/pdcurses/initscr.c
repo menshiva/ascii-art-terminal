@@ -1,6 +1,8 @@
 /* PDCurses */
 
 #include <curspriv.h>
+#include <panel.h>
+#include <assert.h>
 
 /*man-start**************************************************************
 
@@ -60,10 +62,9 @@ initscr
    and X11 allow user resizing, while DOS, OS/2, SDL and Windows console
    allow programmatic resizing. If you want to support user resizing,
    you should check for getch() returning KEY_RESIZE, and/or call
-   is_termresized() at appropriate times; if either condition occurs,
-   call resize_term(0, 0). Then, with either user or programmatic
-   resizing, you'll have to resize any windows you've created, as
-   appropriate; resize_term() only handles stdscr and curscr.
+   is_termresized() at appropriate times.   Then, with either user or
+   programmatic resizing, you'll have to resize any windows you've
+   created, as appropriate; resize_term() only handles stdscr and curscr.
 
    is_termresized() returns TRUE if the curses screen has been resized
    by the user, and a call to resize_term() is needed. Checking for
@@ -101,7 +102,38 @@ initscr
 
 char ttytype[128];
 
-const char *_curses_notice = "PDCurses " PDC_VERDOT " - " __DATE__;
+#if PDC_VER_MONTH == 1
+   #define PDC_VER_MONTH_STR "Jan"
+#elif PDC_VER_MONTH == 2
+   #define PDC_VER_MONTH_STR "Feb"
+#elif PDC_VER_MONTH == 3
+   #define PDC_VER_MONTH_STR "Mar"
+#elif PDC_VER_MONTH == 4
+   #define PDC_VER_MONTH_STR "Apr"
+#elif PDC_VER_MONTH == 5
+   #define PDC_VER_MONTH_STR "May"
+#elif PDC_VER_MONTH == 6
+   #define PDC_VER_MONTH_STR "Jun"
+#elif PDC_VER_MONTH == 7
+   #define PDC_VER_MONTH_STR "Jul"
+#elif PDC_VER_MONTH == 8
+   #define PDC_VER_MONTH_STR "Aug"
+#elif PDC_VER_MONTH == 9
+   #define PDC_VER_MONTH_STR "Sep"
+#elif PDC_VER_MONTH == 10
+   #define PDC_VER_MONTH_STR "Oct"
+#elif PDC_VER_MONTH == 11
+   #define PDC_VER_MONTH_STR "Nov"
+#elif PDC_VER_MONTH == 12
+   #define PDC_VER_MONTH_STR "Dec"
+#else
+   #define PDC_VER_MONTH_STR "!!!"
+#endif
+
+const char *_curses_notice = "PDCurses " PDC_VERDOT " - "\
+                    PDC_stringize( PDC_VER_YEAR) "-" \
+                    PDC_VER_MONTH_STR "-" \
+                    PDC_stringize( PDC_VER_DAY);
 
 SCREEN *SP = (SCREEN*)NULL;           /* curses variables */
 WINDOW *curscr = (WINDOW *)NULL;      /* the current screen image */
@@ -124,8 +156,8 @@ WINDOW *initscr(void)
 
     if (SP && SP->alive)
         return NULL;
-
     SP = calloc(1, sizeof(SCREEN));
+    assert( SP);
     if (!SP)
         return NULL;
 
@@ -226,10 +258,8 @@ WINDOW *initscr(void)
     else
         curscr->_clear = TRUE;
 
-    SP->atrtab = calloc(PDC_COLOR_PAIRS, sizeof(PDC_PAIR));
-    if (!SP->atrtab)
+    if( PDC_init_atrtab())   /* set up default colors */
         return NULL;
-    PDC_init_atrtab();  /* set up default colors */
 
     MOUSE_X_POS = MOUSE_Y_POS = -1;
     BUTTON_STATUS(1) = BUTTON_RELEASED;
@@ -277,6 +307,7 @@ int endwin(void)
     def_prog_mode();
     PDC_scr_close();
 
+    assert( SP);
     SP->alive = FALSE;
 
     return OK;
@@ -286,6 +317,7 @@ bool isendwin(void)
 {
     PDC_LOG(("isendwin() - called\n"));
 
+    assert( SP);
     return SP ? !(SP->alive) : FALSE;
 }
 
@@ -293,6 +325,9 @@ SCREEN *newterm(const char *type, FILE *outfd, FILE *infd)
 {
     PDC_LOG(("newterm() - called\n"));
 
+    INTENTIONALLY_UNUSED_PARAMETER( type);
+    INTENTIONALLY_UNUSED_PARAMETER( outfd);
+    INTENTIONALLY_UNUSED_PARAMETER( infd);
     return initscr() ? SP : NULL;
 }
 
@@ -305,16 +340,20 @@ SCREEN *set_term(SCREEN *new)
     return (new == SP) ? SP : NULL;
 }
 
+void PDC_free_pair_hash_table( void);        /* color.c */
+
 void delscreen(SCREEN *sp)
 {
     PDC_LOG(("delscreen() - called\n"));
 
+    assert( SP);
     if (!SP || sp != SP)
         return;
 
     free(SP->c_ungch);
     free(SP->c_buffer);
     free(SP->atrtab);
+    PDC_free_pair_hash_table();
 
     PDC_slk_free();     /* free the soft label keys, if needed */
 
@@ -335,10 +374,15 @@ void delscreen(SCREEN *sp)
 
 int resize_term(int nlines, int ncols)
 {
+    PANEL *panel_ptr = NULL;
+
     PDC_LOG(("resize_term() - called: nlines %d\n", nlines));
 
-    if (!stdscr || PDC_resize_screen(nlines, ncols) == ERR)
+    if( PDC_resize_screen(nlines, ncols) == ERR)
         return ERR;
+
+    if( !stdscr)
+        return OK;
 
     SP->resized = FALSE;
 
@@ -373,6 +417,11 @@ int resize_term(int nlines, int ncols)
     touchwin(stdscr);
     wnoutrefresh(stdscr);
 
+    while( (panel_ptr = panel_above( panel_ptr)) != NULL)
+    {
+        touchwin(panel_window(panel_ptr));
+        wnoutrefresh(panel_window(panel_ptr));
+    }
     return OK;
 }
 
@@ -390,6 +439,9 @@ const char *curses_version(void)
 
 void PDC_get_version(PDC_VERSION *ver)
 {
+    extern enum PDC_port PDC_port_val;
+
+    assert( ver);
     if (!ver)
         return;
 
@@ -414,8 +466,10 @@ void PDC_get_version(PDC_VERSION *ver)
     ver->build = PDC_BUILD;
     ver->major = PDC_VER_MAJOR;
     ver->minor = PDC_VER_MINOR;
+    ver->change = PDC_VER_CHANGE;
     ver->csize = sizeof(chtype);
     ver->bsize = sizeof(bool);
+    ver->port = PDC_port_val;
 }
 
 int set_tabsize(int tabsize)

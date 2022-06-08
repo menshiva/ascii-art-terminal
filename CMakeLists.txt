@@ -27,7 +27,7 @@ file(GLOB_RECURSE HEADERS ${CMAKE_SOURCE_DIR}/src/*.hpp)
 add_executable(ASCIIart ${SOURCES} ${HEADERS})
 
 if (MSVC)
-    target_link_libraries(ASCIIart PRIVATE PDCurses)
+    target_link_libraries(ASCIIart PRIVATE PDCurses winmm.lib)
 else ()
     find_library(CURSES_PANEL_LIBRARY panel)
     target_link_libraries(ASCIIart PRIVATE ${CURSES_LIBRARIES} ${CURSES_PANEL_LIBRARY})

@@ -1,6 +1,7 @@
 /* PDCurses */
 
 #include <curspriv.h>
+#include <assert.h>
 
 /*man-start**************************************************************
 
@@ -146,6 +147,7 @@ int mouse_set(mmask_t mbe)
 {
     PDC_LOG(("mouse_set() - called: event %x\n", mbe));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -157,6 +159,7 @@ int mouse_on(mmask_t mbe)
 {
     PDC_LOG(("mouse_on() - called: event %x\n", mbe));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -168,6 +171,7 @@ int mouse_off(mmask_t mbe)
 {
     PDC_LOG(("mouse_off() - called: event %x\n", mbe));
 
+    assert( SP);
     if (!SP)
         return ERR;
 
@@ -208,10 +212,13 @@ mmask_t getmouse(void)
 {
     PDC_LOG(("getmouse() - called\n"));
 
+    assert( SP);
     return SP ? SP->_trap_mbe : (mmask_t)0;
 }
 
 /* ncurses mouse interface */
+
+const int max_mouse_interval = 32767;        /* 32.767 seconds */
 
 int mouseinterval(int wait)
 {
@@ -220,11 +227,11 @@ int mouseinterval(int wait)
     PDC_LOG(("mouseinterval() - called: %d\n", wait));
 
     if (!SP)
-        return ERR;
+        return max_mouse_interval;
 
     old_wait = SP->mouse_wait;
 
-    if (wait >= 0 && wait <= 1000)
+    if (wait >= 0 && wait <= max_mouse_interval)
         SP->mouse_wait = wait;
 
     return old_wait;
@@ -234,6 +241,7 @@ bool wenclose(const WINDOW *win, int y, int x)
 {
     PDC_LOG(("wenclose() - called: %p %d %d\n", win, y, x));
 
+    assert( win);
     return (win && y >= win->_begy && y < win->_begy + win->_maxy
                 && x >= win->_begx && x < win->_begx + win->_maxx);
 }
@@ -244,6 +252,9 @@ bool wmouse_trafo(const WINDOW *win, int *y, int *x, bool to_screen)
 
     PDC_LOG(("wmouse_trafo() - called\n"));
 
+    assert( win);
+    assert( x);
+    assert( y);
     if (!win || !y || !x)
         return FALSE;
 
@@ -286,16 +297,19 @@ mmask_t mousemask(mmask_t mask, mmask_t *oldmask)
 {
     PDC_LOG(("mousemask() - called\n"));
 
+    assert( SP);
     if (!SP)
         return (mmask_t)0;
 
     if (oldmask)
         *oldmask = SP->_trap_mbe;
 
-    /* The ncurses interface doesn't work with our move events, so
-       filter them here */
+    /* The ncurses interface doesn't work with our move events
+       when using 32-bit mmask_ts,  so filter them here */
 
+#if !defined( PDC_LONG_MMASK)
     mask &= ~(BUTTON1_MOVED | BUTTON2_MOVED | BUTTON3_MOVED);
+#endif
 
     mouse_set(mask);
 
@@ -309,6 +323,8 @@ int nc_getmouse(MEVENT *event)
 
     PDC_LOG(("nc_getmouse() - called\n"));
 
+    assert( SP);
+    assert( event);
     if (!event || !SP)
         return ERR;
 
@@ -326,8 +342,8 @@ int nc_getmouse(MEVENT *event)
     {
         if (Mouse_status.changes & (1 << i))
         {
-            int shf = i * 5;
-            short button = Mouse_status.button[i] & BUTTON_ACTION_MASK;
+            const int shf = i * PDC_BITS_PER_BUTTON;
+            const short button = Mouse_status.button[i] & BUTTON_ACTION_MASK;
 
             if (button == BUTTON_RELEASED)
                 bstate |= (BUTTON1_RELEASED << shf);
@@ -337,15 +353,8 @@ int nc_getmouse(MEVENT *event)
                 bstate |= (BUTTON1_CLICKED << shf);
             else if (button == BUTTON_DOUBLE_CLICKED)
                 bstate |= (BUTTON1_DOUBLE_CLICKED << shf);
-
-            button = Mouse_status.button[i] & BUTTON_MODIFIER_MASK;
-
-            if (button & PDC_BUTTON_SHIFT)
-                bstate |= BUTTON_MODIFIER_SHIFT;
-            if (button & PDC_BUTTON_CONTROL)
-                bstate |= BUTTON_MODIFIER_CONTROL;
-            if (button & PDC_BUTTON_ALT)
-                bstate |= BUTTON_MODIFIER_ALT;
+            else if (button == BUTTON_TRIPLE_CLICKED)
+                bstate |= (BUTTON1_TRIPLE_CLICKED << shf);
         }
     }
 
@@ -353,6 +362,21 @@ int nc_getmouse(MEVENT *event)
         bstate |= BUTTON4_PRESSED;
     else if (MOUSE_WHEEL_DOWN)
         bstate |= BUTTON5_PRESSED;
+                     /* 'Moves' (i.e.,  button is pressed) and 'position reports' */
+                     /* (mouse moved with no button down) are all reported as     */
+                     /* 'position reports' in NCurses,  which lacks 'move' events. */
+    if( MOUSE_MOVED && (SP->_trap_mbe & REPORT_MOUSE_POSITION))
+        bstate |= REPORT_MOUSE_POSITION;
+
+    for( i = 0; i < 3; i++)
+    {
+       if( Mouse_status.button[i] & PDC_BUTTON_SHIFT)
+           bstate |= BUTTON_MODIFIER_SHIFT;
+       if( Mouse_status.button[i] & PDC_BUTTON_CONTROL)
+           bstate |= BUTTON_MODIFIER_CONTROL;
+       if( Mouse_status.button[i] & PDC_BUTTON_ALT)
+           bstate |= BUTTON_MODIFIER_ALT;
+    }
 
     /* extra filter pass -- mainly for button modifiers */
 
@@ -368,6 +392,7 @@ int ungetmouse(MEVENT *event)
 
     PDC_LOG(("ungetmouse() - called\n"));
 
+    assert( event);
     if (!event || ungot)
         return ERR;
 
@@ -381,10 +406,11 @@ int ungetmouse(MEVENT *event)
 
     for (i = 0; i < 3; i++)
     {
-        int shf = i * 5;
+        int shf = i * PDC_BITS_PER_BUTTON;
         short button = 0;
 
         if (bstate & ((BUTTON1_RELEASED | BUTTON1_PRESSED |
+            BUTTON1_TRIPLE_CLICKED |
             BUTTON1_CLICKED | BUTTON1_DOUBLE_CLICKED) << shf))
         {
             SP->mouse_status.changes |= 1 << i;
@@ -395,6 +421,8 @@ int ungetmouse(MEVENT *event)
                 button = BUTTON_CLICKED;
             if (bstate & (BUTTON1_DOUBLE_CLICKED << shf))
                 button = BUTTON_DOUBLE_CLICKED;
+            if (bstate & (BUTTON1_TRIPLE_CLICKED << shf))
+                button = BUTTON_TRIPLE_CLICKED;
 
             if (bstate & BUTTON_MODIFIER_SHIFT)
                 button |= PDC_BUTTON_SHIFT;

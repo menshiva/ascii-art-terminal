@@ -4,18 +4,22 @@
 #ifndef __CURSES_INTERNALS__
 #define __CURSES_INTERNALS__ 1
 
+#if defined(_MSC_VER) && !defined(_CRT_SECURE_NO_DEPRECATE)
+# define _CRT_SECURE_NO_DEPRECATE 1   /* kill nonsense warnings */
+#endif
+
 #define CURSES_LIBRARY
 #include <curses.h>
 
 #if defined(__TURBOC__) || defined(__EMX__) || defined(__DJGPP__) || \
     defined(PDC_99) || defined(__WATCOMC__)
-# ifndef HAVE_VSSCANF
+# if !defined( HAVE_VSSCANF) && !defined( __DMC__)
 #  define HAVE_VSSCANF       /* have vsscanf() */
 # endif
 #endif
 
 #if defined(PDC_99) || defined(__WATCOMC__)
-# ifndef HAVE_VSNPRINTF
+# if !defined( HAVE_VSNPRINTF) && !defined( __DMC__)
 #  define HAVE_VSNPRINTF     /* have vsnprintf() */
 # endif
 #endif
@@ -48,7 +52,7 @@ typedef struct           /* structure for ripped off lines */
 
 void    PDC_beep(void);
 bool    PDC_can_change_color(void);
-int     PDC_color_content(short, short *, short *, short *);
+int     PDC_color_content(int, int *, int *, int *);
 bool    PDC_check_key(void);
 int     PDC_curs_set(int);
 void    PDC_doupdate(void);
@@ -59,7 +63,7 @@ int     PDC_get_key(void);
 int     PDC_get_rows(void);
 void    PDC_gotoyx(int, int);
 bool    PDC_has_mouse(void);
-int     PDC_init_color(short, short, short, short);
+int     PDC_init_color(int, int, int, int);
 int     PDC_modifiers_set(void);
 int     PDC_mouse_set(void);
 void    PDC_napms(int);
@@ -80,18 +84,24 @@ const char *PDC_sysname(void);
 
 /* Internal cross-module functions */
 
-void    PDC_init_atrtab(void);
+int     PDC_init_atrtab(void);
 WINDOW *PDC_makelines(WINDOW *);
 WINDOW *PDC_makenew(int, int, int, int);
 int     PDC_mouse_in_slk(int, int);
 void    PDC_slk_free(void);
 void    PDC_slk_initialize(void);
 void    PDC_sync(WINDOW *);
+PDCEX void    PDC_set_default_colors( const int, const int);
+void    PDC_set_changed_cells_range( WINDOW *, const int y, const int start, const int end);
+void    PDC_mark_line_as_changed( WINDOW *win, const int y);
+void    PDC_mark_cells_as_changed( WINDOW *, const int y, const int start, const int end);
+void    PDC_mark_cell_as_changed( WINDOW *, const int y, const int x);
 
 #ifdef PDC_WIDE
 int     PDC_mbtowc(wchar_t *, const char *, size_t);
 size_t  PDC_mbstowcs(wchar_t *, const char *, size_t);
 size_t  PDC_wcstombs(char *, const wchar_t *, size_t);
+PDCEX int PDC_wcwidth( const int32_t ucs);
 #endif
 
 #ifdef PDCDEBUG
@@ -118,5 +128,7 @@ size_t  PDC_wcstombs(char *, const wchar_t *, size_t);
 
 #define _INBUFSIZ        512  /* size of terminal input buffer */
 #define NUNGETCH         256  /* max # chars to ungetch() */
+
+#define INTENTIONALLY_UNUSED_PARAMETER( param) (void)(param)
 
 #endif /* __CURSES_INTERNALS__ */

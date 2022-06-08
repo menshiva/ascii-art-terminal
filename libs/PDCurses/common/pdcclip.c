@@ -1,8 +1,9 @@
 /* PDCurses */
 
-#include "pdcwin.h"
-
+#include <curspriv.h>
 #include <string.h>
+
+#include <stdlib.h>
 
 /*man-start**************************************************************
 
@@ -31,12 +32,12 @@ clipboard
 
 ### Return Values
 
-   indicator of success/failure of call.
-   PDC_CLIP_SUCCESS        the call was successful
-   PDC_CLIP_MEMORY_ERROR   unable to allocate sufficient memory for
-                           the clipboard contents
-   PDC_CLIP_EMPTY          the clipboard contains no text
-   PDC_CLIP_ACCESS_ERROR   no clipboard support
+    indicator of success/failure of call.
+    PDC_CLIP_SUCCESS        the call was successful
+    PDC_CLIP_MEMORY_ERROR   unable to allocate sufficient memory for
+                            the clipboard contents
+    PDC_CLIP_EMPTY          the clipboard contains no text
+    PDC_CLIP_ACCESS_ERROR   no clipboard support
 
 ### Portability
                              X/Open  ncurses  NetBSD
@@ -47,86 +48,49 @@ clipboard
 
 **man-end****************************************************************/
 
-#ifdef PDC_WIDE
-# define PDC_TEXT CF_UNICODETEXT
-#else
-# define PDC_TEXT CF_OEMTEXT
-#endif
+/* This version is used (at present) in the VT,  framebuffer,  DOS,
+and DOSVGA ports,  and could be used for the Plan9 one as well.  These
+platforms lack system clipboards,  so we just store the clipboard text
+in a malloced buffer.   */
+
+/* global clipboard contents, should be NULL if none set */
+
+static char *pdc_clipboard = NULL;
 
 int PDC_getclipboard(char **contents, long *length)
 {
-    HANDLE handle;
-    long len;
+    int len;
 
     PDC_LOG(("PDC_getclipboard() - called\n"));
 
-    if (!OpenClipboard(NULL))
-        return PDC_CLIP_ACCESS_ERROR;
-
-    if ((handle = GetClipboardData(PDC_TEXT)) == NULL)
-    {
-        CloseClipboard();
+    if (!pdc_clipboard)
         return PDC_CLIP_EMPTY;
-    }
 
-#ifdef PDC_WIDE
-    len = (long)wcslen((wchar_t *)handle) * 3;
-#else
-    len = (long)strlen((char *)handle);
-#endif
-    *contents = (char *)GlobalAlloc(GMEM_FIXED, len + 1);
-
+    len = strlen(pdc_clipboard);
+    *contents = malloc(len + 1);
     if (!*contents)
-    {
-        CloseClipboard();
         return PDC_CLIP_MEMORY_ERROR;
-    }
 
-#ifdef PDC_WIDE
-    len = (long)PDC_wcstombs((char *)*contents, (wchar_t *)handle, len);
-#else
-    strcpy((char *)*contents, (char *)handle);
-#endif
+    strcpy(*contents, pdc_clipboard);
     *length = len;
-    CloseClipboard();
 
     return PDC_CLIP_SUCCESS;
 }
 
 int PDC_setclipboard(const char *contents, long length)
 {
-    HGLOBAL ptr1;
-    LPTSTR ptr2;
-
     PDC_LOG(("PDC_setclipboard() - called\n"));
 
-    if (!OpenClipboard(NULL))
-        return PDC_CLIP_ACCESS_ERROR;
+    PDC_clearclipboard( );
 
-    ptr1 = GlobalAlloc(GMEM_MOVEABLE|GMEM_DDESHARE,
-        (length + 1) * sizeof(TCHAR));
-
-    if (!ptr1)
-        return PDC_CLIP_MEMORY_ERROR;
-
-    ptr2 = GlobalLock(ptr1);
-
-#ifdef PDC_WIDE
-    PDC_mbstowcs((wchar_t *)ptr2, contents, length);
-#else
-    memcpy((char *)ptr2, contents, length + 1);
-#endif
-    GlobalUnlock(ptr1);
-    EmptyClipboard();
-
-    if (!SetClipboardData(PDC_TEXT, ptr1))
+    if (contents)
     {
-        GlobalFree(ptr1);
-        return PDC_CLIP_ACCESS_ERROR;
-    }
+        pdc_clipboard = malloc(length + 1);
+        if (!pdc_clipboard)
+            return PDC_CLIP_MEMORY_ERROR;
 
-    CloseClipboard();
-    GlobalFree(ptr1);
+        strcpy(pdc_clipboard, contents);
+    }
 
     return PDC_CLIP_SUCCESS;
 }
@@ -135,7 +99,25 @@ int PDC_freeclipboard(char *contents)
 {
     PDC_LOG(("PDC_freeclipboard() - called\n"));
 
-    GlobalFree(contents);
+    /* should we also free empty the system clipboard? probably not */
+
+    if (contents)
+    {
+        /* NOTE: We free the memory, but we can not set caller's pointer
+           to NULL, so if caller calls again then will try to access
+           free'd memory.  We 1st overwrite memory with a string so if
+           caller tries to use free memory they won't get what they
+           expect & hopefully notice. */
+        const char *refreed = "!Freed buffer PDC clipboard!";
+        const char *tptr = refreed;
+        char *tptr2 = contents;
+
+        while( *tptr2 && *tptr)
+            *tptr2++ = *tptr++;
+
+        free(contents);
+    }
+
     return PDC_CLIP_SUCCESS;
 }
 
@@ -143,7 +125,11 @@ int PDC_clearclipboard(void)
 {
     PDC_LOG(("PDC_clearclipboard() - called\n"));
 
-    EmptyClipboard();
+    if (pdc_clipboard)
+    {
+        free(pdc_clipboard);
+        pdc_clipboard = NULL;
+    }
 
     return PDC_CLIP_SUCCESS;
 }
