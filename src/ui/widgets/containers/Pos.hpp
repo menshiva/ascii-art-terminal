@@ -1,11 +1,11 @@
 #ifndef ASCIIART_POS_HPP
 #define ASCIIART_POS_HPP
 
-#include "Container.hpp"
+#include "SingleViewContainer.hpp"
 
-class Pos : public Container {
+class Pos : public SingleViewContainer {
 public:
-    explicit Pos(View *child) : Container(child), m_Y(0), m_X(0) {}
+    Pos() : SingleViewContainer(), m_Y(0), m_X(0) {}
 
     uint16_t getY() const override {
         return m_Y;

@@ -1,15 +1,11 @@
-#ifndef ASCIIART_CONTAINER_HPP
-#define ASCIIART_CONTAINER_HPP
+#ifndef ASCIIART_SINGLEVIEWCONTAINER_HPP
+#define ASCIIART_SINGLEVIEWCONTAINER_HPP
 
-#include <memory>
 #include "../View.hpp"
 
-class Container : public View {
+class SingleViewContainer : public View {
 public:
-    explicit Container(View *child) : View(), m_Child(child) {
-        if (m_Child)
-            m_Child->setParent(this);
-    }
+    SingleViewContainer() : View(), m_Child(nullptr) {}
 
     WINDOW *getWindow() const override {
         return getParent()->getWindow();
@@ -24,23 +20,27 @@ public:
     }
 
     uint16_t getY() const override {
-        return getParent()->getY();
+        return 0;
     }
 
     uint16_t getX() const override {
-        return getParent()->getX();
+        return 0;
     }
 
     void draw() override {
-        if (m_Child)
-            m_Child->draw();
+        m_Child->draw();
     }
 
     View *getChild() const {
-        return m_Child.get();
+        return m_Child;
+    }
+
+    void setChild(View *child) override {
+        m_Child = child;
+        m_Child->setParent(this);
     }
 private:
-    std::unique_ptr<View> m_Child;
+    View *m_Child;
 };
 
-#endif //ASCIIART_CONTAINER_HPP
+#endif //ASCIIART_SINGLEVIEWCONTAINER_HPP

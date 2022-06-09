@@ -1,11 +1,11 @@
 #ifndef ASCIIART_SIZE_HPP
 #define ASCIIART_SIZE_HPP
 
-#include "Container.hpp"
+#include "SingleViewContainer.hpp"
 
-class Size : public Container {
+class Size : public SingleViewContainer {
 public:
-    explicit Size(View *child) : Container(child), m_Height(0), m_Width(0) {}
+    Size() : SingleViewContainer(), m_Height(0), m_Width(0) {}
 
     uint16_t getHeight() const override {
         return m_Height;

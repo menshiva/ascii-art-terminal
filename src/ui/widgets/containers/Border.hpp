@@ -2,13 +2,13 @@
 #define ASCIIART_BORDER_HPP
 
 #include <panel.h>
-#include "Container.hpp"
+#include "SingleViewContainer.hpp"
 
-class Border : public Container {
+class Border : public SingleViewContainer {
 public:
-    explicit Border(View *child) : Container(child), m_Panel(new_panel(newwin(1, 1, 1, 1))) {}
+    Border() : SingleViewContainer(), m_Panel(new_panel(newwin(1, 1, 1, 1))) {}
 
-    ~Border() override {
+    ~Border() {
         WINDOW *tmp = m_Panel->win;
         del_panel(m_Panel);
         delwin(tmp);
@@ -20,10 +20,10 @@ public:
 
     void draw() override {
         WINDOW *oldWin = m_Panel->win;
-        replace_panel(m_Panel, newwin(getHeight(), getWidth(), getY(), getX()));
+        replace_panel(m_Panel, newwin(getHeight(), getWidth(), getParent()->getY(), getParent()->getX()));
         delwin(oldWin);
         box(m_Panel->win, 0, 0);
-        Container::draw();
+        SingleViewContainer::draw();
     }
 private:
     PANEL *m_Panel;

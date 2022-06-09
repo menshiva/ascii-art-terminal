@@ -1,10 +1,10 @@
 #ifndef ASCIIART_CENTER_HPP
 #define ASCIIART_CENTER_HPP
 
-#include "Container.hpp"
+#include "SingleViewContainer.hpp"
 
-struct Center : public Container {
-    explicit Center(View *child) : Container(child) {}
+struct Center : public SingleViewContainer {
+    Center() : SingleViewContainer() {}
 
     uint16_t getY() const override {
         return static_cast<uint16_t>(

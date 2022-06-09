@@ -7,7 +7,11 @@
 class View {
 public:
     View() : m_Parent(nullptr) {}
-    virtual ~View() = default;
+
+    View(const View&) = delete;
+    View &operator=(const View&) = delete;
+    View(View&&) = delete;
+    View &operator=(View&&) = delete;
 
     virtual WINDOW *getWindow() const = 0;
     virtual uint16_t getHeight() const = 0;
@@ -22,6 +26,8 @@ public:
     void setParent(View *parent) {
         m_Parent = parent;
     }
+
+    virtual void setChild(View *child) = 0;
 
     virtual void draw() = 0;
 private:

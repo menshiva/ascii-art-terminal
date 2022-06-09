@@ -41,37 +41,27 @@ namespace UIConsts {
     const static char *const ERROR_FEW_IMAGES = "Load at least 2 images.";
     const static char *const ERROR_NO_ANIMATION = "Animation is not started.";
 
-    const static char *const BTN_ADD_IMAGE = "1. Add image(s)";
-    const static char *const BTN_SHOW_IMAGE = "2. Show ASCII art";
-    const static char *const BTN_GRAYSCALE_LEVEL = "3. Set grayscale level";
-    const static char *const BTN_EDIT_IMAGE = "4. Image effects";
-    const static char *const BTN_REMOVE_IMAGE = "5. Remove image";
-    const static char *const BTN_PLAY_ANIM = "6. Play animation";
-    const static char *const BTN_PAUSE_ANIM = "7. Stop animation";
-    const static char *const BTN_EXPORT_ASCII = "8. Export art";
-    const static char *const BTN_EXIT = "9. Exit";
+    const static char *const BTN_ADD_IMAGE = "[1] Add image(s)";
+    const static char *const BTN_SHOW_IMAGE = "[2] Show ASCII art";
+    const static char *const BTN_GRAYSCALE_LEVEL = "[3] Set grayscale level";
+    const static char *const BTN_EDIT_IMAGE = "[4] Image effects";
+    const static char *const BTN_REMOVE_IMAGE = "[5] Remove image";
+    const static char *const BTN_PLAY_ANIM = "[6] Play animation";
+    const static char *const BTN_PAUSE_ANIM = "[7] Stop animation";
+    const static char *const BTN_EXPORT_ASCII = "[8] Export art";
+    const static char *const BTN_EXIT = "[9] Exit";
 
     const static char *const BTN_OK = "Ok";
     const static char *const BTN_CANCEL = "Cancel";
 
     const static size_t ANIMATION_SLEEP_TIME_MS = 400;
 
-    namespace ViewIndex {
-        const static size_t BTN_ADD_IMAGE = 0;
-        const static size_t BTN_SHOW_IMAGE = 1;
-        const static size_t BTN_GRAYSCALE_LEVEL = 2;
-        const static size_t BTN_EDIT_IMAGE = 3;
-        const static size_t BTN_REMOVE_IMAGE = 4;
-        const static size_t BTN_PLAY_ANIM = 5;
-        const static size_t BTN_PAUSE_ANIM = 6;
-        const static size_t BTN_EXPORT_ASCII = 7;
-        const static size_t BTN_EXIT = 8;
-
-        const static size_t PANEL_LEFT = 1;
-        const static size_t PANEL_RIGHT = 2;
-        const static size_t PANEL_ERROR = 3;
-        const static size_t PANEL_EXIT = 4;
-    }
+    enum ViewId : int8_t {
+        TITLE_ABSOLUTE,
+        CONTROLS_ABSOLUTE,
+        ART_ABSOLUTE,
+        MAIN_MENU
+    };
 }
 
 namespace ConsoleConsts {

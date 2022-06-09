@@ -28,6 +28,8 @@ public:
         return getParent()->getX();
     }
 
+    void setChild(View *child) override {}
+
     void draw() override {
         mvwaddstr(getWindow(), getY(), getX(), m_Text);
     }
