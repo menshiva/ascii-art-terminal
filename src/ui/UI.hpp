@@ -16,13 +16,14 @@ public:
     static bool init();
     void mainLoop();
 private:
-    View *assignId(int8_t id, View *child);
+    View *assignId(uint8_t id, View *child);
 
     template<class T>
-    T *getView(int8_t id);
+    T *getView(uint8_t id);
 private:
+    bool m_MainLoopRunning, m_WindowDirty;
     Screen m_Root;
-    std::unordered_map<int8_t, View*> m_Views;
+    std::unordered_map<uint8_t, View*> m_Views;
 };
 
 #endif //ASCIIART_UI_HPP

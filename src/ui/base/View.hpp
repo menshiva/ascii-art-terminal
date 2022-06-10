@@ -43,6 +43,8 @@ public:
     View *attachToChildInParentRight(bool fillSize, size_t childIdx);
 
     virtual void draw() = 0;
+    virtual void interact(int c) const;
+    virtual bool isActive() const;
 private:
     Container *m_ParentContainer;
     std::function<uint16_t()> m_GetHeight, m_GetWidth;
@@ -56,7 +58,9 @@ public:
     Container(std::initializer_list<View*> children);
 
     virtual WINDOW *getWindow() const = 0;
+
     void draw() override;
+    void interact(int c) const override;
 protected:
     std::vector<std::unique_ptr<View>> m_Children;
 };

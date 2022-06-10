@@ -1,6 +1,7 @@
 #ifndef ASCIIART_TEXT_HPP
 #define ASCIIART_TEXT_HPP
 
+#include <cstring>
 #include "../base/View.hpp"
 
 class Text final : public View {
@@ -11,8 +12,6 @@ public:
     }
 
     void draw() override {
-        auto kek = getY();
-        auto lol = getX();
         mvwaddstr(getParentContainer()->getWindow(), getY(), getX(), m_Text);
     }
 private:

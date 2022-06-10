@@ -142,6 +142,12 @@ View *View::attachToChildInParentRight(bool fillSize, size_t childIdx) {
     return this;
 }
 
+void View::interact(int c) const {}
+
+bool View::isActive() const {
+    return true;
+}
+
 Container::Container(std::initializer_list<View *> children) {
     m_Children.reserve(children.size());
     for (auto child : children) {
@@ -153,4 +159,9 @@ Container::Container(std::initializer_list<View *> children) {
 void Container::draw() {
     for (auto &child : m_Children)
         child->draw();
+}
+
+void Container::interact(int c) const {
+    for (const auto &child : m_Children)
+        child->interact(c);
 }

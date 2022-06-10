@@ -6,7 +6,11 @@
 
 class Panel final : public Container {
 public:
-    Panel(std::initializer_list<View*> children) : Container(children), m_Panel(new_panel(newwin(1, 1, 1, 1))) {
+    Panel(bool visible, std::initializer_list<View*> children) :
+        Container(children),
+        m_IsVisible(visible),
+        m_Panel(new_panel(newwin(1, 1, 1, 1)))
+    {
         for (auto child : children)
             child
                     ->setRelativeParentHeight(1.0f)
@@ -32,7 +36,12 @@ public:
         box(m_Panel->win, 0, 0);
         Container::draw();
     }
+
+    bool isActive() const override {
+        return m_IsVisible;
+    }
 private:
+    bool m_IsVisible;
     PANEL *m_Panel;
 };
 

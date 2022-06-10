@@ -3,8 +3,13 @@
 
 #include "../base/View.hpp"
 
-struct Menu final : public Container {
-    Menu(std::initializer_list<View*> children) : Container(children) {
+typedef std::pair<int, std::function<void(void)>> Callback;
+
+class Menu final : public Container {
+public:
+    Menu(std::initializer_list<View*> children,
+         std::initializer_list<Callback> callbacks) : Container(children), m_Callbacks(callbacks)
+    {
         uint16_t h = 0, w = 0;
         for (const auto &child : m_Children) {
             h += child->getHeight();
@@ -29,6 +34,20 @@ struct Menu final : public Container {
     WINDOW *getWindow() const override {
         return getParentContainer()->getWindow();
     }
+
+    bool isActive() const override {
+        return getParentContainer()->isActive();
+    }
+
+    void interact(int c) const override {
+        if (isActive())
+            for (const auto &p : m_Callbacks)
+                if (p.first == c)
+                    p.second();
+        Container::interact(c);
+    }
+private:
+    std::vector<Callback> m_Callbacks;
 };
 
 #endif //ASCIIART_MENU_HPP

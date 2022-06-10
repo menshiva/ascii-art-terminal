@@ -56,13 +56,7 @@ namespace UIConsts {
 
     const static size_t ANIMATION_SLEEP_TIME_MS = 400;
 
-    enum ViewId : int8_t {
-        UNUSED = -1,
-        TITLE_ABSOLUTE,
-        CONTROLS_ABSOLUTE,
-        ART_ABSOLUTE,
-        MAIN_MENU
-    };
+    enum ViewId : uint8_t {};
 }
 
 namespace ConsoleConsts {

@@ -2,14 +2,15 @@
 
 UI::UI() : m_Root({
     // title panel
-    (new Panel({
+    (new Panel(true, {
         (new Text(UIConsts::TITLE_TEXT))
             ->setCenteredInParentHeight()->setCenteredInParentWidth()
     }))
         ->setRelativeParentHeight(UIConsts::TITLE_PANEL_HEIGHT_REL),
     // controls panel
-    (new Panel({
-        (new Menu({
+    (new Panel(true, {
+        (new Menu(
+        {
              new Text(UIConsts::BTN_ADD_IMAGE),
              new Text(UIConsts::BTN_SHOW_IMAGE),
              new Text(UIConsts::BTN_GRAYSCALE_LEVEL),
@@ -19,16 +20,19 @@ UI::UI() : m_Root({
              new Text(UIConsts::BTN_PAUSE_ANIM),
              new Text(UIConsts::BTN_EXPORT_ASCII),
              new Text(UIConsts::BTN_EXIT)
+        },
+        {
+            {57, [&]() -> void { m_MainLoopRunning = false; }}
         }))
             ->setCenteredInParentHeight()->setCenteredInParentWidth()
     }))
         ->setRelativeParentWidth(UIConsts::CONTROLS_PANEL_WIDTH_REL)->attachToChildInParentBelow(true, 0),
     // art panel
-    (new Panel({
+    (new Panel(true, {
         // TODO
     }))
         ->attachToChildInParentBelow(true, 0)->attachToChildInParentRight(true, 1),
-}) {
+}), m_MainLoopRunning(true), m_WindowDirty(true) {
     raw(); // pass typed characters through our program immediately (without buffer)
     noecho(); // don't echo typed characters
     curs_set(0); // invisible cursor
@@ -46,27 +50,28 @@ bool UI::init() {
 }
 
 void UI::mainLoop() {
-    int pressedKey = -1;
-    bool windowDirty = true;
-    while (pressedKey != 57) { // 9
-        if (pressedKey == KEY_RESIZE) {
-            windowDirty = true;
+    while (m_MainLoopRunning) {
+        int c = wgetch(stdscr);
+        if (c == KEY_RESIZE) {
+            m_WindowDirty = true;
         }
-        if (windowDirty) {
+        else {
+            m_Root.interact(c);
+        }
+
+        if (m_WindowDirty) {
             m_Root.draw();
-            windowDirty = false;
+            m_WindowDirty = false;
         }
-        pressedKey = wgetch(stdscr);
     }
 }
 
-View *UI::assignId(int8_t id, View *view) {
-    if (id != UIConsts::ViewId::UNUSED)
-        m_Views.emplace(id, view);
+View *UI::assignId(uint8_t id, View *view) {
+    m_Views.emplace(id, view);
     return view;
 }
 
 template<class T>
-T *UI::getView(int8_t id) {
+T *UI::getView(uint8_t id) {
     return dynamic_cast<T*>(m_Views.at(id));
 }
