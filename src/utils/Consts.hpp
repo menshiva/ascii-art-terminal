@@ -2,8 +2,8 @@
 #define ASCII_CONSTS_HPP
 
 namespace UIConsts {
-    const static float TITLE_PANEL_HEIGHT_REL = 0.15f;
-    const static float CONTROLS_PANEL_WIDTH_REL = 0.3f;
+    const static float TITLE_PANEL_HEIGHT_REL = 0.1f;
+    const static float CONTROLS_PANEL_WIDTH_REL = 0.25f;
 
     const static float ERROR_PANEL_HEIGHT = 0.25F;
     const static float ERROR_PANEL_WIDTH = 0.45F;
@@ -57,6 +57,7 @@ namespace UIConsts {
     const static size_t ANIMATION_SLEEP_TIME_MS = 400;
 
     enum ViewId : int8_t {
+        UNUSED = -1,
         TITLE_ABSOLUTE,
         CONTROLS_ABSOLUTE,
         ART_ABSOLUTE,
