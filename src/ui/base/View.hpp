@@ -11,6 +11,9 @@ class Container;
 class View {
     friend class Container;
 public:
+    typedef int8_t Id;
+    const static Id UNUSED_ID = -1;
+
     virtual ~View() = default;
 
     View(const View&) = delete;
@@ -39,10 +42,9 @@ public:
     View *withAttachedBelow(bool fillSize, size_t childIdx);
     View *withAttachedRight(bool fillSize, size_t childIdx);
 
-    virtual bool isActive() const;
     virtual void interact(int key) const;
 protected:
-    View();
+    View() : m_ParentContainer(nullptr) {}
     virtual void draw() = 0;
 protected:
     Container *m_ParentContainer;
@@ -53,17 +55,30 @@ protected:
 class Container : public View {
     friend class View;
 public:
+    struct Child {
+        Child(Id id, View *view) : id(id), view(view) {}
+        Child(View *view) : Child(UNUSED_ID, view) {} // NOLINT(google-explicit-constructor)
+        Id id;
+        View *view;
+    };
+
+    struct ChildData {
+        ChildData(Id id, View *view) : id(id), view(view) {}
+        Id id;
+        std::unique_ptr<View> view;
+    };
+
+    Container *withWrapContent();
+
     virtual WINDOW *getWindow() const = 0;
-    virtual Container *withChildren(std::initializer_list<View*> children);
+    virtual Container *withChildren(std::initializer_list<Child> children);
     void interact(int key) const override;
+    virtual void onChildWithId(Id id, View* child) = 0;
 protected:
-    Container();
-
-    void addChild(View *child);
-
+    Container() : View() {}
     void draw() override;
 protected:
-    std::vector<std::unique_ptr<View>> m_Children;
+    std::vector<ChildData> m_Children;
 };
 
 #endif //ASCIIART_VIEW_HPP

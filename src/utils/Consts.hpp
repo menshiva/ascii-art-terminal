@@ -4,6 +4,8 @@
 namespace UIConsts {
     const static float TITLE_PANEL_HEIGHT_REL = 0.1f;
     const static float CONTROLS_PANEL_WIDTH_REL = 0.25f;
+    const static uint16_t EXIT_PANEL_HEIGHT = 6;
+    const static float EXIT_PANEL_WIDTH = 0.45F;
 
     const static float ERROR_PANEL_HEIGHT = 0.25F;
     const static float ERROR_PANEL_WIDTH = 0.45F;
@@ -11,19 +13,16 @@ namespace UIConsts {
     const static float ERROR_PANEL_OFFSET_X = 0.5F - ERROR_PANEL_WIDTH / 2.0F;
     const static bool ERROR_PANEL_VISIBILITY = false;
 
-    const static float EXIT_PANEL_HEIGHT = 0.25F;
-    const static float EXIT_PANEL_WIDTH = 0.45F;
-    const static float EXIT_PANEL_OFFSET_Y = 0.5F - EXIT_PANEL_HEIGHT / 2.0F;
-    const static float EXIT_PANEL_OFFSET_X = 0.5F - EXIT_PANEL_WIDTH / 2.0F;
-    const static bool EXIT_PANEL_VISIBILITY = false;
-
     const static char *const TITLE_TEXT = "ASCII art";
+
+    const static char *const EXIT_PANEL_TEXT = "Are you sure you want to exit?";
+    const static char *const EXIT_PANEL_YES = "[Enter] Yes";
+    const static char *const EXIT_PANEL_CANCEL = "[Esc] Cancel";
 
     const static char *const ERROR_PANEL_TEXT = "";
     const static float ERROR_PANEL_TEXT_OFFSET_Y = 0.35F;
-    const static float ERROR_PANEL_TEXT_OFFSET_X = 0.5F;
 
-    const static char *const EXIT_PANEL_TEXT = "Are you sure you want to exit?";
+    const static float ERROR_PANEL_TEXT_OFFSET_X = 0.5F;
     const static float EXIT_PANEL_TEXT_OFFSET_Y = 0.35F;
     const static float EXIT_PANEL_TEXT_OFFSET_X = 0.5F;
 
@@ -51,8 +50,8 @@ namespace UIConsts {
     const static char *const BTN_EXPORT_ASCII = "[8] Export art";
     const static char *const BTN_EXIT = "[9] Exit";
 
-    const static char *const BTN_OK = "Ok";
-    const static char *const BTN_CANCEL = "Cancel";
+    const static char *const BTN_OK = "[Enter] Yes";
+    const static char *const BTN_CANCEL = "[Esc] Cancel";
 
     const static size_t ANIMATION_SLEEP_TIME_MS = 400;
 
@@ -61,7 +60,9 @@ namespace UIConsts {
     // };
 
     enum KEYS : int {
-        EXIT = 57
+        NINE = 57,
+        ENTER = 13,
+        ESC = 27
     };
 }
 

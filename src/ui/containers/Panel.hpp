@@ -14,30 +14,38 @@ public:
         delwin(tmp);
     }
 
+    void setVisibility(bool visible) {
+        m_IsVisible = visible;
+        if (visible) show_panel(m_Panel);
+        else hide_panel(m_Panel);
+    }
+
     WINDOW *getWindow() const override {
         return m_Panel->win;
     }
 
-    Panel *withChildren(std::initializer_list<View*> children) override {
+    Panel *withChildren(std::initializer_list<Child> children) override {
         Container::withChildren(children);
-        for (auto child : children) {
-            child
+        for (const auto &child : m_Children) {
+            child.view
                 ->withRelativeHeight(1.0f)->withRelativeWidth(1.0f)
                 ->withAbsoluteY(0)->withAbsoluteX(0);
         }
         return this;
     }
 
-    bool isActive() const override {
-        return m_IsVisible;
+    void onChildWithId(Id id, View *child) override {
+        m_ParentContainer->onChildWithId(id, child);
     }
 protected:
     void draw() override {
-        WINDOW *oldWin = m_Panel->win;
-        replace_panel(m_Panel, newwin(getHeight(), getWidth(), getY(), getX()));
-        delwin(oldWin);
-        box(m_Panel->win, 0, 0);
-        Container::draw();
+        if (m_IsVisible) {
+            WINDOW *oldWin = m_Panel->win;
+            replace_panel(m_Panel, newwin(getHeight(), getWidth(), getY(), getX()));
+            delwin(oldWin);
+            box(m_Panel->win, 0, 0);
+            Container::draw();
+        }
     }
 private:
     bool m_IsVisible;

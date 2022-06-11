@@ -26,13 +26,11 @@ void Screen::mainLoop() {
     m_MainLoopRunning = true;
     markDirty();
 
-    while (isActive()) {
+    while (m_MainLoopRunning) {
         int c = wgetch(stdscr);
-        if (c == KEY_RESIZE) {
-            m_WindowDirty = true;
-        }
-        else {
-            Container::interact(c);
+        if (c != -1) {
+            if (c == KEY_RESIZE) m_WindowDirty = true;
+            else Container::interact(c);
         }
 
         if (m_WindowDirty) {
@@ -54,22 +52,24 @@ WINDOW *Screen::getWindow() const {
     return stdscr;
 }
 
-Screen *Screen::withChildren(std::initializer_list<View*> children) {
+Screen *Screen::withChildren(std::initializer_list<Child> children) {
     Container::withChildren(children);
-    for (auto child : children) {
-        child
+    for (const auto &child : m_Children) {
+        child.view
             ->withRelativeHeight(1.0f)->withRelativeWidth(1.0f)
             ->withAbsoluteY(0)->withAbsoluteX(0);
+        if (child.id != UNUSED_ID)
+            onChildWithId(child.id, child.view.get());
     }
     return this;
+}
+
+void Screen::onChildWithId(View::Id id, View *child) {
+    m_Views.emplace(id, child);
 }
 
 void Screen::draw() {
     Container::draw();
     update_panels();
     doupdate();
-}
-
-bool Screen::isActive() const {
-    return m_MainLoopRunning;
 }

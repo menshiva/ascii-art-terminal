@@ -104,12 +104,12 @@ View *View::withAttachedBelow(bool fillSize, size_t childIdx) {
     if (!m_GetY) {
         if (fillSize) {
             m_GetHeight = [&, childIdx]() -> uint16_t {
-                const auto toAttachTo = m_ParentContainer->m_Children[childIdx].get();
+                const auto toAttachTo = m_ParentContainer->m_Children[childIdx].view.get();
                 return m_ParentContainer->getHeight() - toAttachTo->getHeight();
             };
         }
         m_GetY = [&, childIdx]() -> uint16_t {
-            const auto toAttachTo = m_ParentContainer->m_Children[childIdx].get();
+            const auto toAttachTo = m_ParentContainer->m_Children[childIdx].view.get();
             return toAttachTo->getY() + toAttachTo->getHeight();
         };
     }
@@ -120,47 +120,59 @@ View *View::withAttachedRight(bool fillSize, size_t childIdx) {
     if (!m_GetX) {
         if (fillSize) {
             m_GetWidth = [&, childIdx]() -> uint16_t {
-                const auto toAttachTo = m_ParentContainer->m_Children[childIdx].get();
+                const auto toAttachTo = m_ParentContainer->m_Children[childIdx].view.get();
                 return m_ParentContainer->getWidth() - toAttachTo->getWidth();
             };
         }
         m_GetX = [&, childIdx]() -> uint16_t {
-            const auto toAttachTo = m_ParentContainer->m_Children[childIdx].get();
+            const auto toAttachTo = m_ParentContainer->m_Children[childIdx].view.get();
             return toAttachTo->getX() + toAttachTo->getWidth();
         };
     }
     return this;
 }
 
-bool View::isActive() const {
-    return true;
+Container *Container::withWrapContent() {
+    if (!m_GetHeight && !m_GetWidth) {
+        m_GetHeight = [&]() -> uint16_t {
+            uint16_t h = 0;
+            for (const auto &child : m_Children)
+                h += child.view->getHeight();
+            return h + 1;
+        };
+        m_GetWidth = [&]() -> uint16_t {
+            uint16_t w = 0;
+            for (const auto &child : m_Children) {
+                uint16_t chW = child.view->getWidth();
+                if (chW > w)
+                    w = chW;
+            }
+            return w + 2;
+        };
+    }
+    return this;
+}
+
+Container *Container::withChildren(std::initializer_list<Child> children) {
+    for (auto &p : children) {
+        p.view->m_ParentContainer = this;
+        m_Children.emplace_back(p.id, p.view);
+        if (auto cChild = dynamic_cast<const Container*>(p.view))
+            for (const auto &cc : cChild->m_Children)
+                if (cc.id != UNUSED_ID)
+                    onChildWithId(cc.id, cc.view.get());
+    }
+    return this;
 }
 
 void View::interact(int key) const {}
 
-View::View() : m_ParentContainer(nullptr) {}
-
-Container *Container::withChildren(std::initializer_list<View *> children) {
-    for (auto child : children)
-        addChild(child);
-    return this;
-}
-
 void Container::interact(int key) const {
-    if (isActive())
-        for (const auto &child : m_Children)
-            if (child->isActive())
-                child->interact(key);
-}
-
-Container::Container() : View() {}
-
-void Container::addChild(View *child) {
-    child->m_ParentContainer = this;
-    m_Children.emplace_back(child);
+    for (const auto &child : m_Children)
+        child.view->interact(key);
 }
 
 void Container::draw() {
     for (auto &child : m_Children)
-        child->draw();
+        child.view->draw();
 }
