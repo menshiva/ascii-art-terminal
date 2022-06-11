@@ -6,18 +6,7 @@
 
 class Panel final : public Container {
 public:
-    Panel(bool visible, std::initializer_list<View*> children) :
-        Container(children),
-        m_IsVisible(visible),
-        m_Panel(new_panel(newwin(1, 1, 1, 1)))
-    {
-        for (auto child : children)
-            child
-                    ->setRelativeParentHeight(1.0f)
-                    ->setRelativeParentWidth(1.0f)
-                    ->setAbsoluteY(0)
-                    ->setAbsoluteX(0);
-    }
+    explicit Panel(bool visible) : Container(), m_IsVisible(visible), m_Panel(new_panel(newwin(1, 1, 1, 1))) {}
 
     ~Panel() override {
         WINDOW *tmp = m_Panel->win;
@@ -29,16 +18,26 @@ public:
         return m_Panel->win;
     }
 
+    Panel *withChildren(std::initializer_list<View*> children) override {
+        Container::withChildren(children);
+        for (auto child : children) {
+            child
+                ->withRelativeHeight(1.0f)->withRelativeWidth(1.0f)
+                ->withAbsoluteY(0)->withAbsoluteX(0);
+        }
+        return this;
+    }
+
+    bool isActive() const override {
+        return m_IsVisible;
+    }
+protected:
     void draw() override {
         WINDOW *oldWin = m_Panel->win;
         replace_panel(m_Panel, newwin(getHeight(), getWidth(), getY(), getX()));
         delwin(oldWin);
         box(m_Panel->win, 0, 0);
         Container::draw();
-    }
-
-    bool isActive() const override {
-        return m_IsVisible;
     }
 private:
     bool m_IsVisible;

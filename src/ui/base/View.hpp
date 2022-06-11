@@ -9,8 +9,8 @@
 class Container;
 
 class View {
+    friend class Container;
 public:
-    View();
     virtual ~View() = default;
 
     View(const View&) = delete;
@@ -18,49 +18,50 @@ public:
     View(View&&) = delete;
     View &operator=(View&&) = delete;
 
-    const Container *getParentContainer() const;
-    void setParentContainer(Container *container);
-
     uint16_t getHeight() const;
     uint16_t getWidth() const;
     uint16_t getY() const;
     uint16_t getX() const;
 
-    View *setHeight(const std::function<uint16_t()> &f);
-    View *setWidth(const std::function<uint16_t()> &f);
-    View *setAbsoluteHeight(uint16_t h);
-    View *setAbsoluteWidth(uint16_t w);
-    View *setRelativeParentHeight(float hRel);
-    View *setRelativeParentWidth(float wRel);
+    View *withHeight(const std::function<uint16_t()> &f);
+    View *withWidth(const std::function<uint16_t()> &f);
+    View *withAbsoluteHeight(uint16_t h);
+    View *withAbsoluteWidth(uint16_t w);
+    View *withRelativeHeight(float hRel);
+    View *withRelativeWidth(float wRel);
 
-    View *setY(const std::function<uint16_t()> &f);
-    View *setX(const std::function<uint16_t()> &f);
-    View *setAbsoluteY(uint16_t y);
-    View *setAbsoluteX(uint16_t x);
-    View *setCenteredInParentHeight();
-    View *setCenteredInParentWidth();
-    View *attachToChildInParentBelow(bool fillSize, size_t childIdx);
-    View *attachToChildInParentRight(bool fillSize, size_t childIdx);
+    View *withY(const std::function<uint16_t()> &f);
+    View *withX(const std::function<uint16_t()> &f);
+    View *withAbsoluteY(uint16_t y);
+    View *withAbsoluteX(uint16_t x);
+    View *withCenteredInParentHeight();
+    View *withCenteredInParentWidth();
+    View *withAttachedBelow(bool fillSize, size_t childIdx);
+    View *withAttachedRight(bool fillSize, size_t childIdx);
 
-    virtual void draw() = 0;
-    virtual void interact(int c) const;
     virtual bool isActive() const;
-private:
+    virtual void interact(int key) const;
+protected:
+    View();
+    virtual void draw() = 0;
+protected:
     Container *m_ParentContainer;
     std::function<uint16_t()> m_GetHeight, m_GetWidth;
     std::function<uint16_t()> m_GetY, m_GetX;
 };
 
 class Container : public View {
-public:
     friend class View;
-
-    Container(std::initializer_list<View*> children);
-
+public:
     virtual WINDOW *getWindow() const = 0;
+    virtual Container *withChildren(std::initializer_list<View*> children);
+    void interact(int key) const override;
+protected:
+    Container();
+
+    void addChild(View *child);
 
     void draw() override;
-    void interact(int c) const override;
 protected:
     std::vector<std::unique_ptr<View>> m_Children;
 };

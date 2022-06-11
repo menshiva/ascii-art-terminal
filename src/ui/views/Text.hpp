@@ -7,12 +7,12 @@
 class Text final : public View {
 public:
     explicit Text(const char *text) : View(), m_Text(text) {
-        setAbsoluteHeight(1);
-        setWidth([&]() -> uint16_t { return strlen(m_Text); });
+        withAbsoluteHeight(1);
+        withWidth([&]() -> uint16_t { return strlen(m_Text); });
     }
 
     void draw() override {
-        mvwaddstr(getParentContainer()->getWindow(), getY(), getX(), m_Text);
+        mvwaddstr(m_ParentContainer->getWindow(), getY(), getX(), m_Text);
     }
 private:
     const char *m_Text;
