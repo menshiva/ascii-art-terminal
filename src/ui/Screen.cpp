@@ -6,6 +6,7 @@ bool Screen::init() {
 
 Screen::Screen() : Container(), m_MainLoopRunning(false), m_WindowDirty(false) {
     raw(); // pass typed characters through our program immediately (without buffer)
+    nonl(); // no new line
     noecho(); // don't echo typed characters
     curs_set(0); // invisible cursor
     keypad(stdscr, true);

@@ -1,3 +1,4 @@
 .idea/
 cmake-build-debug/
-doc/
+cmake-build-release/
+cmake-build-minsizerel/

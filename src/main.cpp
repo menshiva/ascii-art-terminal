@@ -47,7 +47,7 @@ int main() {
                 new Text(UIConsts::BTN_EXPORT_ASCII),
                 new Text(UIConsts::BTN_EXIT)
             })->withCallbacks({
-                {UIConsts::KEYS::NINE, toggleExitPanel(true)}
+                {'9', toggleExitPanel(true)}
             })->withCenteredInParentHeight()->withCenteredInParentWidth()}
         })->withRelativeWidth(UIConsts::CONTROLS_PANEL_WIDTH_REL)->withAttachedBelow(true, 0)},
         {asciiPanelId, (new Panel(true))->withChildren({
@@ -60,8 +60,8 @@ int main() {
                 new Text(UIConsts::EXIT_PANEL_YES),
                 new Text(UIConsts::EXIT_PANEL_CANCEL)
             })->withCallbacks({
-                {UIConsts::KEYS::ENTER, closeApp},
-                {UIConsts::KEYS::ESC, toggleExitPanel(false)}
+                {'1', closeApp},
+                {'2', toggleExitPanel(false)}
             })->withAttachedBelow(false, 1)->withCenteredInParentWidth()}
         })->withWrapContent()->withCenteredInParentHeight()->withCenteredInParentWidth()}
     });

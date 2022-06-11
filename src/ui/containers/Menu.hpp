@@ -3,10 +3,14 @@
 
 #include "../views/Text.hpp"
 
-typedef std::pair<int, std::function<void(void)>> Callback;
-
 class Menu final : public Container {
 public:
+    struct Callback {
+        Callback(int key, std::function<void(void)> f) : key(key), f(std::move(f)) {}
+        int key;
+        std::function<void(void)> f;
+    };
+
     explicit Menu(bool active) : Container(), m_IsActive(active) {
         withWrapContent();
     }
@@ -41,8 +45,8 @@ public:
     void interact(int key) const override {
         if (m_IsActive) {
             for (const auto &p: m_Callbacks)
-                if (p.first == key)
-                    p.second();
+                if (p.key == key)
+                    p.f();
             Container::interact(key);
         }
     }

@@ -15,9 +15,19 @@ namespace UIConsts {
 
     const static char *const TITLE_TEXT = "ASCII art";
 
+    const static char *const BTN_ADD_IMAGE = "[1] Add image(s)";
+    const static char *const BTN_SHOW_IMAGE = "[2] Show ASCII art";
+    const static char *const BTN_GRAYSCALE_LEVEL = "[3] Set grayscale level";
+    const static char *const BTN_EDIT_IMAGE = "[4] Image effects";
+    const static char *const BTN_REMOVE_IMAGE = "[5] Remove image";
+    const static char *const BTN_PLAY_ANIM = "[6] Play animation";
+    const static char *const BTN_PAUSE_ANIM = "[7] Stop animation";
+    const static char *const BTN_EXPORT_ASCII = "[8] Export art";
+    const static char *const BTN_EXIT = "[9] Exit";
+
     const static char *const EXIT_PANEL_TEXT = "Are you sure you want to exit?";
-    const static char *const EXIT_PANEL_YES = "[Enter] Yes";
-    const static char *const EXIT_PANEL_CANCEL = "[Esc] Cancel";
+    const static char *const EXIT_PANEL_YES =    "[1] Yes";
+    const static char *const EXIT_PANEL_CANCEL = "[2] Cancel";
 
     const static char *const ERROR_PANEL_TEXT = "";
     const static float ERROR_PANEL_TEXT_OFFSET_Y = 0.35F;
@@ -40,30 +50,7 @@ namespace UIConsts {
     const static char *const ERROR_FEW_IMAGES = "Load at least 2 images.";
     const static char *const ERROR_NO_ANIMATION = "Animation is not started.";
 
-    const static char *const BTN_ADD_IMAGE = "[1] Add image(s)";
-    const static char *const BTN_SHOW_IMAGE = "[2] Show ASCII art";
-    const static char *const BTN_GRAYSCALE_LEVEL = "[3] Set grayscale level";
-    const static char *const BTN_EDIT_IMAGE = "[4] Image effects";
-    const static char *const BTN_REMOVE_IMAGE = "[5] Remove image";
-    const static char *const BTN_PLAY_ANIM = "[6] Play animation";
-    const static char *const BTN_PAUSE_ANIM = "[7] Stop animation";
-    const static char *const BTN_EXPORT_ASCII = "[8] Export art";
-    const static char *const BTN_EXIT = "[9] Exit";
-
-    const static char *const BTN_OK = "[Enter] Yes";
-    const static char *const BTN_CANCEL = "[Esc] Cancel";
-
     const static size_t ANIMATION_SLEEP_TIME_MS = 400;
-
-    // enum ViewId : int8_t {
-    //     UNUSED = -1
-    // };
-
-    enum KEYS : int {
-        NINE = 57,
-        ENTER = 13,
-        ESC = 27
-    };
 }
 
 namespace ConsoleConsts {
